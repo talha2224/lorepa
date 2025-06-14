@@ -13,7 +13,7 @@ const AdminSettingsPage = () => {
             case 'Trusted by section':
                 return (
                     <div>
-                        <div className='flex justify-between items-center mb-6'>
+                        <div className='flex justify-between items-center mb-6 flex-wrap'>
                             <h2 className='text-2xl font-semibold text-gray-800'>Trusted by section</h2>
                             <button className='px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 text-sm font-medium'>
                                 create new settings
@@ -38,7 +38,7 @@ const AdminSettingsPage = () => {
             case 'Popular location section':
                 return (
                     <div>
-                        <div className='flex items-center justify-between'>
+                        <div className='flex items-center justify-between flex-wrap'>
                             <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Popular location</h2>
                             <p className='text-blue-600 cursor-pointer hover:underline'>Add new</p>
                         </div>
@@ -62,7 +62,7 @@ const AdminSettingsPage = () => {
             case 'Trailers by category section':
                 return (
                     <div>
-                        <div className='flex items-center justify-between'>
+                        <div className='flex items-center justify-between flex-wrap'>
                             <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Trailers by category</h2>
                             <p className='text-blue-600 cursor-pointer hover:underline'>Add new</p>
                         </div>
@@ -86,7 +86,7 @@ const AdminSettingsPage = () => {
             case 'FAQ':
                 return (
                     <div>
-                        <div className='flex justify-between items-center mb-6'>
+                        <div className='flex justify-between items-center mb-6 flex-wrap'>
                             <h2 className='text-2xl font-semibold text-gray-800'>Frequently asked questions</h2>
                             <p className='text-blue-600 cursor-pointer hover:underline'>Add new</p>
                         </div>
@@ -131,7 +131,7 @@ const AdminSettingsPage = () => {
             case 'Security Deposit':
                 return (
                     <div>
-                        <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Security Deposit</h2>
+                        <h2 className='text-2xl font-semibold text-gray-800 mb-6 flex-wrap'>Security Deposit</h2>
                         <div className='space-y-4'>
                             {mockSecurityDeposits.map((item) => (
                                 <div key={item.id} className='flex items-center justify-between p-4 border border-gray-200 rounded-md bg-white'>
@@ -151,7 +151,7 @@ const AdminSettingsPage = () => {
             case 'Category':
                 return (
                     <div>
-                        <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Categories</h2>
+                        <h2 className='text-2xl font-semibold text-gray-800 mb-6 flex-wrap'>Categories</h2>
                         <div className='space-y-4'>
                             {mockOwnerCategories.map((item) => (
                                 <div key={item.id} className='flex items-center justify-between p-4 border border-gray-200 rounded-md bg-white'>
@@ -168,7 +168,7 @@ const AdminSettingsPage = () => {
             case 'Trailer title status':
                 return (
                     <div>
-                        <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Trailer title status</h2>
+                        <h2 className='text-2xl font-semibold text-gray-800 mb-6 flex-wrap'>Trailer title status</h2>
                         <div className='space-y-4'>
                             {mockTrailerTitleStatus.map((item) => (
                                 <div key={item.id} className='flex items-center justify-between p-4 border border-gray-200 rounded-md bg-white'>
@@ -185,7 +185,7 @@ const AdminSettingsPage = () => {
             case 'Hitch type':
                 return (
                     <div>
-                        <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Hitch type</h2>
+                        <h2 className='text-2xl font-semibold text-gray-800 mb-6 flex-wrap'>Hitch type</h2>
                         <div className='space-y-4'>
                             {mockHitchTypes.map((item) => (
                                 <div key={item.id} className='flex items-center justify-between p-4 border border-gray-200 rounded-md bg-white'>
@@ -202,7 +202,7 @@ const AdminSettingsPage = () => {
             case 'Ball size':
                 return (
                     <div>
-                        <h2 className='text-2xl font-semibold text-gray-800 mb-6'>Ball size</h2>
+                        <h2 className='text-2xl font-semibold text-gray-800 mb-6 flex-wrap'>Ball size</h2>
                         <div className='space-y-4'>
                             {mockBallSizes.map((item) => (
                                 <div key={item.id} className='flex items-center justify-between p-4 border border-gray-200 rounded-md bg-white'>
@@ -225,7 +225,7 @@ const AdminSettingsPage = () => {
         }
     };
     return (
-        <div className='min-h-screen bg-[#fff] flex p-4 rounded-lg'>
+        <div className='min-h-screen bg-[#fff] flex p-4 rounded-lg flex-wrap mt-2'>
             {/* Left Sidebar */}
             <div className='w-full md:w-1/4 p-6 mr-6 border rounded-md'>
                 <h1 className='text-xl -bold text-gray-900 mb-6'>Platform setting</h1>
@@ -264,7 +264,7 @@ const AdminSettingsPage = () => {
             </div>
 
             {/* Right Content Area */}
-            <div className='flex-1 p-6 overflow-y-auto border rounded-md'>
+            <div className='flex-1 p-6 overflow-y-auto border rounded-md mt-2'>
                 {renderContent()}
             </div>
         </div>
