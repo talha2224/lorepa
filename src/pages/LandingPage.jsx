@@ -1,33 +1,201 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import { Link } from 'react-router-dom';
-import App from '../assets/app.svg'
-import Content from '../assets/content.svg'
-import Users from '../assets/users.png'
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Hero from "../assets/landing/hero.png";
+import Img from "../assets/landing/img.png";
+import Host1 from "../assets/landing/host.svg";
+import Host2 from "../assets/landing/host2.png";
+import Users from "../assets/landing/user.png";
+import Imgs from "../assets/landing/imgs.png";
 
-let img="data:image/png;base64,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"
+import Card1 from "../assets/landing/card1.png";
+import Card2 from "../assets/landing/card2.png";
+import Card3 from "../assets/landing/card3.png";
+import Card4 from "../assets/landing/card4.png";
+
+import { FaAngleDown, FaAngleUp, FaAngleLeft, FaAngleRight, FaSearch, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { IoLogoAppleAppstore } from "react-icons/io5";
+import { FaGooglePlay } from "react-icons/fa";
+import { MdLanguage } from "react-icons/md";
+import Footer from "../components/Footer";
+
+const AccordionItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="rounded-md mb-3 bg-white">
+      <button className="w-full flex justify-between items-center p-4 text-left font-medium text-black" onClick={() => setIsOpen(!isOpen)}>{question} {isOpen ? <FaAngleUp /> : <FaAngleDown />}</button>
+      {isOpen && (
+        <div className="p-4 border-t border-[#D1D5DB] text-gray-700">{answer}</div>
+      )}
+    </div>
+  );
+};
+
 const LandingPage = () => {
 
+  const guestFAQs = [
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+  ];
 
-    return (
+  const hostFAQs = [
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+    {
+      question: "Question people asked us goes here",
+      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+    },
+  ];
 
 
-        <div className='w-screen h-screen bg-[#fff] flex flex-col'>
+  return (
+    <div className="w-screen h-screen bg-[#fff] flex flex-col overflow-y-auto">
+      <Navbar />
 
-            <Navbar />
+      <div style={{ backgroundImage: `url(${Hero})` }} className="relative w-screen bg-cover h-full">
+        <div className="w-full flex justify-center items-center flex-col">
+          <h1 className="text-white tex-xl md:text-[2rem] text-center mt-10">
+            Trailer rental reinvented
+          </h1>
+          <p className="text-white text-center text-sm">
+            Rent the trailer you want, wherever you want!.
+          </p>
+          <div className="bg-white rounded-md p-3 sm:w-[80%] w-[98%] mx-20 my-10 flex justify-center items-center flex-wrap">
+            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+              <h1 className="text-sm mb-1">Where</h1>
+              <input
+                type="text"
+                placeholder="City, airport, hotel"
+                className="border-none outline-none placeholder:text-[#9DA0A6] text-[13px]"
+              />
+            </div>
+            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+              <h1 className="text-sm mb-1">From</h1>
+              <div className="flex justify-between items-center gap-x-1">
+                <input
+                  type="date"
+                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                />
+                <input
+                  type="date"
+                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                />
+              </div>
+            </div>
+            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+              <h1 className="text-sm mb-1">Until</h1>
+              <div className="flex justify-between items-center gap-x-1">
+                <input
+                  type="date"
+                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                />
+                <input
+                  type="date"
+                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                />
+              </div>
+            </div>
+            <div className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
+              <FaSearch />
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <div style={{backgroundImage:`url(${img})`}} className='flex-1 bg-no-repeat bg-cover'></div>
+      <div className="flex justify-center items-center flex-col my-10 p-3">
+        <h1 className="text-2xl text-center text-black">The new way to rent a trailer 24/7!</h1>
+        <h1 className="text-xs text-center text-black mt-1">Discover the premier platform for trailer sharing between individuals in Qubec.</h1>
+        <img src={Img} alt="" className="mt-6" />
+      </div>
+
+      <div className="bg-[#2563EB] px-3 py-5">
+        <h1 className="text-center text-3xl text-white font-semibold my-10">Whether You Need a Trailer or Have One to Share</h1>
+        <div className="flex justify-center items-center flex-wrap gap-x-5">
+          <img src={Host1} alt="Host 1" className="mt-5" />
+          <img src={Host2} alt="Host 2" className="mt-5" />
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center flex-col bg-[#E9EFFD] p-3">
+        <h1 className="text-center text-2xl text-black font-semibold mt-10">Trusted by 1000 +</h1>
+        <p className="text-center text-xs text-black mt-1">Our company is the leading sharing platform where you can book any type of trailer from private individuals, whatever <br /> the occasion, with a dynamic community of trusted hosts.</p>
+        <img src={Users} alt="" className="mt-4" />
+        <p className="text-sm font-bold text-center text-black mt-3">You are one of 1000 + people who trust us completely, Thank you!</p>
+      </div>
+
+      <div className="flex justify-center items-center flex-col p-3">
+        <h1 className="text-center text-2xl text-black font-semibold mt-10">Popular Locations</h1>
+        <img src={Imgs} alt="" className="mt-6" />
+      </div>
 
 
+      <div className="flex justify-center items-center flex-col bg-[#0A0F18] p-3 text-white">
+        <div className="flex justify-between items-center mt-10 w-full flex-wrap">
+          <h1 className="text-2xl font-semibold mt-2">Trailers by categories</h1>
+          <div className="flex justify-between items-center gap-x-3 mt-2">
+            <div className="bg-white w-[2rem] h-[2rem] rounded-full text-black flex justify-center items-center">
+              <FaAngleLeft />
+            </div>
+            <div className="bg-white w-[2rem] h-[2rem] rounded-full text-black flex justify-center items-center">
+              <FaAngleRight />
+            </div>
+          </div>
+        </div>
 
+        <div className="flex justify-between items-center overflow-x-auto">
+          <img src={Card1} alt="" className="mt-4" />
+          <img src={Card2} alt="" className="mt-4" />
+          <img src={Card3} alt="" className="mt-4" />
+          <img src={Card4} alt="" className="mt-4" />
+        </div>
+      </div>
 
+      <div className=" px-5 py-5 text-black">
+
+        <div className="flex justify-between items-center mt-10 w-full flex-wrap text-black">
+          <h1 className="text-lg sm:text-2xl font-semibold mt-2">Frequently asked questions</h1>
+          <button className="px-3 py-2 mt-2 rounded-md bg-[#2563EB] text-white text-xs">See all FAQ</button>
         </div>
 
 
+        <div className="flex flex-wrap justify-between gap-x-5 mt-8">
+          <div className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md">
+            <h2 className="text-xl font-semibold mb-4">Guests</h2>
+            {guestFAQs.map((faq, index) => (
+              <AccordionItem key={index} question={faq.question} answer={faq.answer} />
+            ))}
+          </div>
 
-    )
+          <div className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md mt-8 md:mt-0">
+            <h2 className="text-xl font-semibold mb-4">Hosts</h2>
+            {hostFAQs.map((faq, index) => (
+              <AccordionItem key={index} question={faq.question} answer={faq.answer} />
+            ))}
+          </div>
+        </div>
 
 
-}
+      </div>
 
-export default LandingPage
+      <Footer />
+    </div>
+  );
+};
+
+export default LandingPage;
