@@ -82,7 +82,7 @@ const LandingPage = () => {
               <input
                 type="text"
                 placeholder="City, airport, hotel"
-                className="border-none outline-none placeholder:text-[#9DA0A6] text-[13px]"
+                className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-[13px]"
               />
             </div>
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
@@ -90,11 +90,11 @@ const LandingPage = () => {
               <div className="flex justify-between items-center gap-x-1">
                 <input
                   type="date"
-                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
                 />
                 <input
                   type="date"
-                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
                 />
               </div>
             </div>
@@ -103,11 +103,11 @@ const LandingPage = () => {
               <div className="flex justify-between items-center gap-x-1">
                 <input
                   type="date"
-                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
                 />
                 <input
                   type="date"
-                  className="border-none outline-none placeholder:text-[#9DA0A6] flex-1"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
                 />
               </div>
             </div>
