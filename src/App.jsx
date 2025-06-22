@@ -23,7 +23,13 @@ import CalculatorPage from './pages/CalculatorPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
-
+import BecomeHostPage from './pages/BecomeHostPage';
+import BookingPage from './pages/BookingPage';
+import ListTrailer from './pages/ListTrailer';
+import TrailersLisitng from './pages/TrailersLisitng';
+import SingleTrailer from './pages/SingleTrailer';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 
@@ -46,6 +52,13 @@ function SuspenseWithDelay({ children, fallback, delay = 0, minDisplayTime = 200
 }
 
 function App() {
+
+  useEffect(() => {
+  AOS.init({
+    duration: 1000, // animation duration (in ms)
+    once: true,     // whether animation should happen only once
+  });
+}, []);
 
   return (
     <>
@@ -79,6 +92,11 @@ function App() {
             <Route path='/contact' element={<ContactPage />} />
             <Route path='/privacy' element={<PrivacyPage />} />
             <Route path='/terms' element={<TermsPage />} />
+            <Route path='/host' element={<BecomeHostPage />} />
+            <Route path='/list' element={<ListTrailer />} />
+            <Route path='/booking' element={<BookingPage />} />
+            <Route path='/trailers' element={<TrailersLisitng />} />
+            <Route path='/trailers/:id' element={<SingleTrailer />} />
 
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />

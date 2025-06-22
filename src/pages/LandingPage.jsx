@@ -65,7 +65,7 @@ const LandingPage = () => {
 
 
   return (
-    <div className="w-screen h-screen bg-[#fff] flex flex-col overflow-y-auto">
+    <div data-aos="fade-right" className="w-screen h-screen bg-[#fff] flex flex-col overflow-y-auto">
       <Navbar />
 
       <div style={{ backgroundImage: `url(${Hero})` }} className="relative w-screen bg-cover h-full">
@@ -118,13 +118,13 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center flex-col my-10 p-3">
+      <div  data-aos="fade-right" className="flex justify-center items-center flex-col my-10 p-3">
         <h1 className="text-2xl text-center text-black">The new way to rent a trailer 24/7!</h1>
         <h1 className="text-xs text-center text-black mt-1">Discover the premier platform for trailer sharing between individuals in Qubec.</h1>
         <img src={Img} alt="" className="mt-6" />
       </div>
 
-      <div className="bg-[#2563EB] px-3 py-5">
+      <div  className="bg-[#2563EB] px-3 py-5">
         <h1 className="text-center text-3xl text-white font-semibold my-10">Whether You Need a Trailer or Have One to Share</h1>
         <div className="flex justify-center items-center flex-wrap gap-x-5">
           <img src={Host1} alt="Host 1" className="mt-5" />
@@ -166,7 +166,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className=" px-5 py-5 text-black">
+      <div className="px-5 py-5 text-black">
 
         <div className="flex justify-between items-center mt-10 w-full flex-wrap text-black">
           <h1 className="text-lg sm:text-2xl font-semibold mt-2">Frequently asked questions</h1>

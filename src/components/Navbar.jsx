@@ -43,7 +43,7 @@ const Navbar = () => {
                                 <div className='py-1'>
                                     <Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Login</Link>
                                     <Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Signup</Link>
-                                    <Link to="#" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Become a host</Link>
+                                    <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Become a host</Link>
                                     <Link to="/who" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Who are we</Link>
                                     <Link to="/contact" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Contact us</Link>
                                     <Link to="/calculator" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Calculator</Link>
