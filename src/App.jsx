@@ -54,12 +54,13 @@ function SuspenseWithDelay({ children, fallback, delay = 0, minDisplayTime = 200
 function App() {
 
   useEffect(() => {
-  AOS.init({
-    duration: 1000, // animation duration (in ms)
-    once: true,     // whether animation should happen only once
-  });
-}, []);
-
+    AOS.init({
+      duration: 1000,
+      delay:2000,
+      once: false,
+    });
+    AOS.refresh(); // <-- IMPORTANT
+  }, []);
   return (
     <>
       <Toaster />

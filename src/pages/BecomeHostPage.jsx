@@ -165,7 +165,7 @@ const BecomeHostPage = () => {
 
             <div className="flex flex-1 p-4 sm:p-6 lg:p-8 flex-wrap">
 
-                <div className="w-1/4 pr-8  md:block border-r border-r-[#C3C3C3]">
+                <div className="w-1/4 pr-8 hidden md:block border-r border-r-[#C3C3C3]">
                     <ul className="space-y-4">
                         {steps.map((step, index) => (
                             <li key={index} className={`flex items-center text-lg font-medium cursor-pointer rounded-lg p-2 transition-colors duration-200 ${index === currentStep ? 'text-blue-600' : 'text-gray-600 hover:bg-gray-200'} ${index < currentStep ? 'text-gray-400' : ''}`} onClick={() => setCurrentStep(index)} >

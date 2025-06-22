@@ -18,6 +18,36 @@ import { FaGooglePlay } from "react-icons/fa";
 import { MdLanguage } from "react-icons/md";
 import Footer from "../components/Footer";
 
+const guestFAQs = [
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+];
+
+const hostFAQs = [
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+  {
+    question: "Question people asked us goes here",
+    answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
+  },
+];
+
 const AccordionItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,39 +63,10 @@ const AccordionItem = ({ question, answer }) => {
 
 const LandingPage = () => {
 
-  const guestFAQs = [
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-  ];
-
-  const hostFAQs = [
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.S.",
-    },
-  ];
 
 
   return (
-    <div data-aos="fade-right" className="w-screen h-screen bg-[#fff] flex flex-col overflow-y-auto">
+    <div className="w-screen min-h-screen bg-[#fff] flex flex-col">
       <Navbar />
 
       <div style={{ backgroundImage: `url(${Hero})` }} className="relative w-screen bg-cover h-full">
@@ -118,13 +119,13 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div  data-aos="fade-right" className="flex justify-center items-center flex-col my-10 p-3">
+      <div data-aos="fade-right" className="flex justify-center items-center flex-col my-10 p-3">
         <h1 className="text-2xl text-center text-black">The new way to rent a trailer 24/7!</h1>
         <h1 className="text-xs text-center text-black mt-1">Discover the premier platform for trailer sharing between individuals in Qubec.</h1>
         <img src={Img} alt="" className="mt-6" />
       </div>
 
-      <div  className="bg-[#2563EB] px-3 py-5">
+      <div data-aos="flip-left" className="bg-[#2563EB] px-3 py-5">
         <h1 className="text-center text-3xl text-white font-semibold my-10">Whether You Need a Trailer or Have One to Share</h1>
         <div className="flex justify-center items-center flex-wrap gap-x-5">
           <img src={Host1} alt="Host 1" className="mt-5" />
@@ -132,20 +133,20 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center flex-col bg-[#E9EFFD] p-3">
+      <div data-aos="flip-right" className="flex justify-center items-center flex-col bg-[#E9EFFD] p-3">
         <h1 className="text-center text-2xl text-black font-semibold mt-10">Trusted by 1000 +</h1>
         <p className="text-center text-xs text-black mt-1">Our company is the leading sharing platform where you can book any type of trailer from private individuals, whatever <br /> the occasion, with a dynamic community of trusted hosts.</p>
         <img src={Users} alt="" className="mt-4" />
         <p className="text-sm font-bold text-center text-black mt-3">You are one of 1000 + people who trust us completely, Thank you!</p>
       </div>
 
-      <div className="flex justify-center items-center flex-col p-3">
+      <div data-aos="flip-up" className="flex justify-center items-center flex-col p-3">
         <h1 className="text-center text-2xl text-black font-semibold mt-10">Popular Locations</h1>
         <img src={Imgs} alt="" className="mt-6" />
       </div>
 
 
-      <div className="flex justify-center items-center flex-col bg-[#0A0F18] p-3 text-white">
+      <div data-aos="flip-down" className="flex justify-center items-center flex-col bg-[#0A0F18] p-3 text-white">
         <div className="flex justify-between items-center mt-10 w-full flex-wrap">
           <h1 className="text-2xl font-semibold mt-2">Trailers by categories</h1>
           <div className="flex justify-between items-center gap-x-3 mt-2">
@@ -175,14 +176,14 @@ const LandingPage = () => {
 
 
         <div className="flex flex-wrap justify-between gap-x-5 mt-8">
-          <div className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md">
+          <div data-aos="flip-left"className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md">
             <h2 className="text-xl font-semibold mb-4">Guests</h2>
             {guestFAQs.map((faq, index) => (
               <AccordionItem key={index} question={faq.question} answer={faq.answer} />
             ))}
           </div>
 
-          <div className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md mt-8 md:mt-0">
+          <div data-aos="flip-right" className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md mt-8 md:mt-0">
             <h2 className="text-xl font-semibold mb-4">Hosts</h2>
             {hostFAQs.map((faq, index) => (
               <AccordionItem key={index} question={faq.question} answer={faq.answer} />
