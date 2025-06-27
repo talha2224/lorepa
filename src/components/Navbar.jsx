@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/logo.svg'
 import { CiGlobe } from "react-icons/ci";
 import { FaUserTie } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
-
+import Logo from "../assets/logo.svg";
 const Navbar = () => {
 
     const [showLanguages, setShowLanguages] = useState(false);
@@ -18,7 +17,7 @@ const Navbar = () => {
 
 
                     <div className="flex-shrink-0 flex items-center gap-x-2">
-                        <Link to={"/"} className="text-xl">LOREPA</Link>
+                        <Link to={"/"} className="text-xl"><img src={Logo} alt="" className='h-[8rem]' /></Link>
                     </div>
 
                     <div className="block relative">

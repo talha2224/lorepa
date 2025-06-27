@@ -211,7 +211,7 @@ const LandingPage = () => {
       </div>
 
       <motion.div
-        variants={rotateIn}
+        variants={flipIn}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
