@@ -78,9 +78,9 @@ const Footer = () => {
                 <p className="text-center md:text-left">3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4</p>
                 <p className="text-center md:text-left">© 2025 Lorepa. All rights reserved.</p>
                 <div className="flex space-x-4">
-                    <a href="/privacy" className="hover:underline">Privacy Policy</a>
-                    <a href="/terms" className="hover:underline">Terms of Service</a>
-                    <a href="#" className="hover:underline">Cookie Policy</a>
+                    <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
+                    <Link to="/terms" className="hover:underline">Terms of Service</Link>
+                    <Link to="#" className="hover:underline">Cookie Policy</Link>
                 </div>
             </div>
         </footer>

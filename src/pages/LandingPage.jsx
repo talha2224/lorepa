@@ -118,69 +118,35 @@ const LandingPage = () => {
         <Navbar />
       </motion.div>
 
-      <div
-        style={{ backgroundImage: `url(${Hero})` }}
-        className="relative min-h-screen w-screen bg-cover"
-      >
-        <motion.div
-          variants={zoomBounce}
-          initial="hidden"
-          animate="visible"
-          className="w-full flex justify-center items-center flex-col"
-        >
-          <AnimatedText
-            text="Trailer rental reinvented"
-            variant={fadeInUp}
-            className="text-white text-xl md:text-3xl mt-10"
-          />
-          <AnimatedText
-            text="Rent the trailer you want, wherever you want!"
-            variant={fadeIn}
-            className="text-white text-sm"
-          />
-          <motion.div
-            variants={blurIn}
-            initial="hidden"
-            animate="visible"
-            className="bg-white rounded-md p-3 sm:w-[80%] w-[98%] mx-20 my-10 flex justify-center items-center flex-wrap"
-          >
-            {["Where", "From", "Until"].map((label, index) => (
-              <div
-                key={index}
-                className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]"
-              >
-                <h1 className="text-sm mb-1">{label}</h1>
+      <div style={{ backgroundImage: `url(${Hero})` }} className="relative min-h-screen w-screen bg-cover">
+        <motion.div variants={zoomBounce} initial="hidden" animate="visible" className="w-full flex justify-center items-center flex-col">
+          <AnimatedText text="Trailer rental reinvented" variant={fadeInUp} className="text-white text-xl md:text-6xl mt-10" />
+          <AnimatedText text="Rent the trailer you want, wherever you want!" variant={fadeIn} className="text-white text-sm mt-2 font-medium" />
+          <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
+            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+              <h1 className="text-sm">Where</h1>
+              <input type="text" placeholder="City, airport, hotel" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+            </div>
+            {["From", "Until"].map((label, index) => (
+              <div key={index} className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+                <h1 className="text-sm">{label}</h1>
                 <div className="flex justify-between items-center gap-x-1">
-                  <input
-                    type="date"
-                    className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
-                  />
-                  <input
-                    type="date"
-                    className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1"
-                  />
+                  <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1" />
+                  <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1" />
                 </div>
               </div>
             ))}
-            <div className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
-              <FaSearch />
+            <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
+              <div className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
+                <FaSearch />
+              </div>
             </div>
           </motion.div>
         </motion.div>
       </div>
 
-      <motion.div
-        variants={fadeIn}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        className="flex justify-center items-center flex-col my-10 p-3"
-      >
-        <AnimatedText
-          text="The new way to rent a trailer 24/7!"
-          variant={flipIn}
-          className="text-2xl text-black"
-        />
+      <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="flex justify-center items-center flex-col my-10 p-3">
+        <AnimatedText text="The new way to rent a trailer 24/7!" variant={flipIn} className="text-[40px] font-medium text-black" />
         <AnimatedText
           text="Discover the premier platform for trailer sharing between individuals in Qubec."
           variant={fadeInUp}
@@ -191,9 +157,14 @@ const LandingPage = () => {
 
       <div className="bg-[#2563EB] px-3 py-5">
         <AnimatedText
-          text="Whether You Need a Trailer or Have One to Share"
+          text="Whether You Need a Traile"
           variant={fadeInDown}
-          className="text-3xl text-white font-semibold my-10"
+          className="text-[40px] text-white font-semibold mt-10"
+        />
+        <AnimatedText
+          text="or Have One to Share"
+          variant={fadeInDown}
+          className="text-[40px] text-white font-semibold mb-10"
         />
         <div className="flex justify-center items-center flex-wrap gap-x-5">
           {[Host1, Host2].map((src, i) => (
@@ -210,29 +181,12 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <motion.div
-        variants={flipIn}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        className="flex justify-center items-center flex-col bg-[#E9EFFD] p-3 mt-10"
-      >
-        <AnimatedText
-          text="Trusted by 1000 +"
-          variant={fadeInDown}
-          className="text-2xl text-black font-semibold mt-10"
-        />
-        <AnimatedText
-          text="Our company is the leading sharing platform..."
-          variant={fadeInUp}
-          className="text-xs text-black mt-1"
-        />
+      <motion.div variants={flipIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="flex justify-center items-center flex-col bg-[#E9EFFD] py-[4rem] px-3">
+        <AnimatedText text="Trusted by 1000 +" variant={fadeInDown} className="text-[40px] text-black font-semibold" />
+        <AnimatedText text="Our company is the leading sharing platform where you can book any type of trailer from private individuals," variant={fadeInUp} className="text-xs text-black mt-1" />
+        <AnimatedText text="whatever the occasion, with a dynamic community of trusted hosts." variant={fadeInUp} className="text-xs text-black mt-1" />
         <motion.img variants={zoomBounce} src={Users} alt="" className="mt-4" />
-        <AnimatedText
-          text="You are one of 1000 + people who trust us completely, Thank you!"
-          variant={blurIn}
-          className="text-sm font-bold text-black mt-3"
-        />
+        <AnimatedText text="You are one of 1000 + people who trust us completely, Thank you!" variant={blurIn} className="text-sm font-bold text-black mt-3" />
       </motion.div>
 
       <motion.div

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import AuthImage from '../../assets/auth/auth.png';
-import Logo from '../../assets/logo.svg';
+import Logo from "../../assets/logo.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import config from '../../config';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import Logo from "../../assets/logo.svg";
 
 const RegisterPage = () => {
   const nav = useNavigate();
@@ -231,7 +232,6 @@ const RegisterPage = () => {
       <div className="flex-1 hidden md:flex flex-col h-[100%] bg-[#F3FDFF]">
         <div className="flex-shrink-0 flex items-center gap-x-2 p-5">
           <img src={Logo} alt="" className="h-10" />
-          <span className="text-xl">LOREPA ANH</span>
         </div>
         <div className="flex-1 h-[90%]">
           <img src={AuthImage} alt="" className="h-[100%]" />
