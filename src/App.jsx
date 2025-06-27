@@ -28,8 +28,6 @@ import BookingPage from './pages/BookingPage';
 import ListTrailer from './pages/ListTrailer';
 import TrailersLisitng from './pages/TrailersLisitng';
 import SingleTrailer from './pages/SingleTrailer';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 
@@ -52,15 +50,6 @@ function SuspenseWithDelay({ children, fallback, delay = 0, minDisplayTime = 200
 }
 
 function App() {
-
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      delay:2000,
-      once: false,
-    });
-    AOS.refresh(); // <-- IMPORTANT
-  }, []);
   return (
     <>
       <Toaster />
