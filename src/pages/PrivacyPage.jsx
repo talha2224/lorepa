@@ -152,7 +152,7 @@ const PrivacyPage = () => {
     <div className='min-h-screen bg-white text-black'>
       <Navbar />
 
-      <div className='p-5 max-w-4xl mx-auto'>
+      <div className=' px-4 sm:px-6 lg:px-[3rem] '>
         <motion.h1
           className='text-3xl font-bold text-center mb-10'
           initial={{ opacity: 0, y: -30 }}
