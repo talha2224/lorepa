@@ -122,7 +122,7 @@ const LandingPage = () => {
         <motion.div variants={zoomBounce} initial="hidden" animate="visible" className="w-full flex justify-center items-center flex-col">
           <AnimatedText text="Trailer rental reinvented" variant={fadeInUp} className="text-white text-xl md:text-6xl mt-10" />
           <AnimatedText text="Rent the trailer you want, wherever you want!" variant={fadeIn} className="text-white text-sm mt-2 font-medium" />
-          <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-50 bg-opacity-65 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
+          <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-65 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">Where</h1>
               <input type="text" placeholder="City, airport, hotel" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
