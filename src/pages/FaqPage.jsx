@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { guestFAQs, hostFAQs } from '../../constants/constant';
 
 // Animation Variants
 const fadeInUp = {
@@ -54,59 +55,6 @@ const AccordionItem = ({ question, answer }) => {
 const FaqPage = () => {
   const [activeTab, setActiveTab] = useState('Guests');
 
-  const guestFAQs = [
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid...",
-    },
-    {
-      question: "How do I book a trailer?",
-      answer: "Booking a trailer is simple! Browse our listings, select your desired dates...",
-    },
-    {
-      question: "What if I need to cancel my booking?",
-      answer: "You can cancel your booking for a full refund up to 24 hours before it starts...",
-    },
-    {
-      question: "Is insurance included with the rental?",
-      answer: "Optional insurance is available for an additional fee...",
-    },
-    {
-      question: "What payment methods are accepted?",
-      answer: "We accept major credit cards and secure payment methods...",
-    },
-    {
-      question: "Can I pick up the trailer at any time?",
-      answer: "Pick-up times are arranged directly with the trailer owner after booking.",
-    },
-  ];
-
-  const hostFAQs = [
-    {
-      question: "Question people asked us goes here",
-      answer: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid...",
-    },
-    {
-      question: "How can I list my trailer for rent?",
-      answer: "Create an account, go to your dashboard, and use the 'Add listing' feature.",
-    },
-    {
-      question: "How do I get paid for rentals?",
-      answer: "Once a rental completes, funds are transferred to your bank securely.",
-    },
-    {
-      question: "What if my trailer gets damaged?",
-      answer: "Our protection plans cover a variety of damage cases—check terms for full coverage.",
-    },
-    {
-      question: "Can I set my own rental price?",
-      answer: "Yes, you have full control over your pricing.",
-    },
-    {
-      question: "How do I communicate with renters?",
-      answer: "We provide an in-app messaging system to chat with renters directly.",
-    },
-  ];
 
   const currentFAQs = activeTab === 'Guests' ? guestFAQs : hostFAQs;
 
