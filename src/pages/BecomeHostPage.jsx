@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import VerificationModal from '../components/VerificationModel';
@@ -104,7 +104,9 @@ const BecomeHostPage = () => {
     };
 
     const currentStepData = steps[currentStep];
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
     return (
         <div className='min-h-screen bg-gray-100 flex flex-col font-inter'>
             <Navbar />

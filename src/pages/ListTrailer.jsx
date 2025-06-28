@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { GoAlertFill } from "react-icons/go";
@@ -104,6 +104,9 @@ const ListTrailer = () => {
         console.log('Trailer Listing Submitted:', formData);
         nav("/")
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const currentStepData = steps[currentStep];
 
@@ -137,7 +140,7 @@ const ListTrailer = () => {
 
                     {/* Notification/Info Banner (as seen in the image) */}
                     <div className="bg-black text-white px-4 py-3 rounded relative mb-8 flex items-center gap-x-2 " role="alert">
-                        <GoAlertFill className='text-xl'/>
+                        <GoAlertFill className='text-xl' />
                         <div>
                             <span>Important! </span>
                             <span className="block sm:inline">You will not be approved until you set up your bank account. Login to the mobile app to set up your bank account or click <a href="#" className="underline">here</a>.</span>

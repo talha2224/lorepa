@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import WhoImage from '../assets/landing/who.png';
@@ -36,6 +36,9 @@ const zoomBounce = {
 };
 
 const WhoPage = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   return (
     <div className="text-black overflow-x-hidden">
       <Navbar />

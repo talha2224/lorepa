@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
@@ -57,7 +57,9 @@ const FaqPage = () => {
 
 
   const currentFAQs = activeTab === 'Guests' ? guestFAQs : hostFAQs;
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="min-h-screen text-black bg-[#F9FAFB]">
       <Navbar />
