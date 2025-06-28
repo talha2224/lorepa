@@ -76,7 +76,7 @@ const FaqPage = () => {
         </motion.h1>
 
         {/* Tabs */}
-        <div className="mb-6 text-center">
+        <div className="mb-6 ">
           <button
             onClick={() => setActiveTab('Guests')}
             className={`px-6 py-3 rounded-t-lg text-lg font-medium transition-colors duration-200 ${activeTab === 'Guests' && 'bg-white border-b-2 border-blue-600 text-blue-600'

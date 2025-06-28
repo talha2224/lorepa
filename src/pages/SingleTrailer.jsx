@@ -196,7 +196,7 @@ const SingleTrailer = () => {
             transition={{ delay: 0.3, duration: 0.4 }}
           >
             <button
-              onClick={() => nav('/booking')}
+              onClick={() => nav('/compare')}
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200"
             >
               Chat with owner

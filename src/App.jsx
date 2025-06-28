@@ -28,6 +28,7 @@ import BookingPage from './pages/BookingPage';
 import ListTrailer from './pages/ListTrailer';
 import TrailersLisitng from './pages/TrailersLisitng';
 import SingleTrailer from './pages/SingleTrailer';
+import CompareTrailer from './pages/CompareTrailer';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 
@@ -87,6 +88,7 @@ function App() {
             <Route path='/booking' element={<BookingPage />} />
             <Route path='/trailers' element={<TrailersLisitng />} />
             <Route path='/trailers/:id' element={<SingleTrailer />} />
+            <Route path='/compare' element={<CompareTrailer />} />
 
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
