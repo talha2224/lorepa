@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CiGlobe } from "react-icons/ci";
-import { FaUserTie } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci"; // Import the search icon
 import Logo from "../assets/logo.svg";
@@ -13,7 +13,7 @@ const Navbar2 = () => {
     const [showNav, setshowNav] = useState(false);
 
     // State for the new input fields
-    const [location,setLocation] = useState("Montreal");
+    const [location, setLocation] = useState("Montreal");
     const [fromDate, setFromDate] = useState("28/04/2025");
     const [fromTime, setFromTime] = useState("12:42 AM");
     const [untilDate, setUntilDate] = useState("1/05/2025");
@@ -36,7 +36,7 @@ const Navbar2 = () => {
                         {/* Where Input */}
                         <div className='flex items-center gap-x-2 border border-[#C3C3C3] p-2 rounded-3xl'>
                             <label htmlFor="where" className="text-xs text-[#2563EB]">Where</label>
-                            <input type="text" id="where" value={location}onChange={(e) => setLocation(e.target.value)}className="block w-full text-sm text-gray-900 border-none focus:ring-0 focus:outline-none p-0"placeholder="Montreal"/>
+                            <input type="text" id="where" value={location} onChange={(e) => setLocation(e.target.value)} className="block w-full text-sm text-gray-900 border-none focus:ring-0 focus:outline-none p-0" placeholder="Montreal" />
                         </div>
 
                         {/* From Date/Time */}
@@ -91,8 +91,10 @@ const Navbar2 = () => {
                     <div className="block relative">
                         <div className="ml-4 flex items-center md:ml-6 gap-x-4">
                             <CiGlobe className='cursor-pointer' onClick={() => setShowLanguages(!showLanguages)} />
-                            <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
-                            <FaUserTie className='cursor-pointer' />
+                            <div className="flex items-center gap-x-2 bg-[#F1F1F1] rounded-md p-2">
+                                <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
+                                <FaRegUserCircle className='cursor-pointer' />
+                            </div>
                         </div>
 
                         {showLanguages && (
