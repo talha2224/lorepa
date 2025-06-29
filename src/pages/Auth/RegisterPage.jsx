@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import config from '../../config';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import Logo from "../../assets/logo.svg";
 
 const RegisterPage = () => {
   const nav = useNavigate();
