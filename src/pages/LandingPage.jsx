@@ -10,7 +10,7 @@ import Users from "../assets/landing/user.png";
 import Imgs from "../assets/landing/imgs.png";
 import Card1 from "../assets/landing/card1.png";
 import Card2 from "../assets/landing/card2.png";
-import Card3 from "../assets/landing/card3.png";
+import Card3 from "../assets/landing/card1.png";
 import Card4 from "../assets/landing/card4.png";
 import {
   FaAngleDown,
@@ -118,11 +118,11 @@ const LandingPage = () => {
         <Navbar />
       </motion.div>
 
-      <div style={{ backgroundImage: `url(${Hero})` }} className="relative min-h-screen w-screen bg-cover">
+      <div style={{ backgroundImage: `url(${Hero})` }} className="relative min-h-[110vh] w-screen bg-cover">
         <motion.div variants={zoomBounce} initial="hidden" animate="visible" className="w-full flex justify-center items-center flex-col">
-          <AnimatedText text="Trailer rental reinvented" variant={fadeInUp} className="text-white text-xl md:text-6xl mt-10" />
+          <AnimatedText text="Trailer rental reinvented" variant={fadeInUp} className="text-white text-xl md:text-6xl mt-[3rem]" />
           <AnimatedText text="Rent the trailer you want, wherever you want!" variant={fadeIn} className="text-white text-sm mt-2 font-medium" />
-          <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-75 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
+          <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-80 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">Where</h1>
               <input type="text" placeholder="City, airport, hotel" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
@@ -212,7 +212,7 @@ const LandingPage = () => {
       >
         <div className="flex justify-between items-center mt-10 w-full flex-wrap">
           <AnimatedText
-            text="Trailers by categories"
+            text="Car Hauler Trailer"
             variant={fadeInUp}
             className="text-2xl font-semibold mt-2"
           />

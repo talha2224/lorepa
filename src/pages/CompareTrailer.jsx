@@ -143,13 +143,13 @@ const CompareTrailer = () => {
                                 <table className="min-w-full bg-white border border-gray-200">
                                     <thead>
                                         <tr>
-                                            <th className="py-2 px-4 border-b text-left text-sm font-semibold text-black">
+                                            <th className="py-2 px-4 border text-left text-xs font-medium text-black">
                                                 {section.id === "turo" ? "New Car" : "New Trailer"}
                                             </th>
-                                            <th className="py-2 px-4 border-b text-left text-sm font-semibold text-black">Purchase price</th>
-                                            <th className="py-2 px-4 border-b text-left text-sm font-semibold text-black">Daily rental rate</th>
-                                            <th className="py-2 px-4 border-b text-left text-sm font-semibold text-black">Cost (monthly maintenance & insurance)</th>
-                                            <th className="py-2 px-4 border-b text-left text-sm font-semibold text-black">Income (yearly, assuming 15 rental days/month)</th>
+                                            <th className="py-2 px-4 border text-left text-xs font-medium text-black">Purchase price</th>
+                                            <th className="py-2 px-4 border text-left text-xs font-medium text-black">Daily rental rate</th>
+                                            <th className="py-2 px-4 border text-left text-xs font-medium text-black">Cost (monthly maintenance & insurance)</th>
+                                            <th className="py-2 px-4 border text-left text-xs font-medium text-black">Income (yearly, assuming 15 rental days/month)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -168,7 +168,7 @@ const CompareTrailer = () => {
                                         ]).map((row, rowIndex) => (
                                             <tr key={rowIndex}>
                                                 {row.map((cell, cellIndex) => (
-                                                    <td key={cellIndex} className="py-2 px-4 border-b text-sm text-black">{cell}</td>
+                                                    <td key={cellIndex} className="py-2 px-4 border text-sm text-black">{cell}</td>
                                                 ))}
                                             </tr>
                                         ))}

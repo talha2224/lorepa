@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CiGlobe } from "react-icons/ci";
-import { FaUserTie } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Logo from "../assets/logo.svg";
 const Navbar = () => {
@@ -23,8 +23,10 @@ const Navbar = () => {
                     <div className="block relative">
                         <div className="ml-4 flex items-center md:ml-6 gap-x-4">
                             <CiGlobe className='cursor-pointer' onClick={() => setShowLanguages(!showLanguages)} />
-                            <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
-                            <FaUserTie className='cursor-pointer' />
+                            <div className="flex items-center gap-x-2 bg-[#F1F1F1] rounded-md p-2">
+                                <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
+                                <FaRegUserCircle  className='cursor-pointer' />
+                            </div>
                         </div>
 
                         {showLanguages && (
