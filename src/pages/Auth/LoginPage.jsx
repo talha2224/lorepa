@@ -4,6 +4,9 @@ import { FaGoogle, FaFacebookF } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import Logo from "../../assets/logo.svg";
+import axios from 'axios';
+import config from '../../config';
+import toast from 'react-hot-toast';
 
 // Animation Variants
 const fadeInUp = {
@@ -25,13 +28,33 @@ const stagger = {
 };
 
 const LoginPage = () => {
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const nav = useNavigate();
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    nav("/");
+    try {
+      const res = await axios.post(`${config.baseUrl}/account/login`, {
+        email,
+        password
+      });
+
+      if (res.data?.code === 200) {
+        const userId = res.data.data._id;
+        localStorage.setItem('userId', userId);
+        toast.success("Login Successful");
+        setTimeout(() => {
+          nav("/");
+        }, 2000);
+      } else {
+        toast.error(res.data?.msg || "Login failed");
+      }
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
   };
 
   return (
@@ -41,7 +64,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className='absolute top-8 left-8'
+        className='lg:absolute top-8 left-8'
       >
         <Link to={"/"} className="text-xl">
           <img src={Logo} alt="logo" className='h-[8rem]' />
@@ -60,23 +83,29 @@ const LoginPage = () => {
         <motion.p variants={fadeInUp} className='text-sm mb-8'>Welcome to Lorepa</motion.p>
 
         {/* Form */}
-        <motion.form
-          onSubmit={handleLogin}
-          className='space-y-6'
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.form onSubmit={handleLogin} className='space-y-6' variants={stagger} initial="hidden" animate="visible">
           {/* Phone Input */}
           <motion.div variants={fadeInUp}>
-            <label htmlFor='phone' className='block text-sm text-gray-700 mb-1'>Phone number</label>
+            <label htmlFor='email' className='block text-sm text-gray-700 mb-1'>Email</label>
             <input
-              type='number'
-              id='phone'
+              type='text'
+              id='email'
               required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder='Phone number'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Email Address'
+              className='appearance-none block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+            />
+          </motion.div>
+          <motion.div variants={fadeInUp}>
+            <label htmlFor='password' className='block text-sm text-gray-700 mb-1'>Password</label>
+            <input
+              type='password'
+              id='password'
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Password'
               className='appearance-none block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
             />
           </motion.div>
@@ -144,7 +173,7 @@ const LoginPage = () => {
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>
           <p>
             Don't have an account?{' '}
-            <Link to={"/admin/register"} className='text-blue-600 hover:text-blue-500'>
+            <Link to={"/register"} className='text-blue-600 hover:text-blue-500'>
               Sign up
             </Link>
           </p>

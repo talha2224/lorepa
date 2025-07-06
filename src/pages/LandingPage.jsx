@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -6,22 +6,17 @@ import Hero from "../assets/landing/hero.png";
 import Img from "../assets/landing/img.png";
 import Host1 from "../assets/landing/host.svg";
 import Host2 from "../assets/landing/host2.png";
-import Users from "../assets/landing/user.png";
-import Imgs from "../assets/landing/imgs.png";
-import Card1 from "../assets/landing/card1.png";
-import Card2 from "../assets/landing/card2.png";
-import Card3 from "../assets/landing/card1.png";
-import Card4 from "../assets/landing/card4.png";
 import {
   FaAngleDown,
   FaAngleUp,
   FaAngleLeft,
   FaAngleRight,
   FaSearch,
+  FaLongArrowAltRight,
 } from "react-icons/fa";
-import { guestFAQs, hostFAQs } from "../../constants/constant";
+import axios from "axios";
+import config from "../config";
 
-// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
@@ -112,6 +107,34 @@ const AnimatedText = ({ text, variant, className = "" }) => (
 );
 
 const LandingPage = () => {
+  const [trustedBy, setTrustedBy] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [trailers, setTrailers] = useState([]);
+  const [faqGuest, setFaqGuest] = useState([]);
+  const [faqHost, setFaqHost] = useState([]);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const [trustedRes, locationRes, trailerRes, faqRes] = await Promise.all([
+          axios.get(`${config.baseUrl}/content/trusted`),
+          axios.get(`${config.baseUrl}/content/locations`),
+          axios.get(`${config.baseUrl}/content/trailers`),
+          axios.get(`${config.baseUrl}/content/faq`)
+        ]);
+
+        setTrustedBy(trustedRes.data.data);
+        setLocations(locationRes.data.data);
+        setTrailers(trailerRes.data.data);
+        setFaqGuest(faqRes.data.data.filter(item => item.type === "guest"));
+        setFaqHost(faqRes.data.data.filter(item => item.type === "host"));
+      } catch (error) {
+        console.error("Failed to fetch landing content:", error);
+      }
+    };
+
+    fetchContent();
+  }, []);
   return (
     <div className="w-screen min-h-screen bg-[#fff] flex flex-col overflow-x-hidden">
       <motion.div variants={fadeInDown} initial="hidden" animate="visible">
@@ -185,23 +208,31 @@ const LandingPage = () => {
         <AnimatedText text="Trusted by 1000 +" variant={fadeInDown} className="text-[40px] text-black font-semibold" />
         <AnimatedText text="Our company is the leading sharing platform where you can book any type of trailer from private individuals," variant={fadeInUp} className="text-xs text-black mt-1" />
         <AnimatedText text="whatever the occasion, with a dynamic community of trusted hosts." variant={fadeInUp} className="text-xs text-black mt-1" />
-        <motion.img variants={zoomBounce} src={Users} alt="" className="mt-4" />
+        <div className="flex flex-wrap justify-center gap-0 mt-6">
+          {trustedBy.map((item, i) => (
+            <img key={i} src={item.image} alt="trusted" className="w-[3rem] h-[3rem] object-cover rounded-full" />
+          ))}
+        </div>
+
         <AnimatedText text="You are one of 1000 + people who trust us completely, Thank you!" variant={blurIn} className="text-sm font-bold text-black mt-3" />
       </motion.div>
 
-      <motion.div
-        variants={flipIn}
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        className="flex justify-center items-center flex-col p-3"
-      >
-        <AnimatedText
-          text="Popular Locations"
-          variant={scaleIn}
-          className="text-2xl text-black font-semibold mt-10"
-        />
-        <motion.img variants={zoomBounce} src={Imgs} alt="" className="mt-6" />
+
+      <motion.div variants={flipIn} whileInView="visible" className="flex justify-center items-center flex-col p-3">
+        <AnimatedText text="Popular Locations" variant={scaleIn} className="text-2xl text-black font-semibold mt-10" />
+        <div className="flex flex-wrap justify-center gap-10 overflow-x-auto mt-6">
+          {locations.map((loc, i) => (
+            <div key={i} className="">
+              <img src={loc.image} alt={loc.title} className=" object-cover rounded-md" />
+              <div className="flex justify-between items-center">
+                <p className="text-lg font-medium mt-2 text-black">{loc.title}</p>
+                <FaLongArrowAltRight className="text-blue-700" />
+              </div>
+            </div>
+          ))}
+        </div>
       </motion.div>
+
 
       <motion.div
         variants={zoomBounce}
@@ -227,9 +258,11 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-between items-center overflow-x-auto">
-          {[Card1, Card2, Card3, Card4].map((src, i) => (
-            <img key={i} src={src} alt="" className="mt-4" />
+        <div className="flex justify-between items-center overflow-x-auto gap-4 mt-4 pb-4">
+          {trailers.map((item, i) => (
+            <div key={i} className="">
+              <img src={item.image} alt={item.title} className="rounded-md" />
+            </div>
           ))}
         </div>
       </motion.div>
@@ -252,7 +285,7 @@ const LandingPage = () => {
           </button>
         </motion.div>
         <div className="flex flex-wrap justify-between gap-x-5 mt-8">
-          {[guestFAQs, hostFAQs].map((data, i) => (
+          {[faqGuest, faqHost].map((data, i) => (
             <motion.div
               key={i}
               variants={flipIn}

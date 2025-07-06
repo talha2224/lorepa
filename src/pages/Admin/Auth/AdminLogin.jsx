@@ -3,6 +3,8 @@ import { IoMailOutline } from "react-icons/io5";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import Logo from "../../../assets/logo.svg";
 
 const AdminLogin = () => {
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -17,14 +19,23 @@ const AdminLogin = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log('Login attempt with:', { email, password, keepSignedIn });
-        nav("/admin/dashboard/home")
+        if (email === "admin@lorepa.com" && password === "Admin@1234") {
+            toast.success("Login Sucessfull")
+            setTimeout(() => {
+                nav("/admin/dashboard/home")
+            }, 2000);
+        }
+        else {
+            toast.error("Invalid credentials")
+        }
     };
     return (
         <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8'>
             {/* Logo Section */}
-            <div className='absolute top-8 left-8'>
-                <h1 className='text-xl  text-gray-800 tracking-wider'>LOREPA</h1>
+            <div className='lg:absolute top-0 left-8'>
+                <Link to={"/"} className="text-xl">
+                    <img src={Logo} alt="logo" className='h-[8rem]' />
+                </Link>
             </div>
 
             {/* Login Form Container */}
@@ -98,12 +109,6 @@ const AdminLogin = () => {
                                 Keep me signed in
                             </label>
                         </div>
-
-                        <div className='text-sm'>
-                            <Link to={"/admin/forget"} className=' text-indigo-600 hover:text-indigo-500'>
-                                Forgot password?
-                            </Link>
-                        </div>
                     </div>
 
                     {/* Login Button */}
@@ -117,50 +122,6 @@ const AdminLogin = () => {
                     </div>
                 </form>
 
-                {/* OR separator */}
-                <div className='relative mt-6 mb-6'>
-                    <div className='absolute inset-0 flex items-center' aria-hidden='true'>
-                        <div className='w-full border-t border-gray-300' />
-                    </div>
-                    <div className='relative flex justify-center text-sm'>
-                        <span className='px-2 bg-white text-gray-500'>Or</span>
-                    </div>
-                </div>
-
-                {/* Social Login Buttons */}
-                <div className='flex justify-center space-x-4'>
-                    <button
-                        type='button'
-                        className='inline-flex items-center justify-center p-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        aria-label='Login with Email'
-                    >
-                        <IoMailOutline className='h-5 w-5' />
-                    </button>
-                    <button
-                        type='button'
-                        className='inline-flex items-center justify-center p-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        aria-label='Login with Google'
-                    >
-                        <FaGoogle className='h-5 w-5' />
-                    </button>
-                    <button
-                        type='button'
-                        className='inline-flex items-center justify-center p-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                        aria-label='Login with Facebook'
-                    >
-                        <FaFacebookF className='h-5 w-5' />
-                    </button>
-                </div>
-
-                {/* Sign up link */}
-                <div className='mt-8 text-center text-sm'>
-                    <p>
-                        Don't have an account?{' '}
-                        <Link to={"/admin/register"} className=' text-indigo-600 hover:text-indigo-500'>
-                            Sign up
-                        </Link>
-                    </p>
-                </div>
             </div>
         </div>
     )

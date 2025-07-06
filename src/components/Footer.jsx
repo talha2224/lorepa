@@ -5,6 +5,8 @@ import { MdLanguage } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
+    const isLogin = localStorage.getItem("userId")
+
     return (
         <footer className="bg-[#F1F1F1] text-black p-8">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
@@ -23,7 +25,7 @@ const Footer = () => {
                     <ul className="space-y-2 text-sm">
                         <li><Link to="/login" className="hover:underline">Create account</Link></li>
                         <li><Link to="/trailers" className="hover:underline">Find a Trailer</Link></li>
-                        <li><Link to="/host" className="hover:underline">Become a Host</Link></li>
+                        {isLogin && <li><Link to="/host" className="hover:underline">Become a Host</Link></li>}
                     </ul>
                 </div>
 

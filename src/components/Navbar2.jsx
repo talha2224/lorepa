@@ -11,6 +11,7 @@ const Navbar2 = () => {
 
     const [showLanguages, setShowLanguages] = useState(false);
     const [showNav, setshowNav] = useState(false);
+    const isLogin = localStorage.getItem("userId")
 
     // State for the new input fields
     const [location, setLocation] = useState("Montreal");
@@ -110,9 +111,10 @@ const Navbar2 = () => {
                         {showNav && (
                             <div className=' absolute z-10 right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg'>
                                 <div className='py-1'>
-                                    <Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Login</Link>
-                                    <Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Signup</Link>
-                                    <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Become a host</Link>
+                                    {!isLogin && (<Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Login</Link>)}
+                                    {!isLogin && (<Link to="/register" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Signup</Link>)}
+                                    {isLogin && (<p onClick={() => { localStorage.removeItem("userId"); window.location.reload() }} className=' cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Logout</p>)}
+                                    {isLogin && <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Become a host</Link>}
                                     <Link to="/who" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Who are we</Link>
                                     <Link to="/contact" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Contact us</Link>
                                     <Link to="/calculator" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Calculator</Link>

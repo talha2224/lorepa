@@ -3,7 +3,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { guestFAQs, hostFAQs } from '../../constants/constant';
+import axios from 'axios';
+import config from '../config';
 
 // Animation Variants
 const fadeInUp = {
@@ -54,9 +55,26 @@ const AccordionItem = ({ question, answer }) => {
 
 const FaqPage = () => {
   const [activeTab, setActiveTab] = useState('Guests');
+  const [faqGuest, setFaqGuest] = useState([]);
+  const [faqHost, setFaqHost] = useState([]);
+  const currentFAQs = activeTab === 'Guests' ? faqGuest : faqHost;
 
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const [faqRes] = await Promise.all([
+          axios.get(`${config.baseUrl}/content/faq`)
+        ]);
 
-  const currentFAQs = activeTab === 'Guests' ? guestFAQs : hostFAQs;
+        setFaqGuest(faqRes.data.data.filter(item => item.type === "guest"));
+        setFaqHost(faqRes.data.data.filter(item => item.type === "host"));
+      } catch (error) {
+        console.error("Failed to fetch landing content:", error);
+      }
+    };
+
+    fetchContent();
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

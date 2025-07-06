@@ -3,8 +3,9 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
-import { dummyTrailers, guestFAQs, hostFAQs } from '../../constants/constant';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
+import config from '../config';
 
 const fadeVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -14,10 +15,12 @@ const fadeVariant = {
     transition: { delay: i * 0.1, duration: 0.5 },
   }),
 };
+
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
 };
+
 const AccordionItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -49,21 +52,37 @@ const SingleTrailer = () => {
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [faqGuest, setFaqGuest] = useState([]);
+  const [faqHost, setFaqHost] = useState([]);
   const nav = useNavigate();
 
   useEffect(() => {
-    const pathParts = window.location.pathname.split('/');
-    const id = pathParts[pathParts.length - 1];
-    if (id) {
-      const foundTrailer = dummyTrailers.find(t => t.id === id);
-      if (foundTrailer) setTrailer(foundTrailer);
-      else setError('Trailer not found.');
-    } else setError('No trailer ID provided.');
-    setLoading(false);
+    const fetchTrailer = async () => {
+      const id = window.location.pathname.split('/').pop();
+      try {
+        const res = await axios.get(`${config.baseUrl}/trailer/single/${id}`);
+        setTrailer(res.data.data);
+      } catch (err) {
+        setError("Failed to fetch trailer details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTrailer();
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const fetchContent = async () => {
+      try {
+        const { data } = await axios.get(`${config.baseUrl}/content/faq`);
+        setFaqGuest(data.data.filter(item => item.type === "guest"));
+        setFaqHost(data.data.filter(item => item.type === "host"));
+      } catch (error) {
+        console.error("Failed to fetch FAQs:", error);
+      }
+    };
+    fetchContent();
   }, []);
 
   if (loading || error || !trailer) {
@@ -71,7 +90,7 @@ const SingleTrailer = () => {
       <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center font-inter">
         <Navbar />
         <p className={error ? 'text-red-500' : ''}>
-          {loading ? 'Loading trailer details...' : error || 'Select a trailer to view details.'}
+          {loading ? 'Loading trailer details...' : error || 'Trailer not found.'}
         </p>
         <Footer />
       </div>
@@ -90,13 +109,9 @@ const SingleTrailer = () => {
           transition={{ duration: 0.5 }}
         >
           <img
-            src={trailer.imageUrl}
+            src={trailer.images?.[0] || 'https://placehold.co/800x400/F3F4F6/9CA3AF?text=No+Image'}
             alt={trailer.title}
             className="w-full h-96 object-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "https://placehold.co/800x400/F3F4F6/9CA3AF?text=Image+Not+Found";
-            }}
           />
         </motion.div>
 
@@ -108,86 +123,44 @@ const SingleTrailer = () => {
         >
           <h2 className="text-2xl font-bold text-gray-800 mb-6">{trailer.title}</h2>
 
-          {/* Sections */}
-          {[
-            {
-              title: 'Basic Info',
-              content: (
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <p className="text-gray-600">Trailer ID:</p>
-                    <p className="text-gray-800 font-medium">{trailer.id}</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-gray-600">Name of owner:</p>
-                    <div className="flex items-center space-x-2">
-                      <p className="text-gray-800 font-medium">{trailer.basicInfo.nameOfOwner}</p>
-                      <img src={'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg'} alt="Owner Avatar" className="w-8 h-8 rounded-full" />
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-gray-600">Category:</p>
-                    <p className="text-gray-800 font-medium">{trailer.basicInfo.category}</p>
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-gray-600">Detailed description:</p>
-                    <p className="text-gray-800 text-sm italic mt-1">{trailer.basicInfo.detailedDescription}</p>
-                  </div>
-                </div>
-              ),
-            },
-            {
-              title: 'Pricing & Rental Terms',
-              content: (
-                <div className="space-y-2">
-                  {Object.entries(trailer.pricingRentalTerms).map(([key, value]) => (
-                    <div key={key} className="flex justify-between items-center">
-                      <p className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</p>
-                      <p className="text-gray-800 font-medium">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              ),
-            },
-            {
-              title: 'Trailer Details',
-              content: (
-                <div className="space-y-2">
-                  {Object.entries(trailer.trailerDetails).map(([key, value]) => (
-                    <div key={key} className="flex justify-between items-center">
-                      <p className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</p>
-                      <p className="text-gray-800 font-medium">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              ),
-            },
-            {
-              title: 'Final Details',
-              content: (
-                <div className="space-y-2">
-                  {Object.entries(trailer.finalDetails).map(([key, value]) => (
-                    <div key={key} className="flex justify-between items-center">
-                      <p className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</p>
-                      <p className="text-gray-800 font-medium">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              ),
-            },
-          ].map((section, i) => (
-            <motion.section
-              key={i}
-              className="mb-8 pb-6 border-b border-gray-200"
-              custom={i + 1}
-              variants={fadeVariant}
-              initial="hidden"
-              whileInView="visible"
-            >
-              <h3 className="text-xl font-semibold text-gray-700 mb-4">{section.title}</h3>
-              {section.content}
-            </motion.section>
-          ))}
+          {/* Trailer Info */}
+          <div className="space-y-4">
+            <div className="flex justify-between">
+              <p className="text-gray-600">Category:</p>
+              <p className="text-gray-800">{trailer.category}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-600">Make | Model:</p>
+              <p className="text-gray-800">{trailer.make} | {trailer.model}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-600">Year | Sleeps | Length:</p>
+              <p className="text-gray-800">{trailer.year} | {trailer.sleeps} | {trailer.length} ft</p>
+            </div>
+            <div>
+              <p className="text-gray-600 mb-1">Description:</p>
+              <p className="text-gray-700">{trailer.description}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-600">Location:</p>
+              <p className="text-gray-800">{trailer.city}, {trailer.state}, {trailer.zip}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-600">Owner:</p>
+              <p className="text-gray-800">{trailer.userId?.email || "N/A"}</p>
+            </div>
+          </div>
+
+          {/* Pricing Section */}
+          <h3 className="text-xl font-semibold text-gray-700 mt-8 mb-4">Pricing & Rental Terms</h3>
+          <div>
+            <p className='mb-2'><strong>Daily:</strong> ${trailer.dailyRate}</p>
+            <p className='mb-2'><strong>Weekly:</strong> ${trailer.weeklyRate}</p>
+            <p className='mb-2'><strong>Monthly:</strong> ${trailer.monthlyRate}</p>
+            <p className='mb-2'><strong>Cleaning Fee:</strong> ${trailer.cleaningRate}</p>
+            <p className='mb-2'><strong>Security Deposit:</strong> ${trailer.securityRate}</p>
+            <p className='mb-2'><strong>Insurance Deductible:</strong> ${trailer.insuranceDeductible}</p>
+          </div>
 
           <motion.div
             className="mt-8 flex justify-end space-x-4"
@@ -211,6 +184,7 @@ const SingleTrailer = () => {
         </motion.div>
       </main>
 
+      {/* FAQs */}
       <motion.div
         className="px-10 py-5 text-black"
         variants={fadeVariant}
@@ -224,14 +198,14 @@ const SingleTrailer = () => {
         <div className="flex flex-wrap justify-between gap-x-5 mt-8">
           <motion.div layout className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md">
             <h2 className="text-xl font-semibold mb-4">Guests</h2>
-            {guestFAQs.map((faq, index) => (
+            {faqGuest.map((faq, index) => (
               <AccordionItem key={index} question={faq.question} answer={faq.answer} />
             ))}
           </motion.div>
 
           <motion.div layout className="w-full md:w-[48%] bg-[#F1F1F1] p-5 rounded-md mt-8 md:mt-0">
             <h2 className="text-xl font-semibold mb-4">Hosts</h2>
-            {hostFAQs.map((faq, index) => (
+            {faqHost.map((faq, index) => (
               <AccordionItem key={index} question={faq.question} answer={faq.answer} />
             ))}
           </motion.div>
