@@ -5,6 +5,150 @@ import axios from 'axios';
 import config from '../config';
 import toast from 'react-hot-toast';
 
+// Translations object
+const bookingTranslations = {
+    en: {
+        verificationCompleted: "Verification completed",
+        done: "Done",
+        home: "Home",
+        driverLicense: "Driver's License",
+        driverLicenseDescription: "Scan your driver's license or enter your information.",
+        uploadDriverLicense: "Upload Driver License",
+        country: "Country",
+        selectCountry: "Select country",
+        usa: "USA",
+        canada: "Canada",
+        mexico: "Mexico",
+        firstName: "First Name",
+        middleName: "Middle Name",
+        lastName: "Last Name",
+        licenseNumber: "License Number",
+        dateOfBirth: "Date of Birth",
+        expirationDate: "Expiration Date",
+        vehicleInsurance: "Vehicle Insurance",
+        vehicleInsuranceDescription: "Upload your valid insurance document.",
+        uploadInsurance: "Upload Insurance",
+        vehicleRegistration: "Vehicle Registration",
+        vehicleRegistrationDescription: "Upload your vehicle registration document.",
+        uploadRegistration: "Upload Registration",
+        selectTrailer: "Select Trailer",
+        selectTrailerPlaceholder: "Select trailer",
+        bookingStartDate: "Booking Start Date",
+        bookingEndDate: "Booking End Date",
+        estimatedPrice: "Estimated Price:",
+        back: "Back",
+        next: "Next",
+        complete: "Complete",
+        bookingSubmittedSuccess: "Booking submitted successfully",
+        submissionFailed: "Submission failed",
+    },
+    es: {
+        verificationCompleted: "Verificación completada",
+        done: "Hecho",
+        home: "Inicio",
+        driverLicense: "Licencia de conducir",
+        driverLicenseDescription: "Escanee su licencia de conducir o ingrese su información.",
+        uploadDriverLicense: "Subir licencia de conducir",
+        country: "País",
+        selectCountry: "Seleccionar país",
+        usa: "EE. UU.",
+        canada: "Canadá",
+        mexico: "México",
+        firstName: "Nombre",
+        middleName: "Segundo nombre",
+        lastName: "Apellido",
+        licenseNumber: "Número de licencia",
+        dateOfBirth: "Fecha de nacimiento",
+        expirationDate: "Fecha de vencimiento",
+        vehicleInsurance: "Seguro del vehículo",
+        vehicleInsuranceDescription: "Suba su documento de seguro válido.",
+        uploadInsurance: "Subir seguro",
+        vehicleRegistration: "Registro del vehículo",
+        vehicleRegistrationDescription: "Suba su documento de registro del vehículo.",
+        uploadRegistration: "Subir registro",
+        selectTrailer: "Seleccionar remolque",
+        selectTrailerPlaceholder: "Seleccionar remolque",
+        bookingStartDate: "Fecha de inicio de la reserva",
+        bookingEndDate: "Fecha de finalización de la reserva",
+        estimatedPrice: "Precio estimado:",
+        back: "Atrás",
+        next: "Siguiente",
+        complete: "Completar",
+        bookingSubmittedSuccess: "Reserva enviada con éxito",
+        submissionFailed: "Error al enviar",
+    },
+    cn: {
+        verificationCompleted: "验证完成",
+        done: "完成",
+        home: "主页",
+        driverLicense: "驾驶执照",
+        driverLicenseDescription: "扫描您的驾驶执照或输入您的信息。",
+        uploadDriverLicense: "上传驾驶执照",
+        country: "国家",
+        selectCountry: "选择国家",
+        usa: "美国",
+        canada: "加拿大",
+        mexico: "墨西哥",
+        firstName: "名字",
+        middleName: "中间名",
+        lastName: "姓氏",
+        licenseNumber: "执照号码",
+        dateOfBirth: "出生日期",
+        expirationDate: "有效期",
+        vehicleInsurance: "车辆保险",
+        vehicleInsuranceDescription: "上传您的有效保险文件。",
+        uploadInsurance: "上传保险",
+        vehicleRegistration: "车辆登记",
+        vehicleRegistrationDescription: "上传您的车辆登记文件。",
+        uploadRegistration: "上传登记",
+        selectTrailer: "选择拖车",
+        selectTrailerPlaceholder: "选择拖车",
+        bookingStartDate: "预订开始日期",
+        bookingEndDate: "预订结束日期",
+        estimatedPrice: "预计价格：",
+        back: "返回",
+        next: "下一步",
+        complete: "完成",
+        bookingSubmittedSuccess: "预订提交成功",
+        submissionFailed: "提交失败",
+    },
+    fr: {
+        verificationCompleted: "Vérification terminée",
+        done: "Fait",
+        home: "Accueil",
+        driverLicense: "Permis de conduire",
+        driverLicenseDescription: "Scannez votre permis de conduire ou entrez vos informations.",
+        uploadDriverLicense: "Télécharger le permis de conduire",
+        country: "Pays",
+        selectCountry: "Sélectionner un pays",
+        usa: "États-Unis",
+        canada: "Canada",
+        mexico: "Mexique",
+        firstName: "Prénom",
+        middleName: "Deuxième prénom",
+        lastName: "Nom de famille",
+        licenseNumber: "Numéro de permis",
+        dateOfBirth: "Date de naissance",
+        expirationDate: "Date d'expiration",
+        vehicleInsurance: "Assurance véhicule",
+        vehicleInsuranceDescription: "Téléchargez votre document d'assurance valide.",
+        uploadInsurance: "Télécharger l'assurance",
+        vehicleRegistration: "Immatriculation du véhicule",
+        vehicleRegistrationDescription: "Téléchargez votre document d'immatriculation du véhicule.",
+        uploadRegistration: "Télécharger l'immatriculation",
+        selectTrailer: "Sélectionner une remorque",
+        selectTrailerPlaceholder: "Sélectionner une remorque",
+        bookingStartDate: "Date de début de réservation",
+        bookingEndDate: "Date de fin de réservation",
+        estimatedPrice: "Prix estimé :",
+        back: "Retour",
+        next: "Suivant",
+        complete: "Terminer",
+        bookingSubmittedSuccess: "Réservation soumise avec succès",
+        submissionFailed: "Échec de la soumission",
+    }
+};
+
 const UploadCloudIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
         fill="none" stroke="currentColor" strokeWidth="2"
@@ -18,7 +162,7 @@ const UploadCloudIcon = () => (
     </svg>
 );
 
-const BookingSuccessModal = ({ isOpen, onClose }) => {
+const BookingSuccessModal = ({ isOpen, onClose, translations }) => {
     if (!isOpen) return null;
 
     const handleGoHome = () => {
@@ -40,10 +184,10 @@ const BookingSuccessModal = ({ isOpen, onClose }) => {
                                 d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9.75 10.5a.75.75 0 0 1-1.12.02L3.248 10.37a.75.75 0 1 1 1.06-1.06l5.25 5.25 9.25-9.998a.75.75 0 0 1 1.04-.208Z" />
                         </svg>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-800 text-center">Verification completed</h3>
+                    <h3 className="text-xl font-semibold text-gray-800 text-center">{translations.verificationCompleted}</h3>
                     <button onClick={handleGoHome}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-200">
-                        Done
+                        {translations.done}
                     </button>
                 </div>
             </div>
@@ -71,54 +215,82 @@ const BookingPage = () => {
         vehicleRegistrationFile: null,
     });
 
+    // State for translations
+    const [translations, setTranslations] = useState(() => {
+        const storedLang = localStorage.getItem('lang');
+        return bookingTranslations[storedLang] || bookingTranslations.en;
+    });
+
+    useEffect(() => {
+        // Listener for changes in localStorage 'lang' key
+        const handleStorageChange = () => {
+            const storedLang = localStorage.getItem('lang');
+            setTranslations(bookingTranslations[storedLang] || bookingTranslations.en);
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Initial check in case the lang was set before the component mounted
+        handleStorageChange();
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
     const steps = [
         {
-            title: 'Driver\'s License',
-            description: 'Scan your driver\'s license or enter your information.',
+            title: translations.driverLicense,
+            description: translations.driverLicenseDescription,
             fields: [
                 {
                     id: 'driverLicenseFile',
-                    label: 'Upload Driver License',
+                    label: translations.uploadDriverLicense,
                     type: 'file',
-                    placeholder: 'Upload Driver License',
+                    placeholder: translations.uploadDriverLicense,
                     icon: <UploadCloudIcon />
                 },
                 {
                     id: 'country',
-                    label: 'Country',
+                    label: translations.country,
                     type: 'select',
-                    options: ['Select country', 'USA', 'Canada', 'Mexico']
+                    options: [
+                        { value: '', label: translations.selectCountry },
+                        { value: 'USA', label: translations.usa },
+                        { value: 'Canada', label: translations.canada },
+                        { value: 'Mexico', label: translations.mexico }
+                    ]
                 },
-                { id: 'firstName', label: 'First Name', type: 'text', placeholder: 'John' },
-                { id: 'middleName', label: 'Middle Name', type: 'text', placeholder: 'M.' },
-                { id: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Doe' },
-                { id: 'licenseNumber', label: 'License Number', type: 'text', placeholder: 'ABC123456' },
-                { id: 'dateOfBirth', label: 'Date of Birth', type: 'date' },
-                { id: 'expirationDate', label: 'Expiration Date', type: 'date' },
+                { id: 'firstName', label: translations.firstName, type: 'text', placeholder: 'John' },
+                { id: 'middleName', label: translations.middleName, type: 'text', placeholder: 'M.' },
+                { id: 'lastName', label: translations.lastName, type: 'text', placeholder: 'Doe' },
+                { id: 'licenseNumber', label: translations.licenseNumber, type: 'text', placeholder: 'ABC123456' },
+                { id: 'dateOfBirth', label: translations.dateOfBirth, type: 'date' },
+                { id: 'expirationDate', label: translations.expirationDate, type: 'date' },
             ]
         },
         {
-            title: 'Vehicle Insurance',
-            description: 'Upload your valid insurance document.',
+            title: translations.vehicleInsurance,
+            description: translations.vehicleInsuranceDescription,
             fields: [
                 {
                     id: 'vehicleInsuranceFile',
-                    label: 'Upload Insurance',
+                    label: translations.uploadInsurance,
                     type: 'file',
-                    placeholder: 'Upload insurance document',
+                    placeholder: translations.uploadInsurance,
                     icon: <UploadCloudIcon />
                 }
             ]
         },
         {
-            title: 'Vehicle Registration',
-            description: 'Upload your vehicle registration document.',
+            title: translations.vehicleRegistration,
+            description: translations.vehicleRegistrationDescription,
             fields: [
                 {
                     id: 'vehicleRegistrationFile',
-                    label: 'Upload Registration',
+                    label: translations.uploadRegistration,
                     type: 'file',
-                    placeholder: 'Upload registration document',
+                    placeholder: translations.uploadRegistration,
                     icon: <UploadCloudIcon />
                 }
             ]
@@ -175,12 +347,12 @@ const BookingPage = () => {
             });
 
             if (res.data) {
-                toast.success("Booking submitted successfully");
+                toast.success(translations.bookingSubmittedSuccess);
                 setShowBookingSuccessModal(true);
             }
         } catch (error) {
             console.error("Booking error:", error);
-            toast.error(error.response?.data?.msg || "Submission failed");
+            toast.error(error.response?.data?.msg || translations.submissionFailed);
         }
     };
 
@@ -193,12 +365,12 @@ const BookingPage = () => {
                         {steps.map((step, index) => (
                             <li key={index}
                                 className={`flex items-center cursor-pointer p-2 rounded-md
-                                    ${index === currentStep ? 'text-blue-600' : 'text-gray-600'}
-                                    ${index < currentStep ? 'text-green-600' : ''}`}
+                                        ${index === currentStep ? 'text-blue-600' : 'text-gray-600'}
+                                        ${index < currentStep ? 'text-green-600' : ''}`}
                                 onClick={() => setCurrentStep(index)}>
                                 <span className={`w-6 h-6 flex items-center justify-center rounded-full mr-3
-                                    ${index === currentStep ? 'bg-blue-600 text-white' : 'border border-gray-400'}
-                                    ${index < currentStep ? 'bg-green-600 text-white' : ''}`}>
+                                        ${index === currentStep ? 'bg-blue-600 text-white' : 'border border-gray-400'}
+                                        ${index < currentStep ? 'bg-green-600 text-white' : ''}`}>
                                     {index < currentStep ? '✓' : index + 1}
                                 </span>
                                 <span className="text-sm">{step.title}</span>
@@ -215,28 +387,28 @@ const BookingPage = () => {
                         {currentStep === 0 && (
                             <>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Select Trailer</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{translations.selectTrailer}</label>
                                     <select value={selectedTrailer} onChange={(e) => setSelectedTrailer(e.target.value)}
                                         className="w-full border px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                        <option value="" disabled>Select trailer</option>
+                                        <option value="" disabled>{translations.selectTrailerPlaceholder}</option>
                                         {trailers.map((trailer) => (
                                             <option key={trailer._id} value={trailer._id}>{trailer.title}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Booking Start Date</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{translations.bookingStartDate}</label>
                                     <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}
                                         className="w-full border px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Booking End Date</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{translations.bookingEndDate}</label>
                                     <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         className="w-full border px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
                                 </div>
                                 {price > 0 && (
                                     <div>
-                                        <p className="text-green-600 text-sm font-semibold">Estimated Price: ${price.toFixed(2)}</p>
+                                        <p className="text-green-600 text-sm font-semibold">{translations.estimatedPrice} ${price.toFixed(2)}</p>
                                     </div>
                                 )}
                             </>
@@ -259,11 +431,7 @@ const BookingPage = () => {
                                     <select id={field.id} value={formData[field.id]} onChange={handleChange}
                                         className="w-full border px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
                                         {field.options.map((opt, idx) => (
-                                            typeof opt === 'string' ? (
-                                                <option key={idx} value={opt === 'Select country' ? '' : opt} disabled={idx === 0}>{opt}</option>
-                                            ) : (
-                                                <option key={idx} value={opt.value}>{opt.label}</option>
-                                            )
+                                            <option key={idx} value={opt.value} disabled={opt.value === ''}>{opt.label}</option>
                                         ))}
                                     </select>
                                 ) : (
@@ -281,18 +449,18 @@ const BookingPage = () => {
                         {currentStep > 0 && (
                             <button onClick={() => setCurrentStep(currentStep - 1)}
                                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-md">
-                                Back
+                                {translations.back}
                             </button>
                         )}
                         {currentStep < steps.length - 1 ? (
                             <button onClick={() => setCurrentStep(currentStep + 1)}
                                 className="ml-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">
-                                Next
+                                {translations.next}
                             </button>
                         ) : (
                             <button onClick={handleSubmit}
                                 className="ml-auto bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md">
-                                Complete
+                                {translations.complete}
                             </button>
                         )}
                     </div>
@@ -300,7 +468,7 @@ const BookingPage = () => {
             </div>
 
             <Footer />
-            <BookingSuccessModal isOpen={showBookingSuccessModal} onClose={() => setShowBookingSuccessModal(false)} />
+            <BookingSuccessModal isOpen={showBookingSuccessModal} onClose={() => setShowBookingSuccessModal(false)} translations={translations} />
         </div>
     );
 };

@@ -1,52 +1,184 @@
-import React from 'react'
-import { FaGooglePlay, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa'
-import { IoLogoAppleAppstore } from 'react-icons/io5'
-import { MdLanguage } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { FaGooglePlay, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
+import { IoLogoAppleAppstore } from 'react-icons/io5';
+import { MdLanguage } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+
+const footerTranslations = {
+    en: {
+        lorepa: "Lorepa",
+        about: "About",
+        faq: "FAQ",
+        getStarted: "Get Started",
+        createAccount: "Create account",
+        findTrailer: "Find a Trailer",
+        becomeHost: "Become a Host",
+        locations: "Locations",
+        montreal: "Montreal",
+        quebecCity: "Quebec city",
+        gatineau: "Gatineau",
+        sherbrooke: "Sherbrooke",
+        levis: "Levis",
+        support: "Support",
+        helpCenter: "Help center",
+        contactUs: "Contact us",
+        downloadAppStore: "Download on the App Store",
+        downloadGooglePlay: "Download on the Google Play",
+        english: "English",
+        address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
+        allRightsReserved: "© 2025 Lorepa. All rights reserved.",
+        privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
+        cookiePolicy: "Cookie Policy"
+    },
+    es: {
+        lorepa: "Lorepa",
+        about: "Acerca de",
+        faq: "Preguntas frecuentes",
+        getStarted: "Empezar",
+        createAccount: "Crear cuenta",
+        findTrailer: "Encontrar un remolque",
+        becomeHost: "Conviértete en anfitrión",
+        locations: "Ubicaciones",
+        montreal: "Montreal",
+        quebecCity: "Ciudad de Quebec",
+        gatineau: "Gatineau",
+        sherbrooke: "Sherbrooke",
+        levis: "Lévis",
+        support: "Soporte",
+        helpCenter: "Centro de ayuda",
+        contactUs: "Contáctanos",
+        downloadAppStore: "Descargar en la App Store",
+        downloadGooglePlay: "Descargar en Google Play",
+        english: "Español", // Changed to Spanish for consistency in lang selector
+        address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
+        allRightsReserved: "© 2025 Lorepa. Todos los derechos reservados.",
+        privacyPolicy: "Política de privacidad",
+        termsOfService: "Términos de servicio",
+        cookiePolicy: "Política de cookies"
+    },
+    cn: {
+        lorepa: "Lorepa",
+        about: "关于",
+        faq: "常见问题",
+        getStarted: "开始使用",
+        createAccount: "创建账户",
+        findTrailer: "查找拖车",
+        becomeHost: "成为房东",
+        locations: "地点",
+        montreal: "蒙特利尔",
+        quebecCity: "魁北克市",
+        gatineau: "加蒂诺",
+        sherbrooke: "舍布鲁克",
+        levis: "莱维",
+        support: "支持",
+        helpCenter: "帮助中心",
+        contactUs: "联系我们",
+        downloadAppStore: "在App Store下载",
+        downloadGooglePlay: "在Google Play下载",
+        english: "中文", // Changed to Chinese for consistency in lang selector
+        address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
+        allRightsReserved: "© 2025 Lorepa. 版权所有。",
+        privacyPolicy: "隐私政策",
+        termsOfService: "服务条款",
+        cookiePolicy: "Cookie政策"
+    },
+    fr: {
+        lorepa: "Lorepa",
+        about: "À propos",
+        faq: "FAQ",
+        getStarted: "Commencer",
+        createAccount: "Créer un compte",
+        findTrailer: "Trouver une remorque",
+        becomeHost: "Devenir hôte",
+        locations: "Lieux",
+        montreal: "Montréal",
+        quebecCity: "Ville de Québec",
+        gatineau: "Gatineau",
+        sherbrooke: "Sherbrooke",
+        levis: "Lévis",
+        support: "Soutien",
+        helpCenter: "Centre d'aide",
+        contactUs: "Nous contacter",
+        downloadAppStore: "Télécharger sur l'App Store",
+        downloadGooglePlay: "Télécharger sur Google Play",
+        english: "Français", // Changed to French for consistency in lang selector
+        address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
+        allRightsReserved: "© 2025 Lorepa. Tous droits réservés.",
+        privacyPolicy: "Politique de confidentialité",
+        termsOfService: "Conditions d'utilisation",
+        cookiePolicy: "Politique de cookies"
+    }
+};
 
 const Footer = () => {
-    const isLogin = localStorage.getItem("userId")
+    const isLogin = localStorage.getItem("userId");
+    const [translations, setTranslations] = useState(() => {
+        const storedLang = localStorage.getItem('lang');
+        return footerTranslations[storedLang] || footerTranslations.en; // Default to English
+    });
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const storedLang = localStorage.getItem('lang');
+            setTranslations(footerTranslations[storedLang] || footerTranslations.en);
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        // Also run on mount to ensure the latest lang is picked up if it changes externally
+        handleStorageChange();
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+    // Function to handle lang change (you might pass this from Navbar or a lang selector component)
+    const handleLanguageChange = (lang) => {
+        localStorage.setItem('lang', lang);
+        setTranslations(footerTranslations[lang]);
+    };
 
     return (
         <footer className="bg-[#F1F1F1] text-black p-8">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
                 {/* Section 1: Lorepa */}
                 <div>
-                    <h3 className="text-lg font-medium mb-4">Lorepa</h3>
+                    <h3 className="text-lg font-medium mb-4">{translations.lorepa}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="/who" className="hover:underline">About</Link></li>
-                        <li><Link to="/faq" className="hover:underline">FAQ</Link></li>
+                        <li><Link to="/who" className="hover:underline">{translations.about}</Link></li>
+                        <li><Link to="/faq" className="hover:underline">{translations.faq}</Link></li>
                     </ul>
                 </div>
 
                 {/* Section 2: Get Started */}
                 <div>
-                    <h3 className="text-lg font-medium mb-4">Get Started</h3>
+                    <h3 className="text-lg font-medium mb-4">{translations.getStarted}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="/login" className="hover:underline">Create account</Link></li>
-                        <li><Link to="/trailers" className="hover:underline">Find a Trailer</Link></li>
-                        {isLogin && <li><Link to="/host" className="hover:underline">Become a Host</Link></li>}
+                        <li><Link to="/login" className="hover:underline">{translations.createAccount}</Link></li>
+                        <li><Link to="/trailers" className="hover:underline">{translations.findTrailer}</Link></li>
+                        {isLogin && <li><Link to="/host" className="hover:underline">{translations.becomeHost}</Link></li>}
                     </ul>
                 </div>
 
                 {/* Section 3: Locations */}
                 <div>
-                    <h3 className="text-lg font-medium mb-4">Locations</h3>
+                    <h3 className="text-lg font-medium mb-4">{translations.locations}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:underline">Montreal</Link></li>
-                        <li><Link to="#" className="hover:underline">Quebec city</Link></li>
-                        <li><Link to="#" className="hover:underline">Gatineau</Link></li>
-                        <li><Link to="#" className="hover:underline">Sherbrooke</Link></li>
-                        <li><Link to="#" className="hover:underline">Levis</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.montreal}</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.quebecCity}</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.gatineau}</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.sherbrooke}</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.levis}</Link></li>
                     </ul>
                 </div>
 
                 {/* Section 4: Support */}
                 <div>
-                    <h3 className="text-lg font-medium mb-4">Support</h3>
+                    <h3 className="text-lg font-medium mb-4">{translations.support}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:underline">Help center</Link></li>
-                        <li><Link to="#" className="hover:underline">Contact us</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.helpCenter}</Link></li>
+                        <li><Link to="#" className="hover:underline">{translations.contactUs}</Link></li>
                     </ul>
                 </div>
 
@@ -59,34 +191,37 @@ const Footer = () => {
                     </div>
 
                     <div className="flex items-center gap-x-4 bg-slate-50">
-                        <div className="flex bg-black rounded-md text-white px-3 py-2">
+                        <div className="w-[10rem] flex bg-black rounded-md text-white px-3 py-2">
                             <IoLogoAppleAppstore className="mr-2" size={24} />
-                            <p className="text-xs text-nowrap">Download on the <br /> App Store</p>
+                            <p className="text-xs text-nowrap truncate">Download on the <br /> {translations.downloadAppStore}</p>
                         </div>
-                        <div className="flex bg-black rounded-md text-white px-3 py-2">
+                        <div className="w-[10rem] flex bg-black rounded-md text-white px-3 py-2">
                             <FaGooglePlay className="mr-2" size={24} />
-                            <p className="text-xs text-nowrap">Download on <br /> the Google Play</p>
+                            <p className="text-xs text-nowrap truncate">Download on <br /> {translations.downloadGooglePlay}</p>
                         </div>
                     </div>
-                    <div className="flex items-center mt-6 text-gray-400 hover:text-white cursor-pointer">
+                    <div
+                        className="flex items-center mt-6 text-gray-400 hover:text-white cursor-pointer"
+                        onClick={() => { /* You can add a lang selection modal/dropdown here */ }}
+                    >
                         <MdLanguage className="mr-2" size={20} />
-                        <span className="text-sm">English</span>
+                        <span className="text-sm">{translations.english}</span> {/* This will display the current lang name */}
                     </div>
                 </div>
             </div>
 
             {/* Bottom Bar */}
             <div className="mt-8 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-black space-y-4 md:space-y-0">
-                <p className="text-center md:text-left">3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4</p>
-                <p className="text-center md:text-left">© 2025 Lorepa. All rights reserved.</p>
+                <p className="text-center md:text-left">{translations.address}</p>
+                <p className="text-center md:text-left">{translations.allRightsReserved}</p>
                 <div className="flex space-x-4">
-                    <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
-                    <Link to="/terms" className="hover:underline">Terms of Service</Link>
-                    <Link to="#" className="hover:underline">Cookie Policy</Link>
+                    <Link to="/privacy" className="hover:underline">{translations.privacyPolicy}</Link>
+                    <Link to="/terms" className="hover:underline">{translations.termsOfService}</Link>
+                    <Link to="#" className="hover:underline">{translations.cookiePolicy}</Link>
                 </div>
             </div>
         </footer>
-    )
-}
+    );
+};
 
-export default Footer
+export default Footer;

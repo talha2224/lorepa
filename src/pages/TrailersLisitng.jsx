@@ -29,9 +29,66 @@ const fadeInUp = {
 
 const selectStyle = "bg-[#F1F1F1] p-2 rounded-md";
 
+// Translations for the TrailersListing page
+const trailersListingTranslations = {
+  en: {
+    price: "Price",
+    type: "Type",
+    keywordSearch: "Keyword search",
+    trailersAvailable: "trailers available",
+    popular: "Popular",
+    perDay: "/Day",
+    noImage: "No Image"
+  },
+  es: {
+    price: "Precio",
+    type: "Tipo",
+    keywordSearch: "Búsqueda por palabra clave",
+    trailersAvailable: "remolques disponibles",
+    popular: "Popular",
+    perDay: "/Día",
+    noImage: "Sin imagen"
+  },
+  cn: {
+    price: "价格",
+    type: "类型",
+    keywordSearch: "关键词搜索",
+    trailersAvailable: "辆拖车可用",
+    popular: "热门",
+    perDay: "/天",
+    noImage: "无图片"
+  },
+  fr: {
+    price: "Prix",
+    type: "Type",
+    keywordSearch: "Recherche par mot-clé",
+    trailersAvailable: "remorques disponibles",
+    popular: "Populaire",
+    perDay: "/Jour",
+    noImage: "Pas d'image"
+  }
+};
+
 const TrailersListing = () => {
   const nav = useNavigate();
   const [trailers, setTrailers] = useState([]);
+  const [translations, setTranslations] = useState(() => {
+    const storedLang = localStorage.getItem('lang');
+    return trailersListingTranslations[storedLang] || trailersListingTranslations.en;
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedLang = localStorage.getItem('lang');
+      setTranslations(trailersListingTranslations[storedLang] || trailersListingTranslations.en);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    handleStorageChange();
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const handleCardClick = (id) => {
     nav(`/trailers/${id}`);
@@ -60,23 +117,23 @@ const TrailersListing = () => {
         <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
           <div className="flex flex-wrap gap-4">
             <select className={selectStyle}>
-              <option>Price</option>
+              <option>{translations.price}</option>
             </select>
             <select className={selectStyle}>
-              <option>Type</option>
+              <option>{translations.type}</option>
             </select>
             <select className={selectStyle}>
-              <option>Keyword search</option>
+              <option>{translations.keywordSearch}</option>
             </select>
           </div>
         </div>
 
         <div className='flex justify-between items-center mb-6'>
           <h2 className="text-xl font-semibold text-gray-700">
-            {trailers.length} trailers available
+            {trailers.length} {translations.trailersAvailable}
           </h2>
           <select className={selectStyle}>
-            <option>Popular</option>
+            <option>{translations.popular}</option>
           </select>
         </div>
 
@@ -92,7 +149,7 @@ const TrailersListing = () => {
               onClick={() => handleCardClick(trailer._id)}
             >
               <img
-                src={trailer.images?.[0] || 'https://placehold.co/400x300/F3F4F6/9CA3AF?text=No+Image'}
+                src={trailer.images?.[0] || `https://placehold.co/400x300/F3F4F6/9CA3AF?text=${encodeURIComponent(translations.noImage)}`}
                 alt={trailer.title}
                 className="w-full h-48 object-cover"
               />
@@ -107,7 +164,7 @@ const TrailersListing = () => {
                   {trailer.city}, {trailer.state}
                 </p>
                 <p className="text-black font-medium text-lg">
-                  ${trailer.dailyRate}/Day
+                  ${trailer.dailyRate}{translations.perDay}
                 </p>
               </div>
             </motion.div>
