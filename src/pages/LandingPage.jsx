@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import config from "../config";
+import { Link } from "react-router-dom";
 
 const translations = {
   en: {
@@ -203,13 +204,11 @@ const LandingPage = () => {
   const [trailers, setTrailers] = useState([]);
   const [faqGuest, setFaqGuest] = useState([]);
   const [faqHost, setFaqHost] = useState([]);
-  // Initialize translationsData with English as a default or from localStorage
   const [translationsData, setTranslationsData] = useState(() => {
     const storedLang = localStorage.getItem('lang');
     return translations[storedLang] || translations.en; // Fallback to English if storedLang is not found
   });
 
-  // Effect to update translationsData when the language in localStorage changes
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
@@ -223,7 +222,7 @@ const LandingPage = () => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, []); // Empty dependency array means this runs once on mount and once on unmount
+  }, []);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -277,9 +276,9 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
-              <div className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
+              <Link to={"/trailers"} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
                 <FaSearch />
-              </div>
+              </Link>
             </div>
           </motion.div>
         </motion.div>
@@ -315,7 +314,9 @@ const LandingPage = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
             >
-              <img src={src} alt="Host" className="mt-5" />
+              <Link to={i == 0 ? "/booking" : "host"}>
+                <img src={src} alt="Host" className="mt-5" />
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -327,7 +328,8 @@ const LandingPage = () => {
         <AnimatedText text={translationsData.dynamicCommunity} variant={fadeInUp} className="text-xs text-black mt-1" />
         <div className="flex flex-wrap justify-center gap-0 mt-6">
           {trustedBy.map((item, i) => (
-            <img key={i} src={item.image} alt="trusted" className="w-[3rem] h-[3rem] object-cover rounded-full" />
+            // w-[3rem] h-[3rem] object-cover rounded-full
+            <img key={i} src={item.image} alt="trusted" className="" />
           ))}
         </div>
 
@@ -336,17 +338,22 @@ const LandingPage = () => {
 
       <motion.div variants={flipIn} whileInView="visible" className="flex justify-center items-center flex-col p-3">
         <AnimatedText text={translationsData.popularLocations} variant={scaleIn} className="text-2xl text-black font-semibold mt-10" />
-        <div className="flex flex-wrap justify-center gap-10 overflow-x-auto mt-6">
+        <Link to={"/trailers"} className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
           {locations.map((loc, i) => (
-            <div key={i} className="">
-              <img src={loc.image} alt={loc.title} className=" object-cover rounded-md" />
+            <div key={i}>
+              <img
+                src={loc.image}
+                alt={loc.title}
+                className="max-w-[15rem] min-w-[15rem] min-h-[10rem] max-h-[10rem] rounded-md"
+              />
               <div className="flex justify-between items-center">
                 <p className="text-lg font-medium mt-2 text-black">{loc.title}</p>
                 <FaLongArrowAltRight className="text-blue-700" />
               </div>
             </div>
           ))}
-        </div>
+        </Link>
+
       </motion.div>
 
       <motion.div
@@ -373,13 +380,14 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-between items-center overflow-x-auto gap-4 mt-4 pb-4">
+        <Link to={"/trailers"} className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
           {trailers.map((item, i) => (
-            <div key={i} className="">
-              <img src={item.image} alt={item.title} className="rounded-md" />
+            <div key={i} className="relative cursor-pointer">
+              <img src={item.image} alt={item.title} className="rounded-md max-w-[20rem] min-w-[20rem] min-h-[16rem] max-h-[16rem] bg-contain" />
+              <p className="absolute bottom-5 left-5">{item.title}</p>
             </div>
           ))}
-        </div>
+        </Link>
       </motion.div>
 
       <div className="px-5 py-5 text-black">

@@ -38,8 +38,8 @@ const Navbar = () => {
 
                     <div className="block relative">
                         <div className="ml-4 flex items-center md:ml-6 gap-x-4">
+                            {isLogin && (<Link to={"/host"}><button className='text-xs border-black border cursor-pointer p-2 rounded-md sm:block hidden'>Become a host</button></Link>)}
                             <CiGlobe className='cursor-pointer' onClick={() => setShowLanguages(!showLanguages)} />
-
                             <div className="flex items-center gap-x-2 bg-[#F1F1F1] rounded-md p-2">
                                 <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
                                 {isLogin && (<FaRegUserCircle className='cursor-pointer' />)}
