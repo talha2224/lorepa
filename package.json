@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "serve -s dist"
-  }
+  },
   "dependencies": {
     "@stripe/stripe-js": "^6.1.0",
     "aos": "^2.3.4",
