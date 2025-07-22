@@ -380,10 +380,10 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-        <Link to={"/trailers"} className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
+        <Link to={"/trailers"} className="flex overflow-x-auto gap-5 mt-6 w-[100%] px-4">
           {trailers.map((item, i) => (
             <div key={i} className="relative cursor-pointer">
-              <img src={item.image} alt={item.title} className="rounded-md max-w-[20rem] min-w-[20rem] min-h-[16rem] max-h-[16rem] bg-contain" />
+              <img src={item.image} alt={item.title} className="rounded-md max-w-[22rem] min-w-[22rem] min-h-[16rem] max-h-[16rem] bg-contain" />
               <p className="absolute bottom-5 left-5">{item.title}</p>
             </div>
           ))}

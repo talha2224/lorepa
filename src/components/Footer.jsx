@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaGooglePlay, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaGooglePlay, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
 import { IoLogoAppleAppstore } from 'react-icons/io5';
 import { MdLanguage } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -185,9 +185,9 @@ const Footer = () => {
                 {/* Section 5: Social Media and App Downloads */}
                 <div className="lg:col-span-1 flex flex-col items-center md:items-end">
                     <div className="flex space-x-4 mb-6">
-                        <Link to="#" aria-label="Instagram" className="text-black"><FaInstagram size={24} /></Link>
-                        <Link to="#" aria-label="LinkedIn" className="text-black"><FaLinkedinIn size={24} /></Link>
-                        <Link to="#" aria-label="Twitter" className="text-black"><FaTwitter size={24} /></Link>
+                        <a target='_black' href="https://www.instagram.com/lorepa.ca?igsh=MWk0NGo5dmFrZXR4YQ==" aria-label="Instagram" className="text-black"><FaInstagram size={24} /></a>
+                        <a target='_black' href="https://www.linkedin.com/company/location-de-remorque-entre-particuliers/" aria-label="LinkedIn" className="text-black"><FaLinkedinIn size={24} /></a>
+                        <a target='_black' href="https://www.facebook.com/share/15qZy6cEuV/" aria-label="Facebook" className="text-black"><FaFacebook size={24} /></a>
                     </div>
 
                     <div className="flex items-center gap-x-4 bg-slate-50">
