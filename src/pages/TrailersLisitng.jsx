@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar2 from '../components/Navbar2';
 import axios from 'axios';
@@ -29,7 +29,7 @@ const fadeInUp = {
 
 const selectStyle = "bg-[#F1F1F1] p-2 rounded-md";
 
-// Translations for the TrailersListing page
+// Translations
 const trailersListingTranslations = {
   en: {
     price: "Price",
@@ -69,8 +69,17 @@ const trailersListingTranslations = {
   }
 };
 
+// Hook to get query params
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 const TrailersListing = () => {
   const nav = useNavigate();
+  const location = useLocation();
+  const query = useQuery();
+  const cityFromQuery = query.get('city')?.toLowerCase() || '';
+
   const [trailers, setTrailers] = useState([]);
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
@@ -96,18 +105,32 @@ const TrailersListing = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchTrailers();
-  }, []);
+    fetchTrailers(cityFromQuery);
+  }, [cityFromQuery]);
 
-  const fetchTrailers = async () => {
+  const fetchTrailers = async (cityFilter) => {
     try {
       const res = await axios.get(`${config.baseUrl}/trailer/all`);
-      setTrailers(res.data.data || []);
+      let allTrailers = res.data.data || [];
+
+      if (cityFilter) {
+        allTrailers = allTrailers.filter((t) => {
+          const fullLocation = `${t.city || ''}, ${t.state || ''}`.toLowerCase();
+          return (
+            t.city?.toLowerCase().includes(cityFilter) ||
+            t.state?.toLowerCase().includes(cityFilter) ||
+            fullLocation.includes(cityFilter)
+          );
+        });
+      }
+
+      setTrailers(allTrailers);
     } catch (err) {
       console.error(err);
       toast.error("Failed to fetch trailers");
     }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

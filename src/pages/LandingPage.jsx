@@ -208,6 +208,7 @@ const LandingPage = () => {
     const storedLang = localStorage.getItem('lang');
     return translations[storedLang] || translations.en; // Fallback to English if storedLang is not found
   });
+    const [location, setLocation] = useState("");
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -261,7 +262,7 @@ const LandingPage = () => {
           <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-80 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.where}</h1>
-              <input type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+              <input onChange={(e)=>setLocation(e.target.value)} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
             </div>
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.from}</h1>
@@ -276,7 +277,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
-              <Link to={"/trailers"} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
+              <Link to={`/trailers?city=${location}`} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
                 <FaSearch />
               </Link>
             </div>
@@ -338,9 +339,9 @@ const LandingPage = () => {
 
       <motion.div variants={flipIn} whileInView="visible" className="flex justify-center items-center flex-col p-3">
         <AnimatedText text={translationsData.popularLocations} variant={scaleIn} className="text-2xl text-black font-semibold mt-10" />
-        <Link to={"/trailers"} className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
+        <div className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
           {locations.map((loc, i) => (
-            <div key={i}>
+            <Link to={`/trailers?city=${loc.title}`}  key={i}>
               <img
                 src={loc.image}
                 alt={loc.title}
@@ -350,9 +351,9 @@ const LandingPage = () => {
                 <p className="text-lg font-medium mt-2 text-black">{loc.title}</p>
                 <FaLongArrowAltRight className="text-blue-700" />
               </div>
-            </div>
+            </Link>
           ))}
-        </Link>
+        </div>
 
       </motion.div>
 

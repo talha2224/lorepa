@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CiGlobe } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -7,14 +7,20 @@ import { CiSearch } from "react-icons/ci"; // Import the search icon
 import Logo from "../assets/logo.svg";
 
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+};
+
 const Navbar2 = () => {
+    const query = useQuery();
+    const cityFromQuery = query.get('city')?.toLowerCase() || '';
 
     const [showLanguages, setShowLanguages] = useState(false);
     const [showNav, setshowNav] = useState(false);
     const isLogin = localStorage.getItem("userId")
-
+    const nav = useNavigate()
     // State for the new input fields
-    const [location, setLocation] = useState("Montreal");
+    const [location, setLocation] = useState(cityFromQuery);
     const [fromDate, setFromDate] = useState("28/04/2025");
     const [fromTime, setFromTime] = useState("12:42 AM");
     const [untilDate, setUntilDate] = useState("1/05/2025");
@@ -83,7 +89,7 @@ const Navbar2 = () => {
                         </div>
 
                         {/* Search Button */}
-                        <button className="bg-[#2563EB] text-white p-2 rounded-full ml-2 flex items-center justify-center">
+                        <button onClick={() => nav(`/trailers?city=${location}`)} className="bg-[#2563EB] text-white p-2 rounded-full ml-2 flex items-center justify-center">
                             <CiSearch className="h-4 w-4" />
                         </button>
                     </div>
