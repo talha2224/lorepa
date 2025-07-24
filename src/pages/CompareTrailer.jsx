@@ -228,6 +228,7 @@ const CompareTrailer = () => {
     });
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
             setTranslationsData(translations[storedLang] || translations.en);
@@ -239,6 +240,7 @@ const CompareTrailer = () => {
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
+
     }, []);
 
     const contentSections = [
