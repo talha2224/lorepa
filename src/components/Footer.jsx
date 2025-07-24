@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaFacebook, FaGooglePlay, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaGooglePlay, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter } from 'react-icons/fa';
 import { IoLogoAppleAppstore } from 'react-icons/io5';
 import { MdLanguage } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -165,11 +165,11 @@ const Footer = () => {
                 <div>
                     <h3 className="text-lg font-medium mb-4">{translations.locations}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:underline">{translations.montreal}</Link></li>
-                        <li><Link to="#" className="hover:underline">{translations.quebecCity}</Link></li>
-                        <li><Link to="#" className="hover:underline">{translations.gatineau}</Link></li>
-                        <li><Link to="#" className="hover:underline">{translations.sherbrooke}</Link></li>
-                        <li><Link to="#" className="hover:underline">{translations.levis}</Link></li>
+                        <li><Link to={`/trailers?city=Montreal`} className="hover:underline">{translations.montreal}</Link></li>
+                        <li><Link to={`/trailers?city=Quebec`} className="hover:underline">{translations.quebecCity}</Link></li>
+                        <li><Link to={`/trailers?city=Gatineau`} className="hover:underline">{translations.gatineau}</Link></li>
+                        <li><Link to={`/trailers?city=Sherbrooke`} className="hover:underline">{translations.sherbrooke}</Link></li>
+                        <li><Link to={`/trailers?city=Levis`} className="hover:underline">{translations.levis}</Link></li>
                     </ul>
                 </div>
 
@@ -177,14 +177,15 @@ const Footer = () => {
                 <div>
                     <h3 className="text-lg font-medium mb-4">{translations.support}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:underline">{translations.helpCenter}</Link></li>
-                        <li><Link to="#" className="hover:underline">{translations.contactUs}</Link></li>
+                        <li><Link to="/contact" className="hover:underline">{translations.helpCenter}</Link></li>
+                        <li><Link to="/contact" className="hover:underline">{translations.contactUs}</Link></li>
                     </ul>
                 </div>
 
                 {/* Section 5: Social Media and App Downloads */}
                 <div className="lg:col-span-1 flex flex-col items-center md:items-end">
                     <div className="flex space-x-4 mb-6">
+                        <a target='_black' href="https://www.tiktok.com/@lorepa.ca" aria-label="Tiktok" className="text-black"><FaTiktok size={24} /></a>
                         <a target='_black' href="https://www.instagram.com/lorepa.ca?igsh=MWk0NGo5dmFrZXR4YQ==" aria-label="Instagram" className="text-black"><FaInstagram size={24} /></a>
                         <a target='_black' href="https://www.linkedin.com/company/location-de-remorque-entre-particuliers/" aria-label="LinkedIn" className="text-black"><FaLinkedinIn size={24} /></a>
                         <a target='_black' href="https://www.facebook.com/share/15qZy6cEuV/" aria-label="Facebook" className="text-black"><FaFacebook size={24} /></a>
@@ -200,12 +201,9 @@ const Footer = () => {
                             <p className="text-xs text-nowrap truncate">Download on <br /> {translations.downloadGooglePlay}</p>
                         </div>
                     </div>
-                    <div
-                        className="flex items-center mt-6 text-gray-400 hover:text-white cursor-pointer"
-                        onClick={() => { /* You can add a lang selection modal/dropdown here */ }}
-                    >
+                    <div className="flex items-center mt-6 text-gray-400 cursor-pointer">
                         <MdLanguage className="mr-2" size={20} />
-                        <span className="text-sm">{translations.english}</span> {/* This will display the current lang name */}
+                        <span className="text-sm">{translations.english}</span>
                     </div>
                 </div>
             </div>
@@ -217,7 +215,7 @@ const Footer = () => {
                 <div className="flex space-x-4">
                     <Link to="/privacy" className="hover:underline">{translations.privacyPolicy}</Link>
                     <Link to="/terms" className="hover:underline">{translations.termsOfService}</Link>
-                    <Link to="#" className="hover:underline">{translations.cookiePolicy}</Link>
+                    <Link to="/privacy" className="hover:underline">{translations.cookiePolicy}</Link>
                 </div>
             </div>
         </footer>

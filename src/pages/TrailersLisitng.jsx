@@ -76,7 +76,6 @@ const useQuery = () => {
 
 const TrailersListing = () => {
   const nav = useNavigate();
-  const location = useLocation();
   const query = useQuery();
   const cityFromQuery = query.get('city')?.toLowerCase() || '';
 

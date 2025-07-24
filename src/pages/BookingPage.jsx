@@ -301,6 +301,7 @@ const BookingPage = () => {
 
     useEffect(() => {
         axios.get(`${config.baseUrl}/trailer/all`).then(res => setTrailers(res.data.data)).catch(err => console.error(err));
+        window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {

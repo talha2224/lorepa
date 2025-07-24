@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Hero from "../assets/landing/hero.png";
 import Img from "../assets/landing/img.png";
-import Host1 from "../assets/landing/host.svg";
-import Host2 from "../assets/landing/host2.png";
+import Host1 from "../assets/landing/rent_trailer_img.png";
+import Host2 from "../assets/landing/become_host_img.png";
 import {
   FaAngleDown,
   FaAngleUp,
@@ -30,6 +30,12 @@ const translations = {
     discover: "Discover the premier platform for trailer sharing between individuals in Qubec.",
     needTrailer: "Whether You Need a Trailer",
     shareOne: "or Have One to Share",
+    rentTrailerTitle: "Rent a Trailer",
+    rentTrailerDescription: "Find the perfect trailer for your needs, wherever you are in Quebec. Browse, book, and go!",
+    rentTrailerButton: "Rent a trailer",
+    becomeHostTitle: "Become a host",
+    becomeHostDescription: "List your trailer and start earning by helping others move, travel, and explore. It's easy and secure",
+    becomeHostButton: "Become a host",
     trustedBy: "Trusted by 1000 +",
     leadingPlatform: "Our company is the leading sharing platform where you can book any type of trailer from private individuals,",
     dynamicCommunity: "whatever the occasion, with a dynamic community of trusted hosts.",
@@ -52,6 +58,12 @@ const translations = {
     discover: "Descubre la plataforma líder para compartir remolques entre particulares en Quebec.",
     needTrailer: "Ya sea que necesites un remolque",
     shareOne: "o tengas uno para compartir",
+    rentTrailerTitle: "Alquilar un remolque",
+    rentTrailerDescription: "Encuentra el remolque perfecto para tus necesidades, dondequiera que estés en Quebec. ¡Busca, reserva y listo!",
+    rentTrailerButton: "Alquilar un remolque",
+    becomeHostTitle: "Conviértete en anfitrión",
+    becomeHostDescription: "Publica tu remolque y comienza a ganar ayudando a otros a mudarse, viajar y explorar. Es fácil y seguro.",
+    becomeHostButton: "Conviértete en anfitrión",
     trustedBy: "Confiado por más de 1000 +",
     leadingPlatform: "Nuestra empresa es la plataforma líder para compartir donde puedes reservar cualquier tipo de remolque a particulares,",
     dynamicCommunity: "cualquiera sea la ocasión, con una comunidad dinámica de anfitriones confiables.",
@@ -74,6 +86,12 @@ const translations = {
     discover: "探索魁北克领先的个人拖车共享平台。",
     needTrailer: "无论您是否需要拖车",
     shareOne: "或愿意共享一个",
+    rentTrailerTitle: "租一辆拖车",
+    rentTrailerDescription: "在魁北克找到满足您需求的完美拖车，无论您身在何处。浏览、预订，然后出发！",
+    rentTrailerButton: "租一辆拖车",
+    becomeHostTitle: "成为房东",
+    becomeHostDescription: "列出您的拖车，通过帮助他人搬家、旅行和探索来开始赚钱。这既简单又安全。",
+    becomeHostButton: "成为房东",
     trustedBy: "1000+ 信任用户",
     leadingPlatform: "我们公司是领先的共享平台，您可以从个人手中预订各种类型的拖车，",
     dynamicCommunity: "无论场合如何，拥有值得信赖的动态社区主机。",
@@ -96,6 +114,12 @@ const translations = {
     discover: "Découvrez la plateforme leader de partage de remorques entre particuliers au Québec.",
     needTrailer: "Que vous ayez besoin d'une remorque",
     shareOne: "ou que vous en ayez une à partager",
+    rentTrailerTitle: "Louer une remorque",
+    rentTrailerDescription: "Trouvez la remorque parfaite pour vos besoins, où que vous soyez au Québec. Parcourez, réservez et partez !",
+    rentTrailerButton: "Louer une remorque",
+    becomeHostTitle: "Devenir hôte",
+    becomeHostDescription: "Listez votre remorque et commencez à gagner de l'argent en aidant les autres à déménager, voyager et explorer. C'est facile et sécurisé.",
+    becomeHostButton: "Devenir hôte",
     trustedBy: "Fiable par plus de 1000 +",
     leadingPlatform: "Notre entreprise est la principale plateforme de partage où vous pouvez réserver tout type de remorque auprès de particuliers,",
     dynamicCommunity: "quelle que soit l'occasion, avec une communauté dynamique d'hôtes de confiance.",
@@ -206,9 +230,9 @@ const LandingPage = () => {
   const [faqHost, setFaqHost] = useState([]);
   const [translationsData, setTranslationsData] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return translations[storedLang] || translations.en; // Fallback to English if storedLang is not found
+    return translations[storedLang] || translations.en;
   });
-    const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("");
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -262,7 +286,7 @@ const LandingPage = () => {
           <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-80 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.where}</h1>
-              <input onChange={(e)=>setLocation(e.target.value)} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+              <input onChange={(e) => setLocation(e.target.value)} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
             </div>
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.from}</h1>
@@ -306,20 +330,30 @@ const LandingPage = () => {
           variant={fadeInDown}
           className="text-[40px] text-white font-semibold mb-10"
         />
-        <div className="flex justify-center items-center flex-wrap gap-x-5">
-          {[Host1, Host2].map((src, i) => (
-            <motion.div
-              key={i}
-              variants={flipIn}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Link to={i == 0 ? "/booking" : "host"}>
-                <img src={src} alt="Host" className="mt-5" />
+        <div className="flex justify-center items-center flex-wrap gap-x-5 px-4 pb-10">
+          {/* Rent a Trailer Card */}
+          <motion.div variants={flipIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="bg-white rounded-tl-lg rounded-tr-lg shadow-lg sm:min-w-[25rem] sm:max-w-[36rem] my-4 overflow-hidden px-5">
+            <div className="py-7 sm:py-10">
+              <h2 className="text-xl sm:text-[46px] font-[300] mb-1 sm:mb-4">{translationsData.rentTrailerTitle}</h2>
+              <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.rentTrailerDescription}</p>
+              <Link to="/booking">
+                <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.rentTrailerButton}</button>
               </Link>
-            </motion.div>
-          ))}
+            </div>
+            <img src={Host1} alt="Rent a Trailer" className="w-full h-[20rem] rounded-tl-lg rounded-tr-lg object-cover" />
+          </motion.div>
+
+          {/* Become a host Card */}
+          <motion.div variants={flipIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="bg-white rounded-tl-lg rounded-tr-lg shadow-lg sm:min-w-[25rem] sm:max-w-[36rem] my-4 overflow-hidden px-5">
+            <div className="py-7 sm:py-10">
+              <h2 className="text-xl sm:text-[46px] font-[300] mb-1 sm:mb-4">{translationsData.becomeHostTitle}</h2>
+              <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.becomeHostDescription}</p>
+              <Link to="/host">
+                <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.becomeHostButton}</button>
+              </Link>
+            </div>
+            <img src={Host2} alt="Become a Host" className="w-full h-[20rem] rounded-tl-lg rounded-tr-lg object-cover" />
+          </motion.div>
         </div>
       </div>
 
@@ -341,7 +375,7 @@ const LandingPage = () => {
         <AnimatedText text={translationsData.popularLocations} variant={scaleIn} className="text-2xl text-black font-semibold mt-10" />
         <div className="flex overflow-x-auto gap-10 mt-6 w-[100%] px-4">
           {locations.map((loc, i) => (
-            <Link to={`/trailers?city=${loc.title}`}  key={i}>
+            <Link to={`/trailers?city=${loc.title}`} key={i}>
               <img
                 src={loc.image}
                 alt={loc.title}
@@ -405,7 +439,7 @@ const LandingPage = () => {
             className="text-lg sm:text-2xl font-semibold mt-2"
           />
           <button className="px-3 py-2 mt-2 rounded-md bg-[#2563EB] text-white text-xs">
-            {translationsData.seeAllFaq}
+            <Link to={"/faq"}>{translationsData.seeAllFaq}</Link>
           </button>
         </motion.div>
         <div className="flex flex-wrap justify-between gap-x-5 mt-8">

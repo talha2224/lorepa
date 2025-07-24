@@ -7,6 +7,7 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 import { TbMoneybag } from "react-icons/tb";
 import { MdOutlineCancel } from 'react-icons/md';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 // Animation Variants
 const fadeInUp = {
@@ -266,10 +267,10 @@ const WhoPage = () => {
                 viewport={{ once: false, amount: 0.3 }}
             >
                 <button className="px-6 py-3 border border-gray-300 rounded-md text-gray-800 hover:bg-gray-100">
-                    {translations.rentTrailerButton}
+                    <Link to={"/booking"}>{translations.rentTrailerButton}</Link>
                 </button>
                 <button className="px-6 py-3 border border-gray-300 rounded-md text-gray-800 hover:bg-gray-100">
-                    {translations.becomeHostButton}
+                   <Link to={"/host"}>{translations.becomeHostButton}</Link>
                 </button>
             </motion.div>
 

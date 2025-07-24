@@ -327,7 +327,7 @@ const SingleTrailer = () => {
         <div className="flex justify-between items-center mt-10 w-full flex-wrap text-black">
           <h1 className="text-lg sm:text-2xl font-semibold mt-2">{translations.faqTitle}</h1>
           <button className="px-3 py-2 mt-2 rounded-md bg-[#2563EB] text-white text-xs">
-            {translations.seeAllFaq}
+            <Link to={"/faq"}>{translations.seeAllFaq}</Link>
           </button>
         </div>
 
