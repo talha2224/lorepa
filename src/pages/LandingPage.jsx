@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import config from "../config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const translations = {
   en: {
@@ -233,7 +233,8 @@ const LandingPage = () => {
     return translations[storedLang] || translations.en;
   });
   const [location, setLocation] = useState("");
-
+  const isLogin = localStorage.getItem("userId")
+  const nav = useNavigate()
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
@@ -336,9 +337,16 @@ const LandingPage = () => {
             <div className="py-7 sm:py-10">
               <h2 className="text-xl sm:text-[46px] font-[300] mb-1 sm:mb-4">{translationsData.rentTrailerTitle}</h2>
               <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.rentTrailerDescription}</p>
-              <Link to="/booking">
+              <div onClick={() => {
+                if (isLogin) {
+                  nav("/booking")
+                }
+                else {
+                  localStorage.setItem("naviagte", "/booking"); nav("/login")
+                }
+              }}>
                 <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.rentTrailerButton}</button>
-              </Link>
+              </div>
             </div>
             <img src={Host1} alt="Rent a Trailer" className="w-full h-[20rem] rounded-tl-lg rounded-tr-lg object-cover" />
           </motion.div>
@@ -348,9 +356,16 @@ const LandingPage = () => {
             <div className="py-7 sm:py-10">
               <h2 className="text-xl sm:text-[46px] font-[300] mb-1 sm:mb-4">{translationsData.becomeHostTitle}</h2>
               <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.becomeHostDescription}</p>
-              <Link to="/host">
+              <div onClick={() => {
+                if (isLogin) {
+                  nav("/host")
+                }
+                else {
+                  localStorage.setItem("naviagte", "/host"); nav("/login")
+                }
+              }}>
                 <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.becomeHostButton}</button>
-              </Link>
+              </div>
             </div>
             <img src={Host2} alt="Become a Host" className="w-full h-[20rem] rounded-tl-lg rounded-tr-lg object-cover" />
           </motion.div>

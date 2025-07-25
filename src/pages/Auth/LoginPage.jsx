@@ -47,7 +47,12 @@ const LoginPage = () => {
         localStorage.setItem('userId', userId);
         toast.success("Login Successful");
         setTimeout(() => {
-          nav("/");
+          if(localStorage.getItem("naviagte")){
+            nav(localStorage.getItem("naviagte"));
+          }
+          else{
+            nav("/")
+          }
         }, 2000);
       } else {
         toast.error(res.data?.msg || "Login failed");
