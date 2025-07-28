@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -221,7 +221,7 @@ const AnimatedText = ({ text, variant, className = "" }) => (
     {text}
   </motion.h1>
 );
-
+const GOOGLE_API_KEY = "AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI";
 const LandingPage = () => {
   const [trustedBy, setTrustedBy] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -233,6 +233,10 @@ const LandingPage = () => {
     return translations[storedLang] || translations.en;
   });
   const [location, setLocation] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const wrapperRef = useRef(null);
   const isLogin = localStorage.getItem("userId")
   const nav = useNavigate()
   useEffect(() => {
@@ -273,6 +277,53 @@ const LandingPage = () => {
     fetchContent();
   }, []);
 
+  const fetchSuggestions = async (inputText) => {
+    if (!inputText) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const res = await axios.get(`https://lorepa-backend.vercel.app/api/autocomplete`, {
+        params: { input: inputText },
+      });
+
+      if (res.data.status === "OK") {
+        const filtered = res.data.predictions.filter((prediction) =>
+          prediction.types.includes("locality") ||
+          prediction.types.includes("country") ||
+          prediction.types.includes("administrative_area_level_1")
+        );
+        setSuggestions(filtered);
+        setShowSuggestions(true);
+      } else {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+
+  const handleSelect = async (item) => {
+    setLocation(item.description);
+    setSuggestions([]);
+    setShowSuggestions(false);
+  };
+
+  // Hide suggestions on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="w-screen min-h-screen bg-[#fff] flex flex-col overflow-x-hidden">
       <motion.div variants={fadeInDown} initial="hidden" animate="visible">
@@ -285,9 +336,19 @@ const LandingPage = () => {
           <AnimatedText text={translationsData?.trailerRental} variant={fadeInUp} className="text-white text-xl md:text-6xl mt-[3rem]" />
           <AnimatedText text={translationsData?.rentAnywhere} variant={fadeIn} className="text-white text-sm mt-2 font-medium" />
           <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-80 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
-            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
+            <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem] relative" ref={wrapperRef}>
               <h1 className="text-sm">{translationsData?.where}</h1>
-              <input onChange={(e) => setLocation(e.target.value)} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+              <input value={location} onChange={(e) => { fetchSuggestions(e.target.value); setLocation(e.target.value) }} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+              {showSuggestions && suggestions.length > 0 && (
+                <ul className="absolute z-50 top-[4rem] left-0 right-0 bg-white shadow-md rounded-md mt-1 max-h-60 overflow-y-auto">
+                  {suggestions.map((item, index) => (
+                    <li key={index} onClick={() => handleSelect(item)} className="p-2 hover:bg-gray-100 cursor-pointer text-sm">
+                      {item.description}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
             </div>
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.from}</h1>

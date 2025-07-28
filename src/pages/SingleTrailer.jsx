@@ -6,7 +6,7 @@ import { FaAngleDown, FaAngleUp, FaChevronLeft, FaChevronRight } from 'react-ico
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import config from '../config';
-
+import manImage from '../assets/man.png'
 const fadeVariant = {
   hidden: { opacity: 0, y: 30 },
   visible: (i = 1) => ({
@@ -58,7 +58,20 @@ const singleTrailerTranslations = {
     seeAllFaq: "See all FAQ",
     guests: "Guests",
     hosts: "Hosts",
-    unknownOwner: "Unknown Owner"
+    unknownOwner: "Unknown Owner",
+    ratingsAndReviews: "Ratings and reviews",
+    excellent: "Excellent",
+    good: "Good",
+    average: "Average",
+    belowAverage: "Below average",
+    poor: "Poor",
+    dayAgo: "day ago",
+    wasAnExcellentRenter: "was an excellent renter! They communicated clearly, picked up and returned the trailer on time, and took great care of the equipment. Everything was returned in perfect condition. Highly recommended for future rentals!",
+    smoothTransactionWith: "Smooth transaction with lorepa! They were punctual, polite, and treated the trailer as if it were their own. Highly recommended.",
+    isATrustworthyRenter: "is a trustworthy renter. The trailer was returned in excellent shape, and the entire process was hassle-free. 5 stars!",
+    outstandingExperience: "Outstanding experience! lorepa was easy to work with, followed all instructions, and ensured the trailer stayed in great condition.",
+    highlyRecommendedRenter: "Highly recommended renter. lorepa was organized, courteous, and took excellent care of the trailer during their hire.",
+    readMore: "Read more"
   },
   es: {
     loading: "Cargando detalles del remolque...",
@@ -96,7 +109,20 @@ const singleTrailerTranslations = {
     seeAllFaq: "Ver todas las preguntas frecuentes",
     guests: "Invitados",
     hosts: "Anfitriones",
-    unknownOwner: "Propietario Desconocido"
+    unknownOwner: "Propietario Desconocido",
+    ratingsAndReviews: "Calificaciones y reseñas",
+    excellent: "Excelente",
+    good: "Bien",
+    average: "Promedio",
+    belowAverage: "Por debajo del promedio",
+    poor: "Pobre",
+    dayAgo: "día atrás",
+    wasAnExcellentRenter: "¡fue un excelente inquilino! Se comunicaron claramente, recogieron y devolvieron el remolque a tiempo, y cuidaron muy bien el equipo. Todo fue devuelto en perfectas condiciones. ¡Muy recomendable para futuros alquileres!",
+    smoothTransactionWith: "¡Transacción fluida con [Nombre]! Fueron puntuales, educados y trataron el remolque como si fuera suyo. Muy recomendable.",
+    isATrustworthyRenter: "es un inquilino de confianza. El remolque fue devuelto en excelentes condiciones, y todo el proceso fue sin problemas. ¡5 estrellas!",
+    outstandingExperience: "¡Experiencia sobresaliente! [Nombre] fue fácil de trabajar, siguió todas las instrucciones y se aseguró de que el remolque se mantuviera en excelentes condiciones.",
+    highlyRecommendedRenter: "Inquilino muy recomendado. [Nombre] fue organizado, cortés y cuidó excelentemente el remolque durante su alquiler.",
+    readMore: "Leer más"
   },
   cn: {
     loading: "正在加载拖车详情...",
@@ -134,7 +160,20 @@ const singleTrailerTranslations = {
     seeAllFaq: "查看所有常见问题",
     guests: "租客",
     hosts: "车主",
-    unknownOwner: "未知车主"
+    unknownOwner: "未知车主",
+    ratingsAndReviews: "评分和评论",
+    excellent: "优秀",
+    good: "好",
+    average: "一般",
+    belowAverage: "低于平均水平",
+    poor: "差",
+    dayAgo: "天前",
+    wasAnExcellentRenter: "是一位出色的租客！他们沟通清晰，准时取还拖车，并且非常爱护设备。所有东西都完好无损地归还。强烈推荐未来租赁！",
+    smoothTransactionWith: "与[名字]的交易顺利！他们准时、有礼貌，对待拖车就像对待自己的。强烈推荐。",
+    isATrustworthyRenter: "是一个值得信赖的租客。拖车完好无损地归还，整个过程轻松无忧。5星！",
+    outstandingExperience: "出色的体验！[名字]易于合作，遵循所有指示，并确保拖车保持良好状态。",
+    highlyRecommendedRenter: "强烈推荐的租客。[名字]有条理、有礼貌，并在租赁期间悉心照料拖车。",
+    readMore: "阅读更多"
   },
   fr: {
     loading: "Chargement des détails de la remorque...",
@@ -172,7 +211,20 @@ const singleTrailerTranslations = {
     seeAllFaq: "Voir toutes les FAQ",
     guests: "Invités",
     hosts: "Hôtes",
-    unknownOwner: "Propriétaire inconnu"
+    unknownOwner: "Propriétaire inconnu",
+    ratingsAndReviews: "Évaluations et avis",
+    excellent: "Excellent",
+    good: "Bon",
+    average: "Moyenne",
+    belowAverage: "En dessous de la moyenne",
+    poor: "Médiocre",
+    dayAgo: "jour",
+    wasAnExcellentRenter: "était un excellent locataire ! Ils ont communiqué clairement, ont récupéré et rendu la remorque à temps, et ont pris grand soin de l'équipement. Tout a été rendu en parfait état. Fortement recommandé pour les locations futures !",
+    smoothTransactionWith: "Transaction fluide avec [Nom] ! Ils étaient ponctuels, polis et ont traité la remorque comme si c'était la leur. Fortement recommandé.",
+    isATrustworthyRenter: "est un locataire digne de confiance. La remorque a été rendue en excellent état, et tout le processus s'est déroulé sans tracas. 5 étoiles !",
+    outstandingExperience: "Expérience exceptionnelle ! [Nom] était facile à travailler, a suivi toutes les instructions et s'est assuré que la remorque restait en excellent état.",
+    highlyRecommendedRenter: "Locataire fortement recommandé. [Nom] était organisé, courtois et a pris un excellent soin de la remorque pendant sa location.",
+    readMore: "Lire la suite"
   }
 };
 
@@ -202,6 +254,54 @@ const AccordionItem = ({ question, answer }) => {
     </motion.div>
   );
 };
+
+const ReviewBar = ({ label, percentage }) => (
+  <div className="flex items-center flex-wrap mb-1 justify-between">
+    <span className="text-sm text-gray-700 w-24">{label}</span>
+    <div className='flex items-center gap-x-3'>
+      <div className="w-[10rem] md:min-w-[20rem] bg-[#BBCBF0] rounded-sm h-2 mx-2">
+        <div className="bg-[#2563EB] h-2 rounded-sm" style={{ width: `${percentage}%` }}></div>
+      </div>
+      <span className="text-sm text-gray-700 w-8 text-right">{percentage}%</span>
+
+    </div>
+  </div>
+);
+
+const ReviewCard = ({ name, rating, timeAgo, reviewText, avatar }) => (
+  <div className="border-b border-gray-200 pb-4 mb-4  md:w-[50%]">
+
+    <div className='flex justify-between items-center'>
+
+      <div className='flex items-center gap-x-2'>
+        <img src={manImage} alt={name} className="w-10 h-10 rounded-full mr-3" />
+        <div>
+          <p className="font-semibold text-gray-900 mr-2">{name}</p>
+          <div className="flex text-[#2563EB]">
+            {[...Array(5)].map((_, i) => (
+              <svg
+                key={i}
+                className={`w-4 h-4 ${i < rating ? 'fill-current' : 'text-gray-300'}`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.683-1.539 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.565-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
+
+      <p className="text-gray-500 text-sm mb-2">{timeAgo}</p>
+
+    </div>
+    <p className="text-[#757982] text-sm mt-2">{reviewText}</p>
+  </div>
+);
+
 
 const SingleTrailer = () => {
   const [trailer, setTrailer] = useState(null);
@@ -404,6 +504,84 @@ const SingleTrailer = () => {
                 <p className='text-gray-600'>{translations.trailerValue}</p>
                 <p className='text-gray-800 text-right'>${Number(trailer?.dailyRate) + Number(trailer?.monthlyRate) + Number(trailer?.cleaningRate) + Number(trailer?.securityRate) + Number(trailer?.insuranceDeductible)}</p>
               </div>
+            </div>
+
+
+            {/* ADD REVIEW SECTION HERE WITH TRANSLATION  */}
+            <div className="border border-[#C3C3C3] p-5 rounded-lg mt-4">
+              <h2 className="text-[20px] font-[600] text-[#0A0F18] mb-4">{translations.ratingsAndReviews}</h2>
+              <div className="flex items-center mb-4">
+                <span className="text-4xl font-bold text-gray-800 mr-2">4.5</span>
+                <div className="flex text-[#2563EB]">
+                  {[...Array(4)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-6 h-6 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.683-1.539 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.565-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                  <svg
+                    className="w-6 h-6 text-[#2563EB]"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2L12.164 6.55L17.5 7.05L13.38 10.47L14.72 15.7L10 13.05L5.28 15.7L6.62 10.47L2.5 7.05L7.836 6.55L10 2Z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="mb-6">
+                <ReviewBar label={translations.excellent} percentage={70} />
+                <ReviewBar label={translations.good} percentage={15} />
+                <ReviewBar label={translations.average} percentage={5} />
+                <ReviewBar label={translations.belowAverage} percentage={5} />
+                <ReviewBar label={translations.poor} percentage={5} />
+              </div>
+
+              <div className="space-y-6">
+                <ReviewCard
+                  name="Joan Perkins"
+                  rating={5}
+                  timeAgo={`1 ${translations.dayAgo}`}
+                  reviewText={translations.wasAnExcellentRenter}
+                  avatar="https://via.placeholder.com/40"
+                />
+                <ReviewCard
+                  name="Bessie Cooper"
+                  rating={4}
+                  timeAgo={`1 ${translations.dayAgo}`}
+                  reviewText={translations.smoothTransactionWith}
+                  avatar="https://via.placeholder.com/40"
+                />
+                <ReviewCard
+                  name="Jenny Wilson"
+                  rating={5}
+                  timeAgo={`1 ${translations.dayAgo}`}
+                  reviewText={translations.isATrustworthyRenter}
+                  avatar="https://via.placeholder.com/40"
+                />
+                <ReviewCard
+                  name="Ronald Richards"
+                  rating={5}
+                  timeAgo={`1 ${translations.dayAgo}`}
+                  reviewText={translations.outstandingExperience}
+                  avatar="https://via.placeholder.com/40"
+                />
+                <ReviewCard
+                  name="Darlene Robertson"
+                  rating={4}
+                  timeAgo={`1 ${translations.dayAgo}`}
+                  reviewText={translations.highlyRecommendedRenter}
+                  avatar="https://via.placeholder.com/40"
+                />
+              </div>
+              <button className="mt-6 bg-[#2563EB] text-white hover:underline text-sm p-3 rounded-md">
+                {translations.readMore}
+              </button>
             </div>
           </div>
         </motion.div>
