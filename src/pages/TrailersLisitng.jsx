@@ -231,7 +231,7 @@ const TrailersListing = () => {
               height="100%"
               frameBorder="0"
               style={{ border: 0 }}
-              src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=Pakistan&zoom=5`}
+              src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=${encodeURIComponent(cityFromQuery || 'Quebec')}`}
               allowFullScreen
             ></iframe>
 
