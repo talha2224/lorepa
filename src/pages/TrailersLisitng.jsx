@@ -7,6 +7,7 @@ import axios from 'axios';
 import config from '../config';
 import toast from 'react-hot-toast';
 import MapImage from '../assets/map.png'; // Make sure this path is correct
+const GOOGLE_API_KEY = 'AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI'
 
 // Animation variants
 const cardVariants = {
@@ -222,8 +223,18 @@ const TrailersListing = () => {
           </div>
 
           {/* Right Section - Map */}
-          <div className="lg:w-1/3 flex-shrink-0">
-            <img src={MapImage} alt="Map" className="w-full h-auto object-cover rounded-lg shadow-md" />
+          <div className="lg:w-1/3 flex-shrink-0 h-[80vh]">
+            {/* <img src={MapImage} alt="Map" className="w-full h-auto object-cover rounded-lg shadow-md" /> */}
+            <iframe
+              title="Map"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              style={{ border: 0 }}
+              src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=Pakistan&zoom=5`}
+              allowFullScreen
+            ></iframe>
+
           </div>
         </div>
       </main>
