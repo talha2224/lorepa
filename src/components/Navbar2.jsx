@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import { useRef, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CiGlobe } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -14,7 +15,9 @@ const useQuery = () => {
 const Navbar2 = () => {
     const query = useQuery();
     const cityFromQuery = query.get('city')?.toLowerCase() || '';
-
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const wrapperRef = useRef(null);
     const [showLanguages, setShowLanguages] = useState(false);
     const [showNav, setshowNav] = useState(false);
     const isLogin = localStorage.getItem("userId")
@@ -25,6 +28,41 @@ const Navbar2 = () => {
     const [fromTime, setFromTime] = useState("12:42 AM");
     const [untilDate, setUntilDate] = useState("1/05/2025");
     const [untilTime, setUntilTime] = useState("10:42 AM");
+
+
+    const fetchSuggestions = async (inputText) => {
+        if (!inputText) {
+            setSuggestions([]);
+            return;
+        }
+
+        try {
+            const res = await axios.get(`https://lorepa-backend.vercel.app/api/autocomplete`, {
+                params: { input: inputText },
+            });
+
+            if (res.data.status === "OK") {
+                const filtered = res.data.predictions.filter((prediction) =>
+                    prediction.types.includes("locality") ||
+                    prediction.types.includes("country") ||
+                    prediction.types.includes("administrative_area_level_1")
+                );
+                setSuggestions(filtered);
+                setShowSuggestions(true);
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
+            }
+        } catch (error) {
+            console.error("Error fetching suggestions:", error);
+        }
+    };
+
+    const handleSelect = (item) => {
+        setLocation(item.description);
+        setSuggestions([]);
+        setShowSuggestions(false);
+    };
 
 
     return (
@@ -40,11 +78,35 @@ const Navbar2 = () => {
 
                     {/* New Search/Filter Section */}
                     <div className="md:flex items-center hidden gap-x-4">
-                        {/* Where Input */}
-                        <div className='flex items-center gap-x-2 border border-[#C3C3C3] p-2 rounded-3xl'>
+                        <div className='flex items-center gap-x-2 border border-[#C3C3C3] p-2 rounded-3xl relative' ref={wrapperRef}>
                             <label htmlFor="where" className="text-xs text-[#2563EB]">Where</label>
-                            <input type="text" id="where" value={location} onChange={(e) => setLocation(e.target.value)} className="block w-full text-sm text-gray-900 border-none focus:ring-0 focus:outline-none p-0" placeholder="Montreal" />
+                            <input
+                                type="text"
+                                id="where"
+                                value={location}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setLocation(value);
+                                    fetchSuggestions(value);
+                                }}
+                                className="block w-full text-sm text-gray-900 border-none focus:ring-0 focus:outline-none p-0"
+                                placeholder="Montreal"
+                            />
+                            {showSuggestions && suggestions.length > 0 && (
+                                <ul className="absolute z-50 top-full left-0 right-0 bg-white shadow-md rounded-md mt-1 max-h-60 overflow-y-auto">
+                                    {suggestions.map((item, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => handleSelect(item)}
+                                            className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                                        >
+                                            {item.description}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
+
 
                         {/* From Date/Time */}
                         <div className='flex items-center gap-x-2 border border-[#C3C3C3] p-2 rounded-3xl'>
