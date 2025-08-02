@@ -48,7 +48,7 @@ const translations = {
     seeAllFaq: "See all FAQ",
     guests: "Guests",
     hosts: "Hosts",
-    faqContent: { // Nested object for all FAQ content
+    faqContent: {
       renters: [
         { question: "What do I need to rent a trailer on Lorepa?", answer: "To rent a trailer, you must be at least 21 years old, hold a valid driver’s license, and provide proof of insurance. You will also need a verified Lorepa account." },
         { question: "How does the rental process work?", answer: "You browse available trailers, send a request to the owner, and once approved, confirm your booking. A rental contract and inspection photos are generated automatically." },
@@ -266,7 +266,7 @@ const translations = {
         { question: "Lorepa est-il disponible aux États-Unis ?", answer: "Lorepa est actuellement axé sur le Canada. L'utilisation transfrontalière n'est autorisée qu'avec le consentement du propriétaire et les documents appropriés." } // Moved from global
       ],
       owners: [
-        { question: "How do I list my trailer?", answer: "Vous pouvez lister votre remorque en vous inscrivant, en remplissant les détails clés (description, disponibilité, prix), en téléchargeant des photos et en fournissant les documents requis (immatriculation, assurance)." },
+        { question: "Comment lister ma remorque ?", answer: "Vous pouvez lister votre remorque en vous inscrivant, en remplissant les détails clés (description, disponibilité, prix), en téléchargeant des photos et en fournissant les documents requis (immatriculation, assurance)." },
         { question: "Combien puis-je gagner avec Lorepa ?", answer: "Vous conservez 85% du prix de la location. Les 15% restants couvrent les frais de service de Lorepa. Les paiements sont traités automatiquement via Stripe dans les 3 à 5 jours ouvrables après la fin de la location." },
         { question: "Puis-je annuler une réservation ?", answer: "Oui, mais les propriétaires ne sont autorisés qu'à 2 annulations gratuites tous les 6 mois. Après cela, une pénalité de 100 $ CA s'applique si l'annulation est conforme à la politique. L'abus d'annulations est soumis à un examen du compte." },
         { question: "Que se passe-t-il si ma remorque est retournée en retard ou endommagée ?", answer: "Vous pouvez signaler tout problème via la plateforme dans les 24 heures. Lorepa peut vous aider à déduire les pénalités ou les coûts de dommages du dépôt du locataire." },
@@ -277,7 +277,7 @@ const translations = {
         { question: "Puis-je exiger des frais de nettoyage ou des conditions supplémentaires ?", answer: "Oui. Vous pouvez définir vos propres règles (nettoyage, remorquage, pénalités pour mauvaise utilisation), mais elles doivent être clairement divulguées dans votre annonce." },
         { question: "Comment puis-je améliorer la visibilité de ma remorque ?", answer: "Utilisez des photos de haute qualité, des descriptions détaillées, des prix équitables et maintenez un bon taux de réponse. Les propriétaires vérifiés avec de bonnes évaluations apparaissent plus haut dans les résultats de recherche." },
         { question: "Comment gérer le carburant ou le retour de l'équipement ?", answer: "Vous pouvez spécifier dans votre annonce si le carburant/l'équipement doit être retourné dans le même état. Documentez toujours l'état au moment de la prise en charge et du retour." },
-        { question: "Can I report a bad renter?", answer: "Yes. After the rental ends, you can leave a review and report any serious incident to Lorepa’s trust & safety team. Repeated abuse may result in renter bans." },
+        { question: "Puis-je signaler un mauvais locataire ?", answer: "Oui. Une fois la location terminée, vous pouvez laisser un avis et signaler tout incident grave à l'équipe de confiance et de sécurité de Lorepa. Les abus répétés peuvent entraîner le bannissement du locataire." },
         { question: "Comment puis-je contacter le service client ?", answer: "Vous pouvez joindre notre équipe de support via la fonction de chat sur l'application ou le site web, ou par e-mail à support@lorepa.ca. Le temps de réponse est généralement inférieur à 24h." },
         { question: "Qui est responsable en cas d'accident ou de vol ?", answer: "Les locataires sont responsables de tout dommage ou perte pendant la location. Dans les cas graves, des rapports de police, des réclamations d'assurance et une médiation de la plateforme peuvent s'appliquer." }, // Moved from global
         { question: "Lorepa offre-t-il une couverture d'assurance ?", answer: "Actuellement, Lorepa n'offre pas directement d'assurance mais peut exiger une preuve de couverture tierce. Des options d'assurance dédiées pourraient être ajoutées prochainement." }, // Moved from global
