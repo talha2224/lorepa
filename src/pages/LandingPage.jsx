@@ -18,7 +18,7 @@ import axios from "axios";
 import config from "../config";
 import { Link, useNavigate } from "react-router-dom";
 import { blurIn, fadeIn, fadeInDown, fadeInUp, flipIn, scaleIn, zoomBounce } from "../../animation";
-import AccordionItem from "./AccordionItem.JSX";
+import AccordionItem from "./AccordionItem";
 
 const translations = {
   en: {
