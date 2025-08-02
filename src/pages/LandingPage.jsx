@@ -145,7 +145,11 @@ const translations = {
         { question: "¿Puedo exigir una tarifa de limpieza o condiciones adicionales?", answer: "Sí. Puedes establecer tus propias reglas (tarifas de limpieza, restricciones de remolque, multas por mal uso), pero deben divulgarse claramente en tu listado." },
         { question: "¿Cómo puedo mejorar la visibilidad de mi remolque?", answer: "Usa fotos de alta calidad, descripciones detalladas, precios justos y mantén una buena tasa de respuesta. Los propietarios verificados con buenas calificaciones aparecen más arriba en los resultados de búsqueda." },
         { question: "¿Cómo manejo el combustible o la devolución del equipo?", answer: "Puedes especificar en tu listado si el combustible/equipo debe devolverse en las mismas condiciones. Siempre documenta la condición al momento de la recogida y la devolución." },
-        { question: "¿Puedo denunciar a un mal inquilino?", answer: "Sí. Una vez finalizado el alquiler, puedes dejar una reseña e informar cualquier incidente grave al equipo de confianza y seguridad de Lorepa. El abuso repetido puede resultar en la prohibición del inquilino." }
+        { question: "¿Puedo denunciar a un mal inquilino?", answer: "Sí. Una vez finalizado el alquiler, puedes dejar una reseña e informar cualquier incidente grave al equipo de confianza y seguridad de Lorepa. El abuso repetido puede resultar en la prohibición del inquilino." },
+        { question: "¿Cómo me contacto con el soporte al cliente?", answer: "Puedes comunicarte con nuestro equipo de soporte a través de la función de chat en la aplicación o el sitio web, o por correo electrónico a support@lorepa.ca. El tiempo de respuesta es típicamente inferior a 24 horas." },
+        { question: "¿Quién es responsable en caso de accidente o robo?", answer: "Los inquilinos son responsables de cualquier daño o pérdida durante el alquiler. En casos graves, pueden aplicarse informes policiales, reclamaciones de seguros y mediación de la plataforma." }, // Moved from global
+        { question: "¿Lorepa ofrece cobertura de seguro?", answer: "Actualmente, Lorepa no ofrece directamente cobertura de seguro, pero puede requerir prueba de cobertura de terceros. Las opciones de seguro dedicadas pueden agregarse pronto." }, // Moved from global
+        { question: "¿Lorepa está disponible en los EE. UU.?", answer: "Lorepa se centra actualmente en Canadá. El uso transfronterizo solo se permite con el consentimiento del propietario y la documentación adecuada." } // Moved from global
       ]
     }
   },
@@ -207,7 +211,11 @@ const translations = {
         { question: "我可以要求清洁费或额外条件吗？", answer: "是的。您可以设置自己的规则（清洁费、牵引限制、误用罚款），但必须在您的列表中清楚披露。" },
         { question: "如何提高我的拖车可见度？", answer: "使用高质量的照片、详细的描述、公平的定价，并保持良好的响应率。具有良好评分的经过验证的车主会出现在搜索结果中靠前的位置。" },
         { question: "如何处理燃料或设备归还？", answer: "您可以在您的列表中指定燃料/设备是否必须以相同条件归还。始终在取车和归还时记录状况。" },
-        { question: "我可以举报不良租客吗？", answer: "是的。租赁结束后，您可以留下评论并向 Lorepa 的信任与安全团队报告任何严重事件。重复滥用可能会导致租客被禁止。" }
+        { question: "我可以举报不良租客吗？", answer: "是的。租赁结束后，您可以留下评论并向 Lorepa 的信任与安全团队报告任何严重事件。重复滥用可能会导致租客被禁止。" },
+        { question: "如何联系客户支持？", answer: "您可以通过应用程序或网站上的聊天功能，或发送电子邮件至 support@lorepa.ca 联系我们的支持团队。回复时间通常在 24 小时内。" },
+        { question: "发生事故或盗窃时谁负责？", answer: "租客对租赁期间的任何损坏或损失负责。在严重情况下，可能需要提交警方报告、保险索赔和平台调解。" }, // Moved from global
+        { question: "Lorepa 提供保险吗？", answer: "目前，Lorepa 不直接提供保险，但可能要求提供第三方保险证明。专用保险选项可能会很快添加。" }, // Moved from global
+        { question: "Lorepa 在美国可用吗？", answer: "Lorepa 目前专注于加拿大。跨境使用仅在车主同意和提供适当文件的情况下才允许。" } // Moved from global
       ]
     }
   },
@@ -269,7 +277,11 @@ const translations = {
         { question: "Puis-je exiger des frais de nettoyage ou des conditions supplémentaires ?", answer: "Oui. Vous pouvez définir vos propres règles (nettoyage, remorquage, pénalités pour mauvaise utilisation), mais elles doivent être clairement divulguées dans votre annonce." },
         { question: "Comment puis-je améliorer la visibilité de ma remorque ?", answer: "Utilisez des photos de haute qualité, des descriptions détaillées, des prix équitables et maintenez un bon taux de réponse. Les propriétaires vérifiés avec de bonnes évaluations apparaissent plus haut dans les résultats de recherche." },
         { question: "Comment gérer le carburant ou le retour de l'équipement ?", answer: "Vous pouvez spécifier dans votre annonce si le carburant/l'équipement doit être retourné dans le même état. Documentez toujours l'état au moment de la prise en charge et du retour." },
-        { question: "Can I report a bad renter?", answer: "Yes. After the rental ends, you can leave a review and report any serious incident to Lorepa’s trust & safety team. Repeated abuse may result in renter bans." }
+        { question: "Can I report a bad renter?", answer: "Yes. After the rental ends, you can leave a review and report any serious incident to Lorepa’s trust & safety team. Repeated abuse may result in renter bans." },
+        { question: "Comment puis-je contacter le service client ?", answer: "Vous pouvez joindre notre équipe de support via la fonction de chat sur l'application ou le site web, ou par e-mail à support@lorepa.ca. Le temps de réponse est généralement inférieur à 24h." },
+        { question: "Qui est responsable en cas d'accident ou de vol ?", answer: "Les locataires sont responsables de tout dommage ou perte pendant la location. Dans les cas graves, des rapports de police, des réclamations d'assurance et une médiation de la plateforme peuvent s'appliquer." }, // Moved from global
+        { question: "Lorepa offre-t-il une couverture d'assurance ?", answer: "Actuellement, Lorepa n'offre pas directement d'assurance mais peut exiger une preuve de couverture tierce. Des options d'assurance dédiées pourraient être ajoutées prochainement." }, // Moved from global
+        { question: "Lorepa est-il disponible aux États-Unis ?", answer: "Lorepa est actuellement axé sur le Canada. L'utilisation transfrontalière n'est autorisée qu'avec le consentement du propriétaire et les documents appropriés." } // Moved from global
       ]
     }
   }
