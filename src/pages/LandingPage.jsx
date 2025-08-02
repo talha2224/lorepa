@@ -287,7 +287,6 @@ const translations = {
   }
 };
 
-
 const AnimatedText = ({ text, variant, className = "" }) => (
   <motion.h1
     variants={variant}
