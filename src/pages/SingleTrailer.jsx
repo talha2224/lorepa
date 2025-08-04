@@ -704,7 +704,7 @@ const SingleTrailer = () => {
               <h2 className="text-[20px] font-[600] text-[#0A0F18] mb-4">{translations.basicInfo}</h2>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <p className="text-gray-600">{translations.trailerId}</p>
-                <p className="text-gray-800 text-right">{trailer._id}</p>
+                <p className="text-gray-800 text-right truncate">{trailer._id}</p>
 
                 <p className="text-gray-600">{translations.nameOfOwner}</p>
                 <p className="text-gray-800 text-right">{trailer.userId?.name || translations.unknownOwner}</p>
@@ -864,15 +864,15 @@ const SingleTrailer = () => {
         </motion.div>
 
         <motion.div
-          className="mt-8 flex justify-end space-x-4 flex-wrap"
+          className="mt-6 flex justify-end sm:space-x-4 flex-wrap"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
         >
-          <button onClick={handleDownloadAppClick} className=" text-nowrap mt-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200">
+          <button onClick={handleDownloadAppClick} className="sm:w-fit w-[100%] text-nowrap mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200">
             {translations.chatWithOwner}
           </button>
-          <button onClick={() => nav('/login')} className=" text-nowrap mt-1 bg-[#2563EB] hover:bg-blue-700 text-white py-3 px-6 rounded-md shadow-lg transition duration-200" >
+          <button onClick={() => nav('/login')} className="sm:w-fit w-[100%] text-nowrap mt-2 bg-[#2563EB] hover:bg-blue-700 text-white py-3 px-6 rounded-md shadow-lg transition duration-200" >
             {translations.signupsignin}
           </button>
         </motion.div>
