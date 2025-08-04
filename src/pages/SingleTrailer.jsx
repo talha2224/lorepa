@@ -132,11 +132,11 @@ const singleTrailerTranslations = {
     faqGlobal2A: "Currently, Lorepa does not directly offer insurance but may require proof of third-party coverage. Dedicated insurance options may be added soon.",
     faqGlobal3Q: "Is Lorepa available in the USA?",
     faqGlobal3A: "Lorepa is currently focused on Canada. Cross-border use is only allowed with owner consent and proper documentation.",
-    chatWithOwner: "Chat with owner",
+    chatWithOwner: "Download the app to chat",
   },
   es: {
     signupsignin: "Iniciar sesión / Registrarse",
-    chatWithOwner: "Chatear con el propietario",
+    chatWithOwner: "Descarga la aplicación para chatear",
     loading: "Cargando detalles del remolque...",
     trailerNotFound: "Remolque no encontrado.",
     failedToFetch: "Error al obtener los detalles del remolque",
@@ -251,7 +251,7 @@ const singleTrailerTranslations = {
   },
   cn: {
     "signupsignin": "登录 / 注册",
-    chatWithOwner: "与车主聊天",
+    chatWithOwner: "下载应用以聊天",
     loading: "正在加载拖车详情...",
     trailerNotFound: "未找到拖车。",
     failedToFetch: "获取拖车详情失败",
@@ -366,7 +366,7 @@ const singleTrailerTranslations = {
   },
   fr: {
     "signupsignin": "Se connecter / S'inscrire",
-    chatWithOwner: "Discuter avec le propriétaire",
+    chatWithOwner: "Téléchargez l'application pour discuter",
     loading: "Chargement des détails de la remorque...",
     trailerNotFound: "Remorque introuvable.",
     failedToFetch: "Échec du chargement des détails de la remorque",
