@@ -864,21 +864,15 @@ const SingleTrailer = () => {
         </motion.div>
 
         <motion.div
-          className="mt-8 flex justify-end space-x-4"
+          className="mt-8 flex justify-end space-x-4 flex-wrap"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
         >
-          <button
-            onClick={handleDownloadAppClick}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200"
-          >
+          <button onClick={handleDownloadAppClick} className=" text-nowrap mt-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200">
             {translations.chatWithOwner}
           </button>
-          <button
-            onClick={() => nav('/login')}
-            className="bg-[#2563EB] hover:bg-blue-700 text-white py-3 px-6 rounded-md shadow-lg transition duration-200"
-          >
+          <button onClick={() => nav('/login')} className=" text-nowrap mt-1 bg-[#2563EB] hover:bg-blue-700 text-white py-3 px-6 rounded-md shadow-lg transition duration-200" >
             {translations.signupsignin}
           </button>
         </motion.div>
