@@ -17,13 +17,10 @@ const fadeVariant = {
   }),
 };
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
-};
 
 const singleTrailerTranslations = {
   en: {
+    signupsignin: "Sign in / Sign up",
     loading: "Loading trailer details...",
     trailerNotFound: "Trailer not found.",
     failedToFetch: "Failed to fetch trailer details",
@@ -135,8 +132,11 @@ const singleTrailerTranslations = {
     faqGlobal2A: "Currently, Lorepa does not directly offer insurance but may require proof of third-party coverage. Dedicated insurance options may be added soon.",
     faqGlobal3Q: "Is Lorepa available in the USA?",
     faqGlobal3A: "Lorepa is currently focused on Canada. Cross-border use is only allowed with owner consent and proper documentation.",
+    chatWithOwner: "Chat with owner",
   },
   es: {
+    signupsignin: "Iniciar sesión / Registrarse",
+    chatWithOwner: "Chatear con el propietario",
     loading: "Cargando detalles del remolque...",
     trailerNotFound: "Remolque no encontrado.",
     failedToFetch: "Error al obtener los detalles del remolque",
@@ -250,6 +250,8 @@ const singleTrailerTranslations = {
     faqGlobal3A: "Lorepa se centra actualmente en Canadá. El uso transfronterizo solo está permitido con el consentimiento del propietario y la documentación adecuada.",
   },
   cn: {
+    "signupsignin": "登录 / 注册",
+    chatWithOwner: "与车主聊天",
     loading: "正在加载拖车详情...",
     trailerNotFound: "未找到拖车。",
     failedToFetch: "获取拖车详情失败",
@@ -363,6 +365,8 @@ const singleTrailerTranslations = {
     faqGlobal3A: "Lorepa目前专注于加拿大。跨境使用仅在车主同意并提供适当文件的情况下才允许。",
   },
   fr: {
+    "signupsignin": "Se connecter / S'inscrire",
+    chatWithOwner: "Discuter avec le propriétaire",
     loading: "Chargement des détails de la remorque...",
     trailerNotFound: "Remorque introuvable.",
     failedToFetch: "Échec du chargement des détails de la remorque",
@@ -869,38 +873,17 @@ const SingleTrailer = () => {
             onClick={handleDownloadAppClick}
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-6 rounded-md shadow-lg transition duration-200"
           >
-            {translations.downloadApp}
+            {translations.chatWithOwner}
           </button>
           <button
-            onClick={() => nav('/checkout')}
+            onClick={() => nav('/login')}
             className="bg-[#2563EB] hover:bg-blue-700 text-white py-3 px-6 rounded-md shadow-lg transition duration-200"
           >
-            {translations.rentThisTrailer}
+            {translations.signupsignin}
           </button>
         </motion.div>
 
         {/* FAQ Section */}
-        {/* <div className="mt-12 bg-gray-50 p-6 rounded-lg shadow-inner">
-
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">{translations.faqTitle}</h2>
-
-          <div className='flex flex-wrap justify-between gap-x-5 mt-8'>
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-700 mb-4">{translations.guests}</h3>
-            {faqGuest.map((faq, index) => (
-              <AccordionItem key={`guest-faq-${index}`} question={faq.question} answer={faq.answer} />
-            ))}
-          </div>
-
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-700 mb-4">{translations.hosts}</h3>
-            {faqHost.map((faq, index) => (
-              <AccordionItem key={`host-faq-${index}`} question={faq.question} answer={faq.answer} />
-            ))}
-          </div>
-
-          </div>
-        </div> */}
 
         <div className="px-5 py-5 text-black">
 
