@@ -7,7 +7,7 @@ import config from '../../config';
 import toast from 'react-hot-toast';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { LoginSocialFacebook } from 'reactjs-social-login';
 import { FaFacebookF } from 'react-icons/fa';
 
 const fadeInUp = {
@@ -29,11 +29,13 @@ const RegisterPage = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    const googleEmail = localStorage.getItem("googleEmail");
-    const googlePassword = localStorage.getItem("googlePassword");
-    if (googleEmail && googlePassword) {
-      setEmail(googleEmail);
-      setPassword(googlePassword);
+    const savedEmail = localStorage.getItem("socialEmail");
+    const savedPass = localStorage.getItem("socialPassword");
+    const savedName = localStorage.getItem("socialName");
+    if (savedEmail && savedPass) {
+      setEmail(savedEmail);
+      setPassword(savedPass);
+      if (savedName) setName(savedName);
     }
   }, []);
 
@@ -42,8 +44,9 @@ const RegisterPage = () => {
     try {
       const res = await axios.post(`${config.baseUrl}/account/register`, { name, phone, email, password, role });
       if (res.data?.status === 200) {
-        localStorage.removeItem("googleEmail");
-        localStorage.removeItem("googlePassword");
+        localStorage.removeItem("socialEmail");
+        localStorage.removeItem("socialPassword");
+        localStorage.removeItem("socialName");
         localStorage.setItem('userId', res.data.data._id);
         toast.success("Account created successfully!");
         setTimeout(() => nav("/"), 2000);
@@ -58,8 +61,9 @@ const RegisterPage = () => {
   const handleGoogleSignup = (credentialResponse) => {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
-      localStorage.setItem("googleEmail", decoded.email);
-      localStorage.setItem("googlePassword", decoded.sub);
+      localStorage.setItem("socialEmail", decoded.email);
+      localStorage.setItem("socialPassword", decoded.sub);
+      localStorage.setItem("socialName", decoded?.name || '');
       setEmail(decoded.email);
       setPassword(decoded.sub);
       setName(decoded?.name || '');
@@ -69,16 +73,17 @@ const RegisterPage = () => {
     }
   };
 
-  const handleFacebookSignup = (response) => {
-    if (!response.email) {
+  const handleFacebookSignup = ({ data }) => {
+    if (!data.email) {
       toast.error("Facebook signup failed");
       return;
     }
-    localStorage.setItem("googleEmail", response.email);
-    localStorage.setItem("googlePassword", response.id);
-    setEmail(response.email);
-    setPassword(response.id);
-    setName(response.name || '');
+    localStorage.setItem("socialEmail", data.email);
+    localStorage.setItem("socialPassword", data.id);
+    localStorage.setItem("socialName", data.name || '');
+    setEmail(data.email);
+    setPassword(data.id);
+    setName(data.name || '');
     toast.success("Facebook account selected. Please fill the remaining details.");
   };
 
@@ -95,17 +100,16 @@ const RegisterPage = () => {
 
         <div className="flex flex-col gap-3 mb-6">
           <GoogleLogin onSuccess={handleGoogleSignup} onError={() => toast.error("Google signup failed")} />
-          <FacebookLogin
+          <LoginSocialFacebook
             appId="1463083271394413"
-            autoLoad={false}
             fields="name,email,picture"
-            callback={handleFacebookSignup}
-            render={renderProps => (
-              <button onClick={renderProps.onClick} className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
-                <FaFacebookF /> Continue with Facebook
-              </button>
-            )}
-          />
+            onResolve={handleFacebookSignup}
+            onReject={() => toast.error("Facebook signup failed")}
+          >
+            <button className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
+              <FaFacebookF /> Continue with Facebook
+            </button>
+          </LoginSocialFacebook>
         </div>
 
         <motion.form onSubmit={handleRegister} className='space-y-6' variants={stagger}>
@@ -121,12 +125,12 @@ const RegisterPage = () => {
           </motion.div>
           <motion.div variants={fadeInUp}>
             <label className='block text-sm mb-1'>Email</label>
-            <input type='email' required value={email} disabled={!!localStorage.getItem("googleEmail")}
+            <input type='email' required value={email} disabled={!!localStorage.getItem("socialEmail")}
               onChange={(e) => setEmail(e.target.value)} className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
           </motion.div>
           <motion.div variants={fadeInUp}>
             <label className='block text-sm mb-1'>Password</label>
-            <input type='password' required value={password} disabled={!!localStorage.getItem("googlePassword")}
+            <input type='password' required value={password} disabled={!!localStorage.getItem("socialPassword")}
               onChange={(e) => setPassword(e.target.value)} className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
           </motion.div>
           <motion.div variants={fadeInUp}>

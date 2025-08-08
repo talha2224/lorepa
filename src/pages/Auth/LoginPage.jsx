@@ -9,7 +9,7 @@ import config from '../../config';
 import toast from 'react-hot-toast';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { LoginSocialFacebook } from 'reactjs-social-login';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -54,38 +54,31 @@ const LoginPage = () => {
     }
   };
 
-  // Google login
   const handleGoogleAuth = async (credentialResponse) => {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
       const googleEmail = decoded.email;
       const googlePassword = decoded.sub;
-
       try {
         const res = await axios.post(`${config.baseUrl}/account/login`, { email: googleEmail, password: googlePassword });
         localStorage.setItem('userId', res.data.data._id);
         toast.success("Login Successful");
         nav("/");
       } catch {
-        toast.error(res.data?.msg || "Login failed");
+        toast.error("Login failed");
       }
     } catch {
       toast.error("Google Authentication Failed");
     }
   };
 
-  // Facebook login
-  const handleFacebookAuth = async (response) => {
-    if (!response.email) {
+  const handleFacebookAuth = async ({ data }) => {
+    if (!data.email) {
       toast.error("Facebook login failed");
       return;
     }
-
-    console.log(response, 'response')
-
-    const fbEmail = response.email;
-    const fbPassword = response.id; // use Facebook user ID as unique password
-
+    const fbEmail = data.email;
+    const fbPassword = data.id;
     try {
       const res = await axios.post(`${config.baseUrl}/account/login`, { email: fbEmail, password: fbPassword });
       localStorage.setItem('userId', res.data.data._id);
@@ -98,12 +91,7 @@ const LoginPage = () => {
 
   return (
     <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative'>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className='lg:absolute top-8 left-8'
-      >
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className='lg:absolute top-8 left-8'>
         <Link to={"/"}><img src={Logo} alt="logo" className='h-[8rem]' /></Link>
       </motion.div>
 
@@ -114,13 +102,11 @@ const LoginPage = () => {
         <motion.form onSubmit={handleLogin} className='space-y-6' variants={stagger}>
           <motion.div variants={fadeInUp}>
             <label className='block text-sm mb-1'>Email</label>
-            <input type='text' required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email Address'
-              className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
+            <input type='text' required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email Address' className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
           </motion.div>
           <motion.div variants={fadeInUp}>
             <label className='block text-sm mb-1'>Password</label>
-            <input type='password' required value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password'
-              className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
+            <input type='password' required value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' className='block w-full px-4 py-2 border border-gray-300 rounded-md' />
           </motion.div>
           <motion.div variants={fadeInUp}>
             <button type='submit' className='w-full py-2 px-4 text-white bg-blue-600 rounded-md'>Login</button>
@@ -134,17 +120,16 @@ const LoginPage = () => {
 
         <div className="flex flex-col gap-3">
           <GoogleLogin onSuccess={handleGoogleAuth} onError={() => toast.error("Google Login Failed")} />
-          <FacebookLogin
+          <LoginSocialFacebook
             appId="1463083271394413"
-            autoLoad={false}
             fields="name,email,picture"
-            callback={handleFacebookAuth}
-            render={renderProps => (
-              <button onClick={renderProps.onClick} className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
-                <FaFacebookF /> Continue with Facebook
-              </button>
-            )}
-          />
+            onResolve={handleFacebookAuth}
+            onReject={() => toast.error("Facebook login failed")}
+          >
+            <button className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
+              <FaFacebookF /> Continue with Facebook
+            </button>
+          </LoginSocialFacebook>
         </div>
 
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>
