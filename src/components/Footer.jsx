@@ -18,7 +18,7 @@ const footerTranslations = {
         quebecCity: "Quebec city",
         gatineau: "Gatineau",
         sherbrooke: "Sherbrooke",
-        levis: "Levis",
+        levis: "Lévis",
         support: "Support",
         helpCenter: "Help center",
         contactUs: "Contact us",
@@ -169,7 +169,7 @@ const Footer = () => {
                         <li><Link to={`/trailers?city=Quebec`} className="hover:underline">{translations.quebecCity}</Link></li>
                         <li><Link to={`/trailers?city=Gatineau`} className="hover:underline">{translations.gatineau}</Link></li>
                         <li><Link to={`/trailers?city=Sherbrooke`} className="hover:underline">{translations.sherbrooke}</Link></li>
-                        <li><Link to={`/trailers?city=Levis`} className="hover:underline">{translations.levis}</Link></li>
+                        <li><Link to={`/trailers?city=Lévis`} className="hover:underline">{translations.levis}</Link></li>
                     </ul>
                 </div>
 

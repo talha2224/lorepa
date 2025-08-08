@@ -6,8 +6,7 @@ import Navbar2 from '../components/Navbar2';
 import axios from 'axios';
 import config from '../config';
 import toast from 'react-hot-toast';
-import MapImage from '../assets/map.png'; // Make sure this path is correct
-const GOOGLE_API_KEY = 'AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI'
+const GOOGLE_API_KEY = 'AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI';
 
 // Animation variants
 const cardVariants = {
@@ -41,6 +40,13 @@ const trailersListingTranslations = {
     popular: "Popular",
     perDay: "/Day",
     noImage: "No Image",
+    lowToHigh: "Low to High",
+    highToLow: "High to Low",
+    travelTrailer: "Travel Trailer",
+    toyHauler: "Toy Hauler",
+    mostRecent: "Most Recent",
+    unknownOwner: "Unknown Owner",
+    failedToFetch: "Failed to fetch trailers",
     heroTitle: "Whether You Need a Trailer or Have One to Share",
     rentTrailerTitle: "Rent a Trailer",
     rentTrailerDescription: "Find the perfect trailer for your needs, wherever you are in Quebec. Browse, book, and go!",
@@ -56,6 +62,13 @@ const trailersListingTranslations = {
     popular: "Popular",
     perDay: "/Día",
     noImage: "Sin imagen",
+    lowToHigh: "De menor a mayor",
+    highToLow: "De mayor a menor",
+    travelTrailer: "Caravana",
+    toyHauler: "Remolque de juguetes",
+    mostRecent: "Más reciente",
+    unknownOwner: "Propietario desconocido",
+    failedToFetch: "Error al obtener remolques",
     heroTitle: "¿Necesitas un remolque o tienes uno para compartir?",
     rentTrailerTitle: "Alquilar un remolque",
     rentTrailerDescription: "Encuentra el remolque perfecto para tus necesidades, estés donde estés en Quebec. ¡Busca, reserva y listo!",
@@ -71,6 +84,13 @@ const trailersListingTranslations = {
     popular: "热门",
     perDay: "/天",
     noImage: "无图片",
+    lowToHigh: "从低到高",
+    highToLow: "从高到低",
+    travelTrailer: "旅行拖车",
+    toyHauler: "玩具运输车",
+    mostRecent: "最新",
+    unknownOwner: "未知拥有者",
+    failedToFetch: "获取拖车失败",
     heroTitle: "无论您需要拖车还是有拖车可分享",
     rentTrailerTitle: "租一辆拖车",
     rentTrailerDescription: "在魁北克无论您身在何处，都能找到满足您需求的完美拖车。浏览、预订，然后出发！",
@@ -86,6 +106,13 @@ const trailersListingTranslations = {
     popular: "Populaire",
     perDay: "/Jour",
     noImage: "Pas d'image",
+    lowToHigh: "Du plus bas au plus élevé",
+    highToLow: "Du plus élevé au plus bas",
+    travelTrailer: "Caravane",
+    toyHauler: "Remorque pour jouets",
+    mostRecent: "Plus récent",
+    unknownOwner: "Propriétaire inconnu",
+    failedToFetch: "Échec du chargement des remorques",
     heroTitle: "Que vous ayez besoin d'une remorque ou que vous en ayez une à partager",
     rentTrailerTitle: "Louer une remorque",
     rentTrailerDescription: "Trouvez la remorque parfaite pour vos besoins, où que vous soyez au Québec. Parcourez, réservez et partez !",
@@ -104,6 +131,11 @@ const TrailersListing = () => {
   const nav = useNavigate();
   const query = useQuery();
   const cityFromQuery = query.get('city')?.toLowerCase() || '';
+  const [priceFilter, setPriceFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+  const [keyword, setKeyword] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [filteredTrailers, setFilteredTrailers] = useState([]);
 
   const [trailers, setTrailers] = useState([]);
   const [translations, setTranslations] = useState(() => {
@@ -133,6 +165,33 @@ const TrailersListing = () => {
     fetchTrailers(cityFromQuery);
   }, [cityFromQuery]);
 
+  useEffect(() => {
+    let filtered = [...trailers];
+
+    if (priceFilter === 'lowToHigh') {
+      filtered.sort((a, b) => parseFloat(a.dailyRate) - parseFloat(b.dailyRate));
+    } else if (priceFilter === 'highToLow') {
+      filtered.sort((a, b) => parseFloat(b.dailyRate) - parseFloat(a.dailyRate));
+    }
+
+    if (typeFilter) {
+      filtered = filtered.filter(t => t.category?.toLowerCase() === typeFilter.toLowerCase());
+    }
+
+    if (keyword.trim()) {
+      filtered = filtered.filter(t =>
+        t.title?.toLowerCase().includes(keyword.toLowerCase()) ||
+        t.description?.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+
+    if (sortBy === 'popular') {
+      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    setFilteredTrailers(filtered);
+  }, [priceFilter, typeFilter, keyword, sortBy, trailers]);
+
   const fetchTrailers = async (cityFilter) => {
     try {
       const res = await axios.get(`${config.baseUrl}/trailer/all`);
@@ -152,7 +211,7 @@ const TrailersListing = () => {
       setTrailers(allTrailers);
     } catch (err) {
       console.error(err);
-      toast.error("Failed to fetch trailers");
+      toast.error(translations.failedToFetch);
     }
   };
 
@@ -162,19 +221,29 @@ const TrailersListing = () => {
 
       <main className="flex-1 p-6 md:p-8 lg:p-10">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left Section - Trailer Listings */}
+          {/* Left Section */}
           <div className="lg:w-2/3">
             <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
               <div className="flex flex-wrap gap-4">
-                <select className={selectStyle}>
-                  <option>{translations.price}</option>
+                <select className={selectStyle} onChange={(e) => setPriceFilter(e.target.value)}>
+                  <option value="">{translations.price}</option>
+                  <option value="lowToHigh">{translations.lowToHigh}</option>
+                  <option value="highToLow">{translations.highToLow}</option>
                 </select>
-                <select className={selectStyle}>
-                  <option>{translations.type}</option>
+
+                <select className={selectStyle} onChange={(e) => setTypeFilter(e.target.value)}>
+                  <option value="">{translations.type}</option>
+                  <option value="Travel Trailer">{translations.travelTrailer}</option>
+                  <option value="Toy Hauler">{translations.toyHauler}</option>
                 </select>
-                <select className={selectStyle}>
-                  <option>{translations.keywordSearch}</option>
-                </select>
+
+                <input
+                  type="text"
+                  placeholder={translations.keywordSearch}
+                  className={selectStyle}
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
               </div>
             </div>
 
@@ -182,13 +251,14 @@ const TrailersListing = () => {
               <h2 className="text-xl font-semibold text-gray-700">
                 {trailers.length} {translations.trailersAvailable}
               </h2>
-              <select className={selectStyle}>
-                <option>{translations.popular}</option>
+              <select className={selectStyle} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="">{translations.popular}</option>
+                <option value="popular">{translations.mostRecent}</option>
               </select>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {trailers.map((trailer, i) => (
+              {filteredTrailers.map((trailer, i) => (
                 <motion.div
                   key={trailer._id}
                   custom={i}
@@ -208,7 +278,7 @@ const TrailersListing = () => {
                       {trailer.title}
                     </h3>
                     <p className="text-gray-600 text-sm mb-1">
-                      {trailer.userId?.email || 'Unknown Owner'}
+                      {trailer.userId?.email || translations.unknownOwner}
                     </p>
                     <p className="text-gray-500 text-xs mb-2">
                       {trailer.city}, {trailer.state}
@@ -224,7 +294,6 @@ const TrailersListing = () => {
 
           {/* Right Section - Map */}
           <div className="lg:w-1/3 flex-shrink-0 h-[80vh]">
-            {/* <img src={MapImage} alt="Map" className="w-full h-auto object-cover rounded-lg shadow-md" /> */}
             <iframe
               title="Map"
               width="100%"
@@ -234,7 +303,6 @@ const TrailersListing = () => {
               src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=${encodeURIComponent(cityFromQuery || 'Quebec')}`}
               allowFullScreen
             ></iframe>
-
           </div>
         </div>
       </main>

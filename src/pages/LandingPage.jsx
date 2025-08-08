@@ -43,7 +43,7 @@ const translations = {
     dynamicCommunity: "whatever the occasion, with a dynamic community of trusted hosts.",
     thankYou: "You are one of 1000 + people who trust us completely, Thank you!",
     popularLocations: "Popular Locations",
-    carHauler: "Car Hauler Trailer",
+    carHauler: "Browse Trailers",
     faq: "Frequently asked questions",
     seeAllFaq: "See all FAQ",
     guests: "Guests",
@@ -339,16 +339,32 @@ const LandingPage = () => {
             </div>
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.from}</h1>
-              <div className="flex justify-between items-center gap-x-1">
-                <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1" />
+              <div className="flex justify-between items-center gap-x-3">
+                <input
+                  type="date"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
+                />
+                <input
+                  type="time"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
+                />
               </div>
             </div>
+
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.until}</h1>
-              <div className="flex justify-between items-center gap-x-1">
-                <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1" />
+              <div className="flex justify-between items-center gap-x-3">
+                <input
+                  type="date"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
+                />
+                <input
+                  type="time"
+                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
+                />
               </div>
             </div>
+
             <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
               <Link to={`/trailers?city=${location}`} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
                 <FaSearch />
