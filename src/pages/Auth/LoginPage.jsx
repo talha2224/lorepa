@@ -71,10 +71,12 @@ const LoginPage = () => {
 
       // Try to login first
       try {
-        await axios.post(`${config.baseUrl}/account/login`, {
+        const res = await axios.post(`${config.baseUrl}/account/login`, {
           email: googleEmail,
           password: googlePassword
         });
+        const userId = res.data.data._id;
+        localStorage.setItem('userId', userId);
         toast.success("Login Successful");
         nav("/");
       } catch (err) {
