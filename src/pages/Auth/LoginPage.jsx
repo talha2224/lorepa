@@ -7,8 +7,9 @@ import Logo from "../../assets/logo.svg";
 import axios from 'axios';
 import config from '../../config';
 import toast from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
-// Animation Variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -33,9 +34,8 @@ const LoginPage = () => {
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const nav = useNavigate();
 
-
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     try {
       const res = await axios.post(`${config.baseUrl}/account/login`, {
         email,
@@ -47,10 +47,10 @@ const LoginPage = () => {
         localStorage.setItem('userId', userId);
         toast.success("Login Successful");
         setTimeout(() => {
-          if(localStorage.getItem("naviagte")){
+          if (localStorage.getItem("naviagte")) {
             nav(localStorage.getItem("naviagte"));
           }
-          else{
+          else {
             nav("/")
           }
         }, 2000);
@@ -58,13 +58,35 @@ const LoginPage = () => {
         toast.error(res.data?.msg || "Login failed");
       }
     } catch (err) {
-      toast.error(err.response.data.msg);
+      toast.error(err.response?.data?.msg || "Login failed");
+    }
+  };
+
+  // Handle Google login
+  const handleGoogleAuth = async (credentialResponse) => {
+    try {
+      let credentialDecode = jwtDecode(credentialResponse.credential);
+      const googleEmail = credentialDecode.email;
+      const googlePassword = credentialDecode.sub; // using sub as unique ID
+
+      // Try to login first
+      try {
+        await axios.post(`${config.baseUrl}/account/login`, {
+          email: googleEmail,
+          password: googlePassword
+        });
+        toast.success("Login Successful");
+        nav("/");
+      } catch (err) {
+        toast.error(err.response?.data?.msg || "Login failed");
+      }
+    } catch (err) {
+      toast.error("Google Authentication Failed");
     }
   };
 
   return (
     <div className='min-h-screen bg-white flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative'>
-      {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,20 +98,16 @@ const LoginPage = () => {
         </Link>
       </motion.div>
 
-      {/* Login Form Container */}
       <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
         className='p-6 sm:p-8 md:p-10 w-full max-w-md'
       >
-        {/* Titles */}
         <motion.h2 variants={fadeInUp} className='text-xl text-black mb-2'>Login Or Signup</motion.h2>
         <motion.p variants={fadeInUp} className='text-sm mb-8'>Welcome to Lorepa</motion.p>
 
-        {/* Form */}
         <motion.form onSubmit={handleLogin} className='space-y-6' variants={stagger} initial="hidden" animate="visible">
-          {/* Phone Input */}
           <motion.div variants={fadeInUp}>
             <label htmlFor='email' className='block text-sm text-gray-700 mb-1'>Email</label>
             <input
@@ -99,7 +117,7 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder='Email Address'
-              className='appearance-none block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+              className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm'
             />
           </motion.div>
           <motion.div variants={fadeInUp}>
@@ -111,41 +129,20 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder='Password'
-              className='appearance-none block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+              className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm'
             />
           </motion.div>
 
-          {/* Remember Me */}
-          <motion.div variants={fadeInUp} className='flex items-center justify-between'>
-            <div className='flex items-center'>
-              <input
-                id='remember-me'
-                type='checkbox'
-                checked={keepSignedIn}
-                onChange={(e) => setKeepSignedIn(e.target.checked)}
-                className='h-4 w-4 text-blue-600 border-gray-300 rounded'
-              />
-              <label htmlFor='remember-me' className='ml-2 text-sm text-gray-900'>
-                Keep me signed in
-              </label>
-            </div>
-            <Link to={"/admin/forget"} className='text-sm text-blue-600 hover:text-blue-500'>
-              Forgot password?
-            </Link>
-          </motion.div>
-
-          {/* Login Button */}
           <motion.div variants={fadeInUp}>
             <button
               type='submit'
-              className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              className='w-full py-2 px-4 text-white bg-blue-600 rounded-md'
             >
               Login
             </button>
           </motion.div>
         </motion.form>
 
-        {/* OR separator */}
         <motion.div variants={fadeInUp} className='relative mt-6 mb-6'>
           <div className='absolute inset-0 flex items-center'>
             <div className='w-full border-t border-gray-300' />
@@ -155,26 +152,11 @@ const LoginPage = () => {
           </div>
         </motion.div>
 
-        {/* Social Buttons */}
-        <motion.div
-          className='flex justify-center space-x-4'
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-        >
-          {[IoMailOutline, FaGoogle, FaFacebookF].map((Icon, idx) => (
-            <motion.button
-              key={idx}
-              type='button'
-              variants={fadeInUp}
-              className='p-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-500 hover:bg-gray-50'
-            >
-              <Icon className='h-5 w-5' />
-            </motion.button>
-          ))}
-        </motion.div>
+        <GoogleLogin
+          onSuccess={handleGoogleAuth}
+          onError={() => toast.error("Google Login Failed")}
+        />
 
-        {/* Sign Up Link */}
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>
           <p>
             Don't have an account?{' '}

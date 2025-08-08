@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import Logo from "../../assets/logo.svg";
 import axios from 'axios';
 import config from '../../config';
 import toast from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -30,8 +32,16 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('renter');
-  const [keepSignedIn, setKeepSignedIn] = useState(false);
   const nav = useNavigate();
+
+  useEffect(() => {
+    const googleEmail = localStorage.getItem("googleEmail");
+    const googlePassword = localStorage.getItem("googlePassword");
+    if (googleEmail && googlePassword) {
+      setEmail(googleEmail);
+      setPassword(googlePassword);
+    }
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -45,17 +55,38 @@ const RegisterPage = () => {
       });
 
       if (res.data?.status === 200) {
+        localStorage.removeItem("googleEmail");
+        localStorage.removeItem("googlePassword");
         const userId = res.data.data._id;
         localStorage.setItem('userId', userId);
         toast.success("Account created successfully!");
-        setTimeout(() => {
-          nav("/");
-        }, 2000);
+        setTimeout(() => nav("/"), 2000);
       } else {
         toast.error(res.data?.msg || "Registration failed");
       }
     } catch (err) {
       toast.error(err.response?.data?.msg || "Something went wrong");
+    }
+  };
+
+  // Handle Google signup selection
+  const handleGoogleSignup = (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+      console.log(decoded,'decoded')
+      const googleEmail = decoded.email;
+      const googlePassword = decoded.sub; // unique Google ID
+
+      localStorage.setItem("googleEmail", googleEmail);
+      localStorage.setItem("googlePassword", googlePassword);
+
+      setEmail(googleEmail);
+      setPassword(googlePassword);
+      setName(decoded?.name)
+
+      toast.success("Google account selected. Please fill the remaining details.");
+    } catch (err) {
+      toast.error("Google signup failed");
     }
   };
 
@@ -81,7 +112,18 @@ const RegisterPage = () => {
         <motion.h2 variants={fadeInUp} className='text-xl text-black mb-2'>Register</motion.h2>
         <motion.p variants={fadeInUp} className='text-sm mb-8'>Welcome to Lorepa</motion.p>
 
-        <motion.form onSubmit={handleRegister} className='space-y-6' variants={stagger} initial="hidden" animate="visible">
+        <GoogleLogin
+          onSuccess={handleGoogleSignup}
+          onError={() => toast.error("Google signup failed")}
+        />
+
+        <motion.form
+          onSubmit={handleRegister}
+          className='space-y-6 mt-6'
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.div variants={fadeInUp}>
             <label className='block text-sm text-gray-700 mb-1'>Full Name</label>
             <input
@@ -112,8 +154,8 @@ const RegisterPage = () => {
               type='email'
               required
               value={email}
+              disabled={!!localStorage.getItem("googleEmail")}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder='Email Address'
               className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm'
             />
           </motion.div>
@@ -124,8 +166,8 @@ const RegisterPage = () => {
               type='password'
               required
               value={password}
+              disabled={!!localStorage.getItem("googlePassword")}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder='Password'
               className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm'
             />
           </motion.div>
@@ -142,7 +184,6 @@ const RegisterPage = () => {
               <option value='owner'>Owner</option>
             </select>
           </motion.div>
-
 
           <motion.div variants={fadeInUp}>
             <button type='submit' className='w-full py-2 px-4 text-white bg-blue-600 rounded-md'>
