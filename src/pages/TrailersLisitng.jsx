@@ -6,20 +6,18 @@ import Navbar2 from '../components/Navbar2';
 import axios from 'axios';
 import config from '../config';
 import toast from 'react-hot-toast';
-const GOOGLE_API_KEY = 'AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI';
+import { trailersListingTranslations } from '../translations/trailerListing';
+import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 
-// Animation variants
+const GOOGLE_API_KEY = config.GOOGLE_API_KEY;
+
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.9, y: 30 },
   visible: (i) => ({
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.5,
-      type: 'spring',
-    },
+    transition: { delay: i * 0.1, duration: 0.5, type: 'spring' },
   }),
 };
 
@@ -29,118 +27,47 @@ const fadeInUp = {
 };
 
 const selectStyle = "bg-[#F1F1F1] p-2 rounded-md";
+const containerStyle = { width: "100%", height: "100%" };
 
-// Translations
-const trailersListingTranslations = {
-  en: {
-    price: "Price",
-    type: "Type",
-    keywordSearch: "Keyword search",
-    trailersAvailable: "trailers available",
-    popular: "Popular",
-    perDay: "/Day",
-    noImage: "No Image",
-    lowToHigh: "Low to High",
-    highToLow: "High to Low",
-    travelTrailer: "Travel Trailer",
-    toyHauler: "Toy Hauler",
-    mostRecent: "Most Recent",
-    unknownOwner: "Unknown Owner",
-    failedToFetch: "Failed to fetch trailers",
-    heroTitle: "Whether You Need a Trailer or Have One to Share",
-    rentTrailerTitle: "Rent a Trailer",
-    rentTrailerDescription: "Find the perfect trailer for your needs, wherever you are in Quebec. Browse, book, and go!",
-    rentTrailerButton: "Rent a trailer",
-    becomeHostTitle: "Become a host",
-    becomeHostDescription: "List your trailer and start earning by helping others move, travel, and explore. It's easy and secure"
-  },
-  es: {
-    price: "Precio",
-    type: "Tipo",
-    keywordSearch: "Búsqueda por palabra clave",
-    trailersAvailable: "remolques disponibles",
-    popular: "Popular",
-    perDay: "/Día",
-    noImage: "Sin imagen",
-    lowToHigh: "De menor a mayor",
-    highToLow: "De mayor a menor",
-    travelTrailer: "Caravana",
-    toyHauler: "Remolque de juguetes",
-    mostRecent: "Más reciente",
-    unknownOwner: "Propietario desconocido",
-    failedToFetch: "Error al obtener remolques",
-    heroTitle: "¿Necesitas un remolque o tienes uno para compartir?",
-    rentTrailerTitle: "Alquilar un remolque",
-    rentTrailerDescription: "Encuentra el remolque perfecto para tus necesidades, estés donde estés en Quebec. ¡Busca, reserva y listo!",
-    rentTrailerButton: "Alquilar un remolque",
-    becomeHostTitle: "Conviértete en anfitrión",
-    becomeHostDescription: "Publica tu remolque y comienza a ganar ayudando a otros a moverse, viajar y explorar. Es fácil y seguro."
-  },
-  cn: {
-    price: "价格",
-    type: "类型",
-    keywordSearch: "关键词搜索",
-    trailersAvailable: "辆拖车可用",
-    popular: "热门",
-    perDay: "/天",
-    noImage: "无图片",
-    lowToHigh: "从低到高",
-    highToLow: "从高到低",
-    travelTrailer: "旅行拖车",
-    toyHauler: "玩具运输车",
-    mostRecent: "最新",
-    unknownOwner: "未知拥有者",
-    failedToFetch: "获取拖车失败",
-    heroTitle: "无论您需要拖车还是有拖车可分享",
-    rentTrailerTitle: "租一辆拖车",
-    rentTrailerDescription: "在魁北克无论您身在何处，都能找到满足您需求的完美拖车。浏览、预订，然后出发！",
-    rentTrailerButton: "租一辆拖车",
-    becomeHostTitle: "成为房东",
-    becomeHostDescription: "列出您的拖车，通过帮助他人搬家、旅行和探索来开始赚钱。这既简单又安全。"
-  },
-  fr: {
-    price: "Prix",
-    type: "Type",
-    keywordSearch: "Recherche par mot-clé",
-    trailersAvailable: "remorques disponibles",
-    popular: "Populaire",
-    perDay: "/Jour",
-    noImage: "Pas d'image",
-    lowToHigh: "Du plus bas au plus élevé",
-    highToLow: "Du plus élevé au plus bas",
-    travelTrailer: "Caravane",
-    toyHauler: "Remorque pour jouets",
-    mostRecent: "Plus récent",
-    unknownOwner: "Propriétaire inconnu",
-    failedToFetch: "Échec du chargement des remorques",
-    heroTitle: "Que vous ayez besoin d'une remorque ou que vous en ayez une à partager",
-    rentTrailerTitle: "Louer une remorque",
-    rentTrailerDescription: "Trouvez la remorque parfaite pour vos besoins, où que vous soyez au Québec. Parcourez, réservez et partez !",
-    rentTrailerButton: "Louer une remorque",
-    becomeHostTitle: "Devenir hôte",
-    becomeHostDescription: "Répertoriez votre remorque et commencez à gagner de l'argent en aidant les autres à déménager, voyager et explorer. C'est facile et sécurisé."
-  }
-};
-
-// Hook to get query params
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
+
+// ✅ helper to build a blue marker with price + truck
+const createTruckMarker = (price) => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="20">
+      <rect x="0" y="0" width="70" height="20" rx="10" ry="10" fill="#2563eb" />
+      <text x="35" y="14" font-size="10" text-anchor="middle" fill="white" font-family="Arial">
+        🚛 $${price}
+      </text>
+    </svg>
+  `;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+};
+
 
 const TrailersListing = () => {
   const nav = useNavigate();
   const query = useQuery();
   const cityFromQuery = query.get('city')?.toLowerCase() || '';
+
   const [priceFilter, setPriceFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [keyword, setKeyword] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [filteredTrailers, setFilteredTrailers] = useState([]);
-
   const [trailers, setTrailers] = useState([]);
+  const [activeTrailer, setActiveTrailer] = useState(null);
+
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
     return trailersListingTranslations[storedLang] || trailersListingTranslations.en;
+  });
+
+  // Google Maps API Loader
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: GOOGLE_API_KEY
   });
 
   useEffect(() => {
@@ -148,7 +75,6 @@ const TrailersListing = () => {
       const storedLang = localStorage.getItem('lang');
       setTranslations(trailersListingTranslations[storedLang] || trailersListingTranslations.en);
     };
-
     window.addEventListener('storage', handleStorageChange);
     handleStorageChange();
     return () => {
@@ -167,28 +93,23 @@ const TrailersListing = () => {
 
   useEffect(() => {
     let filtered = [...trailers];
-
     if (priceFilter === 'lowToHigh') {
       filtered.sort((a, b) => parseFloat(a.dailyRate) - parseFloat(b.dailyRate));
     } else if (priceFilter === 'highToLow') {
       filtered.sort((a, b) => parseFloat(b.dailyRate) - parseFloat(a.dailyRate));
     }
-
     if (typeFilter) {
       filtered = filtered.filter(t => t.category?.toLowerCase() === typeFilter.toLowerCase());
     }
-
     if (keyword.trim()) {
-      filtered = filtered.filter(t =>
-        t.title?.toLowerCase().includes(keyword.toLowerCase()) ||
-        t.description?.toLowerCase().includes(keyword.toLowerCase())
+      filtered = filtered.filter(
+        t => t.title?.toLowerCase().includes(keyword.toLowerCase()) ||
+          t.description?.toLowerCase().includes(keyword.toLowerCase())
       );
     }
-
     if (sortBy === 'popular') {
       filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
-
     setFilteredTrailers(filtered);
   }, [priceFilter, typeFilter, keyword, sortBy, trailers]);
 
@@ -196,7 +117,6 @@ const TrailersListing = () => {
     try {
       const res = await axios.get(`${config.baseUrl}/trailer/all`);
       let allTrailers = res.data.data || [];
-
       if (cityFilter) {
         allTrailers = allTrailers.filter((t) => {
           const fullLocation = `${t.city || ''}, ${t.state || ''}`.toLowerCase();
@@ -207,7 +127,6 @@ const TrailersListing = () => {
           );
         });
       }
-
       setTrailers(allTrailers);
     } catch (err) {
       console.error(err);
@@ -218,7 +137,6 @@ const TrailersListing = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar2 />
-
       <main className="flex-1 p-6 md:p-8 lg:p-10">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Section */}
@@ -230,13 +148,11 @@ const TrailersListing = () => {
                   <option value="lowToHigh">{translations.lowToHigh}</option>
                   <option value="highToLow">{translations.highToLow}</option>
                 </select>
-
                 <select className={selectStyle} onChange={(e) => setTypeFilter(e.target.value)}>
                   <option value="">{translations.type}</option>
                   <option value="Travel Trailer">{translations.travelTrailer}</option>
                   <option value="Toy Hauler">{translations.toyHauler}</option>
                 </select>
-
                 <input
                   type="text"
                   placeholder={translations.keywordSearch}
@@ -269,23 +185,16 @@ const TrailersListing = () => {
                   onClick={() => handleCardClick(trailer._id)}
                 >
                   <img
-                    src={trailer.images?.[0] || `https://placehold.co/400x300/F3F4F6/9CA3AF?text=${encodeURIComponent(translations.noImage)}`}
+                    src={trailer.images?.[0] ||
+                      `https://placehold.co/400x300/F3F4F6/9CA3AF?text=${encodeURIComponent(translations.noImage)}`}
                     alt={trailer.title}
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                      {trailer.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-1">
-                      {trailer.userId?.email || translations.unknownOwner}
-                    </p>
-                    <p className="text-gray-500 text-xs mb-2">
-                      {trailer.city}, {trailer.state}
-                    </p>
-                    <p className="text-black font-medium text-lg">
-                      ${trailer.dailyRate}{translations.perDay}
-                    </p>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{trailer.title}</h3>
+                    <p className="text-gray-600 text-sm mb-1">{trailer.userId?.email || translations.unknownOwner}</p>
+                    <p className="text-gray-500 text-xs mb-2">{trailer.city}, {trailer.state}</p>
+                    <p className="text-black font-medium text-lg">${trailer.dailyRate}{translations.perDay}</p>
                   </div>
                 </motion.div>
               ))}
@@ -294,15 +203,44 @@ const TrailersListing = () => {
 
           {/* Right Section - Map */}
           <div className="lg:w-1/3 flex-shrink-0 h-[80vh]">
-            <iframe
-              title="Map"
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              style={{ border: 0 }}
-              src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=${encodeURIComponent(cityFromQuery || 'Quebec')}`}
-              allowFullScreen
-            ></iframe>
+            {isLoaded && (
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={{
+                  lat: trailers[0]?.latitude || 37.7749,
+                  lng: trailers[0]?.longitude || -122.4194
+                }}
+                zoom={10}
+              >
+                {trailers.map((trailer) => (
+                  <Marker
+                    key={trailer._id}
+                    position={{ lat: parseFloat(trailer.latitude), lng: parseFloat(trailer.longitude) }}
+                    onClick={() => setActiveTrailer(trailer)}
+                    icon={{
+                      url: createTruckMarker(trailer.dailyRate),
+                      scaledSize: new window.google.maps.Size(80, 50),
+                    }}
+                  />
+                ))}
+
+                {activeTrailer && (
+                  <InfoWindow
+                    position={{
+                      lat: parseFloat(activeTrailer.latitude),
+                      lng: parseFloat(activeTrailer.longitude),
+                    }}
+                    onCloseClick={() => setActiveTrailer(null)}
+                  >
+                    <div className="p-2">
+                      <h3 className="font-semibold">{activeTrailer.title}</h3>
+                      <p>${activeTrailer.dailyRate}{translations.perDay}</p>
+                      <p>{activeTrailer.city}, {activeTrailer.state}</p>
+                    </div>
+                  </InfoWindow>
+                )}
+              </GoogleMap>
+            )}
           </div>
         </div>
       </main>

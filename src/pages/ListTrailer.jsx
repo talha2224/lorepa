@@ -288,7 +288,9 @@ const ListTrailer = () => {
         monthlyRate: '',
         cleaningRate: '',
         securityRate: '',
-        insuranceDeductible: ''
+        insuranceDeductible: '',
+        latitude: '',
+        longitude: ''
     });
 
     const [lang, setLang] = useState(() => {
@@ -405,9 +407,7 @@ const ListTrailer = () => {
 
             if (res.data?.status === 200) {
                 toast.success(lang.trailerCreatedSuccessfully);
-                setTimeout(() => {
-                    nav("/");
-                }, 2000);
+                setTimeout(() => nav("/"), 2000);
             } else {
                 toast.error(res.data?.msg || lang.submissionFailed);
             }
@@ -417,8 +417,29 @@ const ListTrailer = () => {
         }
     };
 
+
     useEffect(() => {
         window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setFormData((prev) => ({
+                        ...prev,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    }));
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    toast.error("Unable to fetch your location");
+                }
+            );
+        } else {
+            toast.error("Geolocation not supported by your browser");
+        }
     }, []);
 
     const currentStepData = steps[currentStep];

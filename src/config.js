@@ -4,6 +4,7 @@
 // }
 const config = {
     baseUrl:"https://lorepa-backend.vercel.app/api/v1",
+    GOOGLE_API_KEY:"AIzaSyDo4GPTF9dChnFkV-uX5zoiA7JHZongxPI"            
 }
 
 export default config
