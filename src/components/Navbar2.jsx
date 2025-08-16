@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useRef, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { CiGlobe } from "react-icons/ci";
+import { CiCalculator1, CiGlobe } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiSearch } from "react-icons/ci";
 import Logo from "../assets/logo.svg";
-
+import { IoCallOutline, IoKey } from "react-icons/io5";
+import { BiTransfer } from 'react-icons/bi';
 // Define your translations for Navbar2
 const navBar2Translations = {
     en: {
@@ -20,7 +21,8 @@ const navBar2Translations = {
         whoAreWe: "Who are we",
         contactUs: "Contact us",
         calculator: "Calculator",
-        montrealPlaceholder: "Montreal"
+        montrealPlaceholder: "Montreal",
+        turoVsLorepa: "Turo vs. Lorepa"
     },
     es: {
         where: "¿Dónde?",
@@ -33,7 +35,8 @@ const navBar2Translations = {
         whoAreWe: "¿Quiénes somos?",
         contactUs: "Contáctanos",
         calculator: "Calculadora",
-        montrealPlaceholder: "Montreal"
+        montrealPlaceholder: "Montreal",
+        turoVsLorepa: "Turo vs. Lorepa"
     },
     cn: {
         where: "地点",
@@ -46,7 +49,9 @@ const navBar2Translations = {
         whoAreWe: "我们是谁",
         contactUs: "联系我们",
         calculator: "计算器",
-        montrealPlaceholder: "蒙特利尔"
+        montrealPlaceholder: "蒙特利尔",
+        turoVsLorepa: "Turo 对比 Lorepa"
+
     },
     fr: {
         where: "Où",
@@ -59,7 +64,9 @@ const navBar2Translations = {
         whoAreWe: "Qui sommes-nous",
         contactUs: "Nous contacter",
         calculator: "Calculatrice",
-        montrealPlaceholder: "Montréal"
+        montrealPlaceholder: "Montréal",
+        turoVsLorepa: "Turo vs. Lorepa"
+
     }
 };
 
@@ -267,9 +274,22 @@ const Navbar2 = () => {
                                     {!isLogin && (<Link to="/register" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.signup}</Link>)}
                                     {isLogin && (<p onClick={() => { localStorage.removeItem("userId"); window.location.reload() }} className=' cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.logout}</p>)}
                                     {isLogin && <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.becomeAHost}</Link>}
-                                    <Link to="/who" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>
-                                    <Link to="/contact" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.contactUs}</Link>
-                                    <Link to="/calculator" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.calculator}</Link>
+                                    <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                                        <IoKey />
+                                        <Link to="/who" className='block text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>
+                                    </div>
+                                    <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                                        <IoCallOutline />
+                                        <Link to="/contact">{translations.contactUs}</Link>
+                                    </div>
+                                    <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                                        <CiCalculator1 />
+                                        <Link to="/calculator">{translations.calculator}</Link>
+                                    </div>
+                                    <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                                        <BiTransfer />
+                                        <Link to="/compare">{translations.turoVsLorepa}</Link>
+                                    </div>
                                 </div>
                             </div>
                         )}

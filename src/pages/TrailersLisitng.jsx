@@ -33,7 +33,6 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
-// ✅ helper to build a blue marker with price + truck
 const createTruckMarker = (price) => {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="20">
