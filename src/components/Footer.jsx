@@ -133,12 +133,6 @@ const Footer = () => {
         };
     }, []);
 
-    // Function to handle lang change (you might pass this from Navbar or a lang selector component)
-    const handleLanguageChange = (lang) => {
-        localStorage.setItem('lang', lang);
-        setTranslations(footerTranslations[lang]);
-    };
-
     return (
         <footer className="bg-[#F1F1F1] text-black p-8">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
@@ -155,8 +149,8 @@ const Footer = () => {
                 <div>
                     <h3 className="text-lg font-medium mb-4">{translations.getStarted}</h3>
                     <ul className="space-y-2 text-sm">
-                        <li><Link to="/login" className="hover:underline">{translations.createAccount}</Link></li>
-                        <li><Link to="/trailers" className="hover:underline">{translations.findTrailer}</Link></li>
+                        {!isLogin && <li><Link to="/login" className="hover:underline">{translations.createAccount}</Link></li>}
+                        {!isLogin && <li><Link to="/trailers" className="hover:underline">{translations.findTrailer}</Link></li>}
                         {isLogin && <li><Link to="/host" className="hover:underline">{translations.becomeHost}</Link></li>}
                     </ul>
                 </div>
