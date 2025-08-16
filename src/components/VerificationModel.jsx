@@ -1,4 +1,4 @@
-const VerificationModal = ({ isOpen, onClose, onListTrailer }) => {
+const VerificationModal = ({ isOpen, onClose, onListTrailer,translations}) => {
     if (!isOpen) return null;
 
     return (
@@ -29,20 +29,20 @@ const VerificationModal = ({ isOpen, onClose, onListTrailer }) => {
                         </svg>
                     </div>
 
-                    <h3 className="text-xl font-semibold text-gray-800">Verification completed</h3>
+                    <h3 className="text-xl font-semibold text-gray-800">{translations.title}</h3>
 
                     <div className="flex space-x-4 w-full">
                         <button
                             onClick={onClose}
                             className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md transition duration-200"
                         >
-                            Cancel
+                            {translations.close}
                         </button>
                         <button
                             onClick={onListTrailer}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-200"
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-200 truncate"
                         >
-                            List trailer
+                            {translations.listTrailer}
                         </button>
                     </div>
                 </div>

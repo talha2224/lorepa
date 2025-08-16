@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CiGlobe } from "react-icons/ci";
+import { CiCalculator1, CiGlobe } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Logo from "../assets/logo.svg";
+import { IoCallOutline, IoKey } from "react-icons/io5";
+import { BiTransfer } from 'react-icons/bi';
 
-// Define your translations for the Navbar
 const navBarTransaltions = {
   en: {
     becomeAHost: "Become a host",
@@ -14,7 +15,8 @@ const navBarTransaltions = {
     logout: "Logout",
     whoAreWe: "Who are we",
     contactUs: "Contact us",
-    calculator: "Calculator"
+    calculator: "Calculator",
+    turoVsLorepa: "Turo vs. Lorepa"
   },
   es: {
     becomeAHost: "Conviértete en anfitrión",
@@ -23,7 +25,8 @@ const navBarTransaltions = {
     logout: "Cerrar sesión",
     whoAreWe: "¿Quiénes somos?",
     contactUs: "Contáctanos",
-    calculator: "Calculadora"
+    calculator: "Calculadora",
+    turoVsLorepa: "Turo vs. Lorepa"
   },
   cn: {
     becomeAHost: "成为房东",
@@ -32,7 +35,8 @@ const navBarTransaltions = {
     logout: "注销",
     whoAreWe: "我们是谁",
     contactUs: "联系我们",
-    calculator: "计算器"
+    calculator: "计算器",
+    turoVsLorepa: "Turo 对比 Lorepa"
   },
   fr: {
     becomeAHost: "Devenir hôte",
@@ -41,23 +45,22 @@ const navBarTransaltions = {
     logout: "Se déconnecter",
     whoAreWe: "Qui sommes-nous",
     contactUs: "Nous contacter",
-    calculator: "Calculatrice"
+    calculator: "Calculatrice",
+    turoVsLorepa: "Turo vs. Lorepa"
   }
 };
 
 const Navbar = () => {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNav, setshowNav] = useState(false);
-  const [language, setLanguage] = useState("en"); // Initial language state
+  const [language, setLanguage] = useState("en");
   const isLogin = localStorage.getItem("userId");
 
-  // Initialize translations based on stored language or default to English
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
     return navBarTransaltions[storedLang] || navBarTransaltions.en;
   });
 
-  // Effect to update translations when language changes in localStorage
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
@@ -65,13 +68,12 @@ const Navbar = () => {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    handleStorageChange(); // Call once on mount to set initial translations
+    handleStorageChange();
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
-  // Effect to set the language state from localStorage on mount
   useEffect(() => {
     const storedLang = localStorage.getItem("lang");
     if (storedLang) {
@@ -79,12 +81,11 @@ const Navbar = () => {
     }
   }, []);
 
-  // Handler for language change
   const handleLanguageChange = (langSymbol) => {
     setLanguage(langSymbol);
     localStorage.setItem("lang", langSymbol);
     setShowLanguages(false);
-    window.location.reload(); // Reload to apply language changes
+    window.location.reload();
   };
 
   return (
@@ -131,9 +132,23 @@ const Navbar = () => {
                   {!isLogin && (<Link to="/register" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.signup}</Link>)}
                   {isLogin && (<p onClick={() => { localStorage.removeItem("userId"); window.location.reload(); }} className='cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.logout}</p>)}
                   {isLogin && <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.becomeAHost}</Link>}
-                  <Link to="/who" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>
-                  <Link to="/contact" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.contactUs}</Link>
-                  <Link to="/calculator" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.calculator}</Link>
+
+                  <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                    <IoKey />
+                    <Link to="/who" className='block text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>
+                  </div>
+                  <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                    <IoCallOutline />
+                    <Link to="/contact">{translations.contactUs}</Link>
+                  </div>
+                  <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                    <CiCalculator1/>
+                    <Link to="/calculator">{translations.calculator}</Link>
+                  </div>
+                  <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
+                    <BiTransfer/>
+                    <Link to="/compare">{translations.turoVsLorepa}</Link>
+                  </div>
                 </div>
               </div>
             )}

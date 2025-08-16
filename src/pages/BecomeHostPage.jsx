@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import VerificationModal from '../components/VerificationModel';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-// --- Translations Object ---
 const becomeHostTranslations = {
     en: {
         becomeHost: 'Become a host',
@@ -69,6 +68,12 @@ const becomeHostTranslations = {
             policyNumber: 'Policy Number',
             insuranceProvider: 'Insurance Provider',
             trailerVin: 'Trailer VIN Number'
+        },
+        verificationModal: {
+            title: 'Application Submitted',
+            message: 'Your documents have been submitted for review. Once verified, you\'ll be able to list your trailer.',
+            listTrailer: 'List your trailer now!',
+            close: 'Close'
         }
     },
     es: {
@@ -133,6 +138,12 @@ const becomeHostTranslations = {
             policyNumber: 'Número de póliza',
             insuranceProvider: 'Proveedor de seguros',
             trailerVin: 'Número VIN del remolque'
+        },
+        verificationModal: {
+            title: 'Solicitud enviada',
+            message: 'Sus documentos han sido enviados para revisión. Una vez verificados, podrá listar su remolque.',
+            listTrailer: '¡Lista tu remolque ahora!',
+            close: 'Cerrar'
         }
     },
     cn: {
@@ -197,6 +208,12 @@ const becomeHostTranslations = {
             policyNumber: '保单号码',
             insuranceProvider: '保险公司',
             trailerVin: '拖车VIN号码'
+        },
+        verificationModal: {
+            title: '申请已提交',
+            message: '您的文件已提交审核。审核通过后，您将能够列出您的拖车。',
+            listTrailer: '立即列出您的拖车！',
+            close: '关闭'
         }
     },
     fr: {
@@ -261,6 +278,12 @@ const becomeHostTranslations = {
             policyNumber: 'Numéro de police',
             insuranceProvider: 'Fournisseur d\'assurance',
             trailerVin: 'Numéro VIN de la remorque'
+        },
+        verificationModal: {
+            title: 'Demande soumise',
+            message: 'Vos documents ont été soumis pour examen. Une fois vérifiés, vous pourrez lister votre remorque.',
+            listTrailer: 'Listez votre remorque maintenant!',
+            close: 'Fermer'
         }
     }
 };
@@ -286,37 +309,42 @@ const BecomeHostPage = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [showVerificationModal, setShowVerificationModal] = useState(false);
     const [formData, setFormData] = useState({});
-
-    // --- State for translations, defaulting to English or stored lang ---
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
         return becomeHostTranslations[storedLang] || becomeHostTranslations.en;
     });
 
-    // --- Effect to update translations when localStorage changes ---
+    const fileInputRefs = {
+        driverLicense: useRef(null),
+        policyDocument: useRef(null),
+        registrationCertificate: useRef(null),
+        inspectionReport: useRef(null),
+        proofOfOwnership: useRef(null),
+        permissionLetter: useRef(null),
+        trailerPhoto1: useRef(null),
+        trailerPhoto2: useRef(null),
+        trailerPhoto3: useRef(null),
+        trailerPhoto4: useRef(null),
+    };
+
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
             setTranslations(becomeHostTranslations[storedLang] || becomeHostTranslations.en);
         };
-
         window.addEventListener('storage', handleStorageChange);
-
-        // Initial check in case the lang was set before the component mounted
         handleStorageChange();
-
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
 
-    // --- Dynamic steps definition using translations ---
     const steps = [
         {
             title: translations.validDriverLicense,
             description: translations.driverLicenseDescription,
             fields: [
-                { id: 'driverLicense', label: translations.uploadDriverLicense, type: 'file', placeholder: translations.fileTypes.driverLicense, icon: <UploadCloudIcon /> },
+                { id: 'driverLicense', label: translations.uploadDriverLicense, type: 'file', placeholder: translations.fileTypes.driverLicense, icon: <UploadCloudIcon />, fileType: 'image' },
                 {
                     id: 'country', label: translations.country, type: 'select',
                     options: [
@@ -327,12 +355,13 @@ const BecomeHostPage = () => {
                     ]
                 },
                 { id: 'firstName', label: translations.firstName, type: 'text', placeholder: translations.placeholders.firstName },
-                { id: 'middleName', label: translations.middleName, type: 'text', placeholder: translations.placeholders.middleName },
+                { id: 'middleName', label: translations.middleName, type: 'text', placeholder: translations.placeholders.middleName, optional: true },
                 { id: 'lastName', label: translations.lastName, type: 'text', placeholder: translations.placeholders.lastName },
                 { id: 'licenseNumber', label: translations.licenseNumber, type: 'text', placeholder: translations.placeholders.licenseNumber },
                 { id: 'dateOfBirth', label: translations.dateOfBirth, type: 'text', placeholder: translations.placeholders.dateOfBirth },
                 { id: 'expirationDate', label: translations.expirationDate, type: 'text', placeholder: translations.placeholders.expirationDate },
             ],
+            required: ['driverLicense', 'country', 'firstName', 'lastName', 'licenseNumber', 'dateOfBirth', 'expirationDate']
         },
         {
             title: translations.validAutoInsurance,
@@ -340,39 +369,44 @@ const BecomeHostPage = () => {
             fields: [
                 { id: 'policyNumber', label: translations.policyNumber, type: 'text', placeholder: translations.placeholders.policyNumber },
                 { id: 'insuranceProvider', label: translations.insuranceProvider, type: 'text', placeholder: translations.placeholders.insuranceProvider },
-                { id: 'policyDocument', label: translations.uploadPolicyDocument, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon /> },
+                { id: 'policyDocument', label: translations.uploadPolicyDocument, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon />, fileType: 'doc' },
             ],
+            required: ['policyNumber', 'insuranceProvider', 'policyDocument']
         },
         {
             title: translations.trailerRegistration,
             description: translations.trailerRegistrationDescription,
             fields: [
-                { id: 'registrationCertificate', label: translations.uploadCertificate, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon /> },
+                { id: 'registrationCertificate', label: translations.uploadCertificate, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon />, fileType: 'doc' },
             ],
+            required: ['registrationCertificate']
         },
         {
             title: translations.trailerPhotos,
             description: translations.trailerPhotosDescription,
             fields: [
-                { id: 'trailerPhoto1', label: translations.photo1, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon /> },
-                { id: 'trailerPhoto2', label: translations.photo2, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon /> },
-                { id: 'trailerPhoto3', label: translations.photo3, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon /> },
-                { id: 'trailerPhoto4', label: translations.photo4, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon /> },
+                { id: 'trailerPhoto1', label: translations.photo1, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon />, fileType: 'image' },
+                { id: 'trailerPhoto2', label: translations.photo2, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon />, fileType: 'image' },
+                { id: 'trailerPhoto3', label: translations.photo3, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon />, fileType: 'image' },
+                { id: 'trailerPhoto4', label: translations.photo4, type: 'file', placeholder: translations.fileTypes.photos, icon: <UploadCloudIcon />, fileType: 'image' },
             ],
+            required: ['trailerPhoto1', 'trailerPhoto2', 'trailerPhoto3', 'trailerPhoto4']
         },
         {
             title: translations.mechanicalInspection,
             description: translations.mechanicalInspectionDescription,
             fields: [
-                { id: 'inspectionReport', label: translations.uploadReport, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon /> },
+                { id: 'inspectionReport', label: translations.uploadReport, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon />, fileType: 'doc' },
             ],
+            optional: true
         },
         {
             title: translations.proofOfOwnership,
             description: translations.proofOfOwnershipDescription,
             fields: [
-                { id: 'proofOfOwnership', label: translations.uploadProof, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon /> },
+                { id: 'proofOfOwnership', label: translations.uploadProof, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon />, fileType: 'doc' },
             ],
+            optional: true
         },
         {
             title: translations.trailerSerial,
@@ -380,13 +414,15 @@ const BecomeHostPage = () => {
             fields: [
                 { id: 'vinNumber', label: translations.vinNumber, type: 'text', placeholder: translations.placeholders.trailerVin },
             ],
+            required: ['vinNumber']
         },
         {
             title: translations.thirdPartyPermission,
             description: translations.thirdPartyPermissionDescription,
             fields: [
-                { id: 'permissionLetter', label: translations.uploadPermissionLetter, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon /> },
+                { id: 'permissionLetter', label: translations.uploadPermissionLetter, type: 'file', placeholder: translations.fileTypes.documents, icon: <UploadCloudIcon />, fileType: 'doc' },
             ],
+            optional: true
         },
     ];
 
@@ -395,16 +431,43 @@ const BecomeHostPage = () => {
         setFormData(prev => ({ ...prev, [id]: type === 'file' ? files[0] : value }));
     };
 
+    const handleFileClick = (id) => {
+        if (fileInputRefs[id] && fileInputRefs[id].current) {
+            fileInputRefs[id].current.click();
+        }
+    };
+
+    const isStepCompleted = (stepIndex) => {
+        const step = steps[stepIndex];
+        if (step.optional) return true;
+        const requiredFields = step.required || [];
+        return requiredFields.every(fieldId => {
+            const value = formData[fieldId];
+            return value !== undefined && value !== null && value !== '';
+        });
+    };
+
+    const handleNext = () => {
+        if (isStepCompleted(currentStep)) {
+            setCurrentStep(prev => prev + 1);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (isStepCompleted(currentStep)) {
+            setShowVerificationModal(true);
+        }
+    };
+
     const currentStepData = steps[currentStep];
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+    }, [currentStep]);
 
     return (
         <div className='min-h-screen bg-gray-100 flex flex-col font-inter'>
             <Navbar />
-
             <motion.div
                 initial="hidden"
                 animate="visible"
@@ -414,11 +477,11 @@ const BecomeHostPage = () => {
                 <div className="w-1/4 pr-8 hidden md:block border-r border-r-[#C3C3C3]">
                     <ul className="space-y-4">
                         {steps.map((step, index) => (
-                            <li key={index} onClick={() => setCurrentStep(index)}
-                                className={`flex items-center text-lg font-medium cursor-pointer rounded-lg p-2 ${index === currentStep ? 'text-blue-600' : 'text-gray-600 hover:bg-gray-200'} ${index < currentStep ? 'text-gray-400' : ''}`}
+                            <li key={index}
+                                className={`flex items-center text-lg font-medium cursor-pointer rounded-lg p-2 ${index === currentStep ? 'text-blue-600' : 'text-gray-600 hover:bg-gray-200'} ${index < currentStep ? 'text-gray-400' : ''} ${!isStepCompleted(index) && index < currentStep ? 'text-red-500' : ''}`}
                             >
-                                <div className={`min-w-6 min-h-6 flex items-center justify-center rounded-full text-sm mr-3 ${index === currentStep ? 'bg-blue-600 text-white' : 'border border-gray-400 text-gray-600'} ${index < currentStep ? 'bg-green-500 text-white border-green-500' : ''}`}>
-                                    {index < currentStep ? '✓' : index + 1}
+                                <div className={`min-w-6 min-h-6 flex items-center justify-center rounded-full text-sm mr-3 ${index === currentStep ? 'bg-blue-600 text-white' : 'border border-gray-400 text-gray-600'} ${index < currentStep && isStepCompleted(index) ? 'bg-green-500 text-white border-green-500' : ''} ${!isStepCompleted(index) && index < currentStep ? 'bg-red-500 text-white border-red-500' : ''}`}>
+                                    {index < currentStep && isStepCompleted(index) ? '✓' : index < currentStep && !isStepCompleted(index) ? '✗' : index + 1}
                                 </div>
                                 <span className='text-xs'>{step.title}</span>
                             </li>
@@ -430,18 +493,33 @@ const BecomeHostPage = () => {
                     <motion.h2 variants={fadeInUp} className="text-3xl text-[#757982] mb-4 border-b border-b-[#CCCCCC] pb-3">{translations.becomeHost}</motion.h2>
                     <motion.h3 variants={fadeInUp} className="text-2xl font-semibold text-gray-700 mb-6">{currentStepData.title}</motion.h3>
                     <motion.p variants={fadeInUp} className="text-gray-600 mb-8">{currentStepData.description}</motion.p>
-
                     <motion.div variants={fadeInUp} className="grid grid-cols-1 gap-6">
                         {currentStepData.fields.map(field => (
                             <div key={field.id} className="mb-4">
                                 <label htmlFor={field.id} className="block text-gray-700 text-sm mb-2">{field.label}</label>
                                 {field.type === 'file' ? (
-                                    <div className="flex flex-col items-center justify-center w-full py-10 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                        <input id={field.id} type="file" className="hidden" onChange={handleChange} />
-                                        {field.icon}
-                                        <p className="mt-2 text-sm text-gray-600">
-                                            <span className="font-semibold text-blue-600">{translations.clickToUpload}</span> {translations.orDragAndDrop}
-                                        </p>
+                                    <div className="flex flex-col items-center justify-center w-full py-10 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100" onClick={() => handleFileClick(field.id)}>
+                                        <input
+                                            id={field.id}
+                                            type="file"
+                                            className="hidden"
+                                            onChange={handleChange}
+                                            ref={fileInputRefs[field.id]}
+                                            accept={field.fileType === 'image' ? 'image/*' : '.pdf,.jpg,.png'}
+                                        />
+                                        {formData[field.id] ? (
+                                            <div className="flex flex-col items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-8.63"></path><path d="M22 4L12 14.01l-3-3"></path></svg>
+                                                <p className="mt-2 text-sm text-gray-600 font-semibold">{formData[field.id].name}</p>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {field.icon}
+                                                <p className="mt-2 text-sm text-gray-600">
+                                                    <span className="font-semibold text-blue-600">{translations.clickToUpload}</span> {translations.orDragAndDrop}
+                                                </p>
+                                            </>
+                                        )}
                                         <p className="text-xs text-gray-500">{field.placeholder}</p>
                                     </div>
                                 ) : field.type === 'select' ? (
@@ -462,15 +540,20 @@ const BecomeHostPage = () => {
                             <button onClick={() => setCurrentStep(prev => prev - 1)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-6 rounded-md shadow-md">{translations.back}</button>
                         )}
                         {currentStep < steps.length - 1 ? (
-                            <button onClick={() => setCurrentStep(prev => prev + 1)} className="ml-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md shadow-md">{translations.next}</button>
+                            <button onClick={handleNext} disabled={!isStepCompleted(currentStep)} className={`ml-auto py-2 px-6 rounded-md shadow-md ${isStepCompleted(currentStep) ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-400 text-gray-600 cursor-not-allowed'}`}>{translations.next}</button>
                         ) : (
-                            <button onClick={() => setShowVerificationModal(true)} className="ml-auto bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md shadow-md">{translations.submit}</button>
+                            <button onClick={handleSubmit} disabled={!isStepCompleted(currentStep)} className={`ml-auto py-2 px-6 rounded-md shadow-md ${isStepCompleted(currentStep) ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-400 text-gray-600 cursor-not-allowed'}`}>{translations.submit}</button>
                         )}
                     </motion.div>
                 </div>
             </motion.div>
 
-            <VerificationModal isOpen={showVerificationModal} onClose={() => setShowVerificationModal(false)} onListTrailer={() => { setShowVerificationModal(false); nav('/list'); }} />
+            <VerificationModal
+                isOpen={showVerificationModal}
+                onClose={() => setShowVerificationModal(false)}
+                onListTrailer={() => { setShowVerificationModal(false); nav('/list'); }}
+                translations={translations.verificationModal}
+            />
             <Footer />
         </div>
     );
