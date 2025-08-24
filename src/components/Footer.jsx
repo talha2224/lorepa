@@ -29,7 +29,8 @@ const footerTranslations = {
         allRightsReserved: "© 2025 Lorepa. All rights reserved.",
         privacyPolicy: "Privacy Policy",
         termsOfService: "Terms of Service",
-        cookiePolicy: "Cookie Policy"
+        cookiePolicy: "Cookie Policy",
+        legalNotice: "Legal Notice"
     },
     es: {
         lorepa: "Lorepa",
@@ -50,12 +51,13 @@ const footerTranslations = {
         contactUs: "Contáctanos",
         downloadAppStore: "Descargar en la App Store",
         downloadGooglePlay: "Descargar en Google Play",
-        english: "Español", // Changed to Spanish for consistency in lang selector
+        english: "Español",
         address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
         allRightsReserved: "© 2025 Lorepa. Todos los derechos reservados.",
         privacyPolicy: "Política de privacidad",
         termsOfService: "Términos de servicio",
-        cookiePolicy: "Política de cookies"
+        cookiePolicy: "Política de cookies",
+        legalNotice: "Aviso legal"
     },
     cn: {
         lorepa: "Lorepa",
@@ -76,12 +78,13 @@ const footerTranslations = {
         contactUs: "联系我们",
         downloadAppStore: "在App Store下载",
         downloadGooglePlay: "在Google Play下载",
-        english: "中文", // Changed to Chinese for consistency in lang selector
+        english: "中文",
         address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
         allRightsReserved: "© 2025 Lorepa. 版权所有。",
         privacyPolicy: "隐私政策",
         termsOfService: "服务条款",
-        cookiePolicy: "Cookie政策"
+        cookiePolicy: "Cookie政策",
+        legalNotice: "法律声明"
     },
     fr: {
         lorepa: "Lorepa",
@@ -102,14 +105,16 @@ const footerTranslations = {
         contactUs: "Nous contacter",
         downloadAppStore: "Télécharger sur l'App Store",
         downloadGooglePlay: "Télécharger sur Google Play",
-        english: "Français", // Changed to French for consistency in lang selector
+        english: "Français",
         address: "3910 Rue de Bellechasse, Montréal, Québec, H1X 1J4",
         allRightsReserved: "© 2025 Lorepa. Tous droits réservés.",
         privacyPolicy: "Politique de confidentialité",
         termsOfService: "Conditions d'utilisation",
-        cookiePolicy: "Politique de cookies"
+        cookiePolicy: "Politique de cookies",
+        legalNotice: "Mentions légales"
     }
 };
+
 
 const Footer = () => {
     const isLogin = localStorage.getItem("userId");
@@ -209,7 +214,8 @@ const Footer = () => {
                 <div className="flex space-x-4">
                     <Link to="/privacy" className="hover:underline">{translations.privacyPolicy}</Link>
                     <Link to="/terms" className="hover:underline">{translations.termsOfService}</Link>
-                    <Link to="/privacy" className="hover:underline">{translations.cookiePolicy}</Link>
+                    <Link to="/cookie" className="hover:underline">{translations.cookiePolicy}</Link>
+                    <Link to="/legal" className="hover:underline">{translations.legalNotice}</Link>
                 </div>
             </div>
         </footer>

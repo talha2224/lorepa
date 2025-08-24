@@ -560,53 +560,6 @@ const PrivacyPage = () => {
         </div>
       ),
     },
-    {
-      title: translations.legalNoticeTitle,
-      content: (
-        <>
-          <h3 className='font-semibold mt-2'>{translations.websitePresentationTitle}</h3>
-          <ul className='list-disc list-inside space-y-1 ml-4'>
-            <li>{translations.owner}</li>
-            <li>{translations.registeredAddress}</li>
-            <li>{translations.quebecBusinessNumber}</li>
-            <li>{translations.publicationDirector}</li>
-            <li>{translations.websiteCreator}</li>
-            <li>{translations.hostingProvider}</li>
-          </ul>
-          <h3 className='font-semibold mt-2'>{translations.termsOfUseTitle}</h3>
-          <p>{translations.termsOfUseContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.servicesDescriptionTitle}</h3>
-          <p>{translations.servicesDescriptionContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.technicalLimitationsTitle}</h3>
-          <p>{translations.technicalLimitationsContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.intellectualPropertyTitle}</h3>
-          <p>{translations.intellectualPropertyContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.liabilityLimitationTitle}</h3>
-          <p>{translations.liabilityLimitationContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.dataProtectionTitle}</h3>
-          <p>{translations.dataProtectionContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.cookiesLegalNoticeTitle}</h3>
-          <p>{translations.cookiesLegalNoticeContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.externalLinksTitle}</h3>
-          <p>{translations.externalLinksContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.governingLawTitle}</h3>
-          <p>{translations.governingLawContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.glossaryTitle}</h3>
-          <ul className='list-disc list-inside space-y-1 ml-4'>
-            <li>{translations.userGlossary}</li>
-            <li>{translations.personalDataGlossary}</li>
-          </ul>
-          <h3 className='font-semibold mt-2'>{translations.financialInformationTitle}</h3>
-          <p>{translations.financialInformationContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.userGeneratedContentTitle}</h3>
-          <p>{translations.userGeneratedContentContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.forceMajeureTitle}</h3>
-          <p>{translations.forceMajeureContent}</p>
-          <h3 className='font-semibold mt-2'>{translations.dataArchivingTitle}</h3>
-          <p>{translations.dataArchivingContent}</p>
-        </>
-      ),
-    },
   ];
 
   return (

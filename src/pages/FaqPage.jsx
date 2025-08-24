@@ -52,11 +52,12 @@ const faqContent = {
         guests: [
             { question: "What do I need to rent a trailer on Lorepa?", answer: "To rent a trailer, you must be at least 21 years old, hold a valid driver’s license, and provide proof of insurance (FAQ27). You will also need a verified Lorepa account." },
             { question: "How does the rental process work?", answer: "You browse available trailers, send a request to the owner, and once approved, confirm your booking. A rental contract and inspection photos are generated automatically." },
-            { question: "Is insurance included in my rental?", answer: "No. You are required to provide valid auto insurance that covers towing. Additional optional protection may be offered during checkout." },
+            { question: "Does Lorepa provide insurance for rental?", answer: "Yes. Lorepa offers optional insurance coverage starting at $10 per day. This protection is designed to cover accidental damages, theft, and limited liability related to the trailer during the rental period." },
             { question: "Can I cancel my booking?", answer: "Yes, you can cancel under the terms described in our cancellation policy. Refunds may vary depending on when the cancellation is made relative to the start date." },
             { question: "What happens if I return the trailer late?", answer: "Late returns may incur a flat penalty fee, as outlined in the Terms of Use. Always notify the owner in case of delay to avoid disputes." },
             { question: "What if the trailer is damaged during my trip?", answer: "You are responsible for any damage during the rental period. Damage costs may be deducted from your deposit or charged directly, depending on the severity and proof." },
             { question: "How are payments and deposits handled?", answer: "Payments are processed securely through Stripe. A security deposit is held during the rental period and released within 7 days if no issues are reported." },
+            { question: "What happens to the security deposit if I choose insurance?", answer: "With insurance: Your deposit may be reduced or waived, depending on the level of coverage you've chosen. Without insurance: The full deposit set by the owner applies, and you remain entirely responsible for any damages or loss." },
             { question: "Where can I tow the trailer?", answer: "Most trailers can be towed within Canada. If cross-border travel (e.g., to the USA) is planned, check with the owner first and mention it in your request." },
             { question: "Do I need a special towing license?", answer: "In most Canadian provinces, a standard Class 5 license is enough for small trailers. However, it's your responsibility to ensure you meet local requirements and that your vehicle is rated to tow the selected trailer." },
             { question: "What kind of trailers are available?", answer: "Lorepa offers utility trailers, enclosed cargo trailers, car haulers, motorcycle trailers, and more. You can filter by category, size, or location." },
@@ -80,7 +81,7 @@ const faqContent = {
         ],
         global: [
             { question: "Who is responsible in case of accident or theft?", answer: "Renters are liable for any damages or loss during the rental. In serious cases, police reports, insurance claims, and platform mediation may apply." },
-            { question: "Does Lorepa offer insurance coverage?", answer: "Currently, Lorepa does not directly offer insurance but may require proof of third-party coverage (FAQ27). Dedicated insurance options may be added soon." },
+            { question: "Does Lorepa offer insurance coverage?", answer: "Yes. Lorepa offers optional insurance coverage starting at $10 per day. This insurance provides protection against theft and certain types of damage during a rental. If a renter subscribes to this insurance, it can reduce or waive the deposit that would otherwise be required." },
             { question: "Is Lorepa available in the USA?", answer: "Lorepa is currently focused on Canada. Cross-border use is only allowed with owner consent and proper documentation." }
         ]
     },
@@ -88,11 +89,12 @@ const faqContent = {
         guests: [
             { question: "¿Qué necesito para alquilar un remolque en Lorepa?", answer: "Para alquilar un remolque, debe tener al menos 21 años, poseer una licencia de conducir válida y proporcionar prueba de seguro (FAQ27). También necesitará una cuenta verificada de Lorepa." },
             { question: "¿Cómo funciona el proceso de alquiler?", answer: "Usted busca remolques disponibles, envía una solicitud al propietario y, una vez aprobada, confirma su reserva. Un contrato de alquiler y fotos de inspección se generan automáticamente." },
-            { question: "¿El seguro está incluido en mi alquiler?", answer: "No. Se requiere que usted proporcione un seguro de automóvil válido que cubra el remolque. Protección opcional adicional puede ser ofrecida durante el pago." },
+            { question: "¿Lorepa proporciona seguro para el alquiler?", answer: "Sí. Lorepa ofrece una cobertura de seguro opcional a partir de $10 por día. Esta protección está diseñada para cubrir daños accidentales, robo y responsabilidad limitada relacionados con el remolque durante el período de alquiler." },
             { question: "¿Puedo cancelar mi reserva?", answer: "Sí, puede cancelar bajo los términos descritos en nuestra política de cancelación. Los reembolsos pueden variar dependiendo de cuándo se realice la cancelación en relación con la fecha de inicio." },
             { question: "¿Qué pasa si devuelvo el remolque tarde?", answer: "Las devoluciones tardías pueden incurrir en una tarifa de penalización fija, como se describe en los Términos de Uso. Siempre notifique al propietario en caso de retraso para evitar disputas." },
             { question: "¿Qué sucede si el remolque se daña durante mi viaje?", answer: "Usted es responsable de cualquier daño durante el período de alquiler. Los costos por daños pueden ser deducidos de su depósito o cargados directamente, dependiendo de la gravedad y la prueba." },
             { question: "¿Cómo se manejan los pagos y los depósitos?", answer: "Los pagos se procesan de forma segura a través de Stripe. Un depósito de seguridad se retiene durante el período de alquiler y se libera dentro de los 7 días si no se reportan problemas." },
+            { question: "¿Qué sucede con el depósito de seguridad si elijo el seguro?", answer: "Con seguro: Su depósito puede reducirse o eliminarse, dependiendo del nivel de cobertura que haya elegido. Sin seguro: Se aplica el depósito total establecido por el propietario, y usted sigue siendo totalmente responsable de cualquier daño o pérdida." },
             { question: "¿Dónde puedo remolcar el remolque?", answer: "La mayoría de los remolques se pueden remolcar dentro de Canadá. Si se planea un viaje transfronterizo (por ejemplo, a EE. UU.), consulte primero con el propietario y menciónelo en su solicitud." },
             { question: "¿Necesito una licencia de remolque especial?", answer: "En la mayoría de las provincias canadienses, una licencia estándar Clase 5 es suficiente para remolques pequeños. Sin embargo, es su responsabilidad asegurarse de cumplir con los requisitos locales y de que su vehículo esté clasificado para remolcar el remolque seleccionado." },
             { question: "¿Qué tipo de remolques están disponibles?", answer: "Lorepa ofrece remolques utilitarios, remolques de carga cerrados, transportadores de automóviles, remolques para motocicletas y más. Puede filtrar por categoría, tamaño o ubicación." },
@@ -116,7 +118,7 @@ const faqContent = {
         ],
         global: [
             { question: "¿Quién es responsable en caso de accidente o robo?", answer: "Los inquilinos son responsables de cualquier daño o pérdida durante el alquiler. En casos graves, pueden aplicarse informes policiales, reclamaciones de seguros y mediación de la plataforma." },
-            { question: "¿Lorepa ofrece cobertura de seguro?", answer: "Actualmente, Lorepa no ofrece seguro directamente, pero puede requerir prueba de cobertura de terceros (FAQ27). Próximamente se pueden agregar opciones de seguro dedicadas." },
+            { question: "¿Lorepa ofrece cobertura de seguro?", answer: "Sí. Lorepa ofrece una cobertura de seguro opcional a partir de $10 por día. Este seguro proporciona protección contra robo y ciertos tipos de daños durante un alquiler. Si un inquilino se suscribe a este seguro, puede reducir o eliminar el depósito que de otro modo se requeriría." },
             { question: "¿Lorepa está disponible en EE. UU.?", answer: "Lorepa se enfoca actualmente en Canadá. El uso transfronterizo solo está permitido con el consentimiento del propietario y la documentación adecuada." }
         ]
     },
@@ -124,11 +126,12 @@ const faqContent = {
         guests: [
             { question: "在 Lorepa 租用拖车需要什么？", answer: "要租用拖车，您必须年满 21 岁，持有有效驾驶执照，并提供保险证明 (FAQ27)。您还需要一个经过验证的 Lorepa 账户。" },
             { question: "租赁流程是怎样的？", answer: "您可以浏览可用的拖车，向车主发送请求，一旦获得批准，即可确认您的预订。租赁合同和检查照片会自动生成。" },
-            { question: "我的租赁是否包含保险？", answer: "不。您需要提供有效的汽车保险，该保险涵盖拖车。在结账时可能会提供额外的可选保护。" },
+            { question: "Lorepa 提供租赁保险吗？", answer: "是的。Lorepa 提供可选的保险，每天 10 加元起。此保护旨在涵盖租赁期间与拖车相关的意外损坏、盗窃和有限责任。" },
             { question: "我可以取消我的预订吗？", answer: "是的，您可以根据我们的取消政策中描述的条款取消。退款可能会根据取消时间相对于开始日期的不同而有所不同。" },
             { question: "如果我迟还拖车会怎样？", answer: "迟还可能会产生固定罚金，如使用条款中所述。如果延迟，请务必通知车主，以避免争议。" },
             { question: "如果拖车在我的旅途中损坏了怎么办？", answer: "您对租赁期间的任何损坏负责。损坏费用可能会从您的押金中扣除或直接收取，具体取决于损坏的严重程度和证明。" },
             { question: "付款和押金如何处理？", answer: "付款通过 Stripe 安全处理。安全押金在租赁期间持有，如果未报告任何问题，将在 7 天内解除。" },
+            { question: "如果我选择保险，押金会怎样？", answer: "有保险：您的押金可能会减少或免除，具体取决于您选择的保障级别。无保险：适用车主设定的全额押金，并且您对任何损坏或损失负全部责任。" },
             { question: "我可以在哪里拖车？", answer: "大多数拖车可以在加拿大境内拖曳。如果计划跨境旅行（例如，前往美国），请先与车主核实并在您的请求中提及。" },
             { question: "我需要特殊的拖车驾照吗？", answer: "在大多数加拿大省份，标准 5 级驾照足以拖曳小型拖车。但是，您有责任确保您符合当地要求，并且您的车辆被评定为可以拖曳所选拖车。" },
             { question: "有哪些类型的拖车可用？", answer: "Lorepa 提供多用途拖车、封闭式货运拖车、汽车运输车、摩托车拖车等。您可以按类别、尺寸或位置进行筛选。" },
@@ -152,7 +155,7 @@ const faqContent = {
         ],
         global: [
             { question: "发生事故或盗窃时谁负责？", answer: "租户对租赁期间的任何损坏或损失负责。在严重情况下，可能适用警方报告、保险索赔和平台调解。" },
-            { question: "Lorepa 提供保险范围吗？", answer: "目前，Lorepa 不直接提供保险，但可能要求提供第三方保险证明 (FAQ27)。专门的保险选项可能很快会添加。" },
+            { question: "Lorepa 提供保险范围吗？", answer: "是的。Lorepa 提供可选的保险，每天 10 加元起。此保险为租赁期间的盗窃和某些类型的损坏提供保护。如果租户订阅此保险，则可以减少或免除原本需要支付的押金。" },
             { question: "Lorepa 在美国可用吗？", answer: "Lorepa 目前专注于加拿大。只有在车主同意和提供适当文件的情况下才允许跨境使用。" }
         ]
     },
@@ -160,11 +163,12 @@ const faqContent = {
         guests: [
             { question: "De quoi ai-je besoin pour louer une remorque sur Lorepa ?", answer: "Pour louer une remorque, vous devez avoir au moins 21 ans, posséder un permis de conduire valide et fournir une preuve d'assurance (FAQ27). Vous aurez également besoin d'un compte Lorepa vérifié." },
             { question: "Comment fonctionne le processus de location ?", answer: "Vous parcourez les remorques disponibles, envoyez une demande au propriétaire, et une fois approuvée, confirmez votre réservation. Un contrat de location et des photos d'inspection sont générés automatiquement." },
-            { question: "L'assurance est-elle incluse dans ma location ?", answer: "Non. Vous devez fournir une assurance automobile valide qui couvre le remorquage. Une protection optionnelle supplémentaire peut être proposée lors du paiement." },
+            { question: "Lorepa propose-t-elle une assurance pour la location ?", answer: "Oui. Lorepa propose une assurance optionnelle à partir de 10 $ par jour. Cette protection est conçue pour couvrir les dommages accidentels, le vol et la responsabilité limitée liés à la remorque pendant la période de location." },
             { question: "Puis-je annuler ma réservation ?", answer: "Oui, vous pouvez annuler selon les termes décrits dans notre politique d'annulation. Les remboursements peuvent varier en fonction du moment de l'annulation par rapport à la date de début." },
             { question: "Que se passe-t-il si je retourne la remorque en retard ?", answer: "Les retours tardifs peuvent entraîner des frais de pénalité fixes, comme indiqué dans les Conditions d'utilisation. Avertissez toujours le propriétaire en cas de retard pour éviter les litiges." },
             { question: "Que se passe-t-il si la remorque est endommagée pendant mon voyage ?", answer: "Vous êtes responsable de tout dommage pendant la période de location. Les coûts des dommages peuvent être déduits de votre dépôt ou facturés directement, selon la gravité et la preuve." },
             { question: "Comment sont gérés les paiements et les dépôts ?", answer: "Les paiements sont traités en toute sécurité via Stripe. Un dépôt de garantie est détenu pendant la période de location et libéré dans les 7 jours si aucun problème n'est signalé." },
+            { question: "Qu'advient-il du dépôt de garantie si je choisis l'assurance ?", answer: "Avec l'assurance : votre dépôt peut être réduit ou annulé, selon le niveau de couverture que vous avez choisi. Sans assurance : le dépôt total fixé par le propriétaire s'applique et vous restez entièrement responsable de tout dommage ou perte." },
             { question: "Où puis-je remorquer la remorque ?", answer: "La plupart des remorques peuvent être remorquées au Canada. Si un voyage transfrontalier (par exemple, vers les États-Unis) est prévu, vérifiez d'abord avec le propriétaire et mentionnez-le dans votre demande." },
             { question: "Ai-je besoin d'un permis de remorquage spécial ?", answer: "Dans la plupart des provinces canadiennes, un permis de classe 5 standard est suffisant pour les petites remorques. Cependant, il est de votre responsabilité de vous assurer que vous respectez les exigences locales et que votre véhicule est homologué pour remorquer la remorque sélectionnée." },
             { question: "Quels types de remorques sont disponibles ?", answer: "Lorepa propose des remorques utilitaires, des remorques cargo fermées, des transporteurs de voitures, des remorques pour motos, et plus encore. Vous pouvez filtrer par catégorie, taille ou emplacement." },
@@ -183,12 +187,12 @@ const faqContent = {
             { question: "Puis-je louer plusieurs remorques ?", answer: "Absolument. Lorepa prend en charge plusieurs annonces par utilisateur. Vous pouvez gérer votre flotte sous un seul compte et ajuster la disponibilité par unité." },
             { question: "Puis-je exiger des frais de nettoyage ou des conditions supplémentaires ?", answer: "Oui. Vous pouvez définir vos propres règles (frais de nettoyage, restrictions de remorquage, pénalités pour mauvaise utilisation), mais elles doivent être clairement divulguées dans votre annonce." },
             { question: "Comment puis-je améliorer la visibilité de ma remorque ?", answer: "Utilisez des photos de haute qualité, des descriptions détaillées, des prix équitables et maintenez un bon taux de réponse. Les propriétaires vérifiés avec de bonnes évaluations apparaissent plus haut dans les résultats de recherche." },
-            { question: "Comment gérer le carburant ou le retour d'équipement ?", answer: "Vous pouvez spécifier dans votre annonce si le carburant/l'équipement doit être retourné dans le même état. Documentez toujours l'état au moment de la prise en charge et du retour." },
+            { question: "Comment gérer le carburant ou le retour d'équipement ?", answer: "Vous pouvez spécifier dans votre annonce si le carburant/l'équipement doit être retourné dans le même état. Toujours documenter l'état au moment de la prise en charge et du retour." },
             { question: "Puis-je signaler un mauvais locataire ?", answer: "Oui. Une fois la location terminée, vous pouvez laisser un avis et signaler tout incident grave à l'équipe de confiance et de sécurité de Lorepa. Les abus répétés peuvent entraîner l'interdiction du locataire." }
         ],
         global: [
             { question: "Qui est responsable en cas d'accident ou de vol ?", answer: "Les locataires sont responsables de tout dommage ou perte pendant la location. Dans les cas graves, des rapports de police, des réclamations d'assurance et une médiation de la plateforme peuvent s'appliquer." },
-            { question: "Lorepa offre-t-elle une couverture d'assurance ?", answer: "Actuellement, Lorepa n'offre pas directement d'assurance mais peut exiger une preuve de couverture tierce (FAQ27). Des options d'assurance dédiées pourront être ajoutées prochainement." },
+            { question: "Lorepa offre-t-elle une couverture d'assurance ?", answer: "Oui. Lorepa propose une assurance optionnelle à partir de 10 $ par jour. Cette assurance offre une protection contre le vol et certains types de dommages pendant une location. Si un locataire souscrit à cette assurance, cela peut réduire ou annuler le dépôt qui serait autrement requis." },
             { question: "Lorepa est-elle disponible aux États-Unis ?", answer: "Lorepa se concentre actuellement sur le Canada. L'utilisation transfrontalière n'est autorisée qu'avec le consentement du propriétaire et une documentation appropriée." }
         ]
     }
@@ -233,7 +237,7 @@ const AccordionItem = ({ question, answer }) => {
 
 const FaqPage = () => {
     const [activeTab, setActiveTab] = useState('Guests');
-    
+
     // State for current language and corresponding translations
     const [currentLang, setCurrentLang] = useState(() => localStorage.getItem('lang') || 'en');
     const [translations, setTranslations] = useState(faqPageTranslations[currentLang]);
@@ -257,8 +261,8 @@ const FaqPage = () => {
         };
     }, []);
 
-    const displayedFAQs = activeTab === 'Guests' 
-        ? [...currentFaqContent.guests, ...currentFaqContent.global] 
+    const displayedFAQs = activeTab === 'Guests'
+        ? [...currentFaqContent.guests, ...currentFaqContent.global]
         : [...currentFaqContent.hosts, ...currentFaqContent.global];
 
     return (

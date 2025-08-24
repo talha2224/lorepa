@@ -29,6 +29,8 @@ import ListTrailer from './pages/ListTrailer';
 import TrailersLisitng from './pages/TrailersLisitng';
 import SingleTrailer from './pages/SingleTrailer';
 import CompareTrailer from './pages/CompareTrailer';
+import CookiesPage from './pages/CookiesPage';
+import LegalPage from './pages/LegalPage';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 
@@ -82,6 +84,8 @@ function App() {
             <Route path='/calculator' element={<CalculatorPage />} />
             <Route path='/contact' element={<ContactPage />} />
             <Route path='/privacy' element={<PrivacyPage />} />
+            <Route path='/cookie' element={<CookiesPage />} />
+            <Route path='/legal' element={<LegalPage />} />
             <Route path='/terms' element={<TermsPage />} />
             <Route path='/host' element={<BecomeHostPage />} />
             <Route path='/list' element={<ListTrailer />} />
