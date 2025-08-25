@@ -114,7 +114,7 @@ const TrailersListing = () => {
 
   const fetchTrailers = async (cityFilter) => {
     try {
-      const res = await axios.get(`${config.baseUrl}/trailer/all`);
+      const res = await axios.get(`${config.baseUrl}/trailer/all/approved`);
       let allTrailers = res.data.data || [];
       if (cityFilter) {
         allTrailers = allTrailers.filter((t) => {
