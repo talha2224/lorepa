@@ -222,7 +222,7 @@ const UserRegister = () => {
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>
           <p>
             Already have an account?{' '}
-            <Link to={"/admin/login"} className='text-blue-600 hover:text-blue-500'>Login</Link>
+            <Link to={"/user/login"} className='text-blue-600 hover:text-blue-500'>Login</Link>
           </p>
         </motion.div>
       </motion.div>
