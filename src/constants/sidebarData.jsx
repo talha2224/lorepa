@@ -4,6 +4,10 @@ import { GoHome } from "react-icons/go";
 import { BsBuildings } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
+import { FaRegBell, FaRegCalendarAlt } from "react-icons/fa";
+import { HiOutlineCreditCard } from "react-icons/hi2";
+import { GrDocumentText } from "react-icons/gr";
+import { RxGear } from "react-icons/rx";
 
 export const navData = [
     {
@@ -19,6 +23,46 @@ export const navData = [
         icon: <IoCall />
     }
 ];
+
+export const userNav = [
+    {
+        id: 1,
+        link: "home",
+        name: "Dashboard",
+        icon: <GoHome />
+    },
+    {
+        id: 2,
+        link: "reservation",
+        name: "Reservation",
+        icon: <FaRegCalendarAlt />
+    },
+    {
+        id: 3,
+        link: "payment",
+        name: "Payments & Receipts",
+        icon: <HiOutlineCreditCard />
+    },
+    {
+        id: 4,
+        link: "document",
+        name: "Document",
+        icon: <GrDocumentText />
+    },
+    {
+        id: 5,
+        link: "notification",
+        name: "Notifications",
+        icon: <FaRegBell />
+    },
+    {
+        id: 6,
+        link: "support",
+        name: "Support",
+        icon: <RxGear />
+    },
+];
+
 
 export const adminNav = [
     {

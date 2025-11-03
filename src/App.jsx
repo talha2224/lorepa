@@ -31,8 +31,15 @@ import SingleTrailer from './pages/SingleTrailer';
 import CompareTrailer from './pages/CompareTrailer';
 import CookiesPage from './pages/CookiesPage';
 import LegalPage from './pages/LegalPage';
+import UserRegister from './pages/User/Auth/UserRegister';
+import UserLogin from './pages/User/Auth/UserLogin';
+import UserForget from './pages/User/Auth/UserForget';
+import UserHome from './pages/User/Dashboard/UserHome';
+import UserReservation from './pages/User/Dashboard/UserReservation';
+import UserPayment from './pages/User/Dashboard/UserPayment';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
+const UserLayout = lazy(() => import('./components/user/Layout'));
 
 
 function SuspenseWithDelay({ children, fallback, delay = 0, minDisplayTime = 2000 }) {
@@ -60,6 +67,19 @@ function App() {
         <SuspenseWithDelay fallback={<div className="flex justify-center items-center w-screen h-screen"><img src={LoaderGif} alt="HopOn Dashboard- Loader" className="h-[6rem]" /></div>} minDisplayTime={2000}>
 
           <Routes>
+
+            <Route path='/user/login' element={<UserLogin />} />
+            <Route path='/user/register' element={<UserRegister />} />
+            <Route path='/user/forget' element={<UserForget />} />
+            <Route path="/user/dashboard/" element={<UserLayout />}>
+              <Route path="home" element={<UserHome />} />
+              <Route path="reservation" element={<UserReservation />} />
+              <Route path="payment" element={<UserPayment />} />
+              <Route path="booking" element={<AdminBookingPage />} />
+              <Route path="user" element={<AdminUserPage />} />
+              <Route path="user/:id" element={<AdminUserDetailPage />} />
+              <Route path="settings" element={<AdminSettingsPage />} />
+            </Route>
 
             <Route path='/admin/'>
               <Route path='login' element={<AdminLogin />} />
