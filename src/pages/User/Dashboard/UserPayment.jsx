@@ -159,70 +159,66 @@ const UserPayment = () => {
             </div>
 
             {/* Transaction History Table */}
+            {/* Transaction History Table */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200">
                 <div className="p-5 border-b border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-800 mb-1">Transaction History</h2>
                     <p className="text-sm text-gray-500">Review all payments and download your official receipts.</p>
                 </div>
 
-                {/* Table Head */}
-                <div className="grid grid-cols-6 text-xs sm:text-sm font-medium text-gray-500 uppercase px-5 py-3 border-b border-gray-200">
-                    <div className='col-span-1 flex items-center space-x-2'>
-                        <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                        <span>Date</span>
+                {/* Scrollable Table Container */}
+                <div className="overflow-x-auto">
+                    <div className="min-w-[800px]">
+                        {/* Table Head */}
+                        <div className="grid grid-cols-6 text-xs sm:text-sm font-medium text-gray-500 uppercase px-5 py-3 border-b border-gray-200">
+                            <div className='col-span-1 flex items-center space-x-2'>
+                                <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                                <span>Date</span>
+                            </div>
+                            <span className='col-span-2'>Name of Trailer</span>
+                            <span className='col-span-1'>Amount</span>
+                            <span className='col-span-1'>Status</span>
+                            <span className='col-span-1'>Receipt</span>
+                        </div>
+
+                        {/* Table Body */}
+                        {mockTransactions.map((transaction) => (
+                            <div key={transaction.id} className="grid grid-cols-6 text-sm text-gray-900 items-center px-5 py-3 border-b border-gray-100 hover:bg-gray-50 transition duration-100">
+                                <div className='col-span-1 flex items-center space-x-2'>
+                                    <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                                    <span className='font-medium'>{transaction.date}</span>
+                                </div>
+
+                                <span className='col-span-2'>{transaction.name}</span>
+
+                                <span className={`col-span-1 ${getAmountClasses(transaction.amount)}`}>
+                                    {transaction.amount < 0 ? `-$${Math.abs(transaction.amount).toFixed(2)}` : `$${transaction.amount.toFixed(2)}`}
+                                </span>
+
+                                <div className='col-span-1'>
+                                    <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusClasses(transaction.status)}`}>
+                                        {transaction.status}
+                                    </span>
+                                </div>
+
+                                <div className='col-span-1'>
+                                    {transaction.receipt && (
+                                        <button className="text-blue-600 hover:text-blue-800 p-1">
+                                            <FaDownload className="w-4 h-4" />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <span className='col-span-2'>Name of Trailer</span>
-                    <span className='col-span-1'>Amount</span>
-                    <span className='col-span-1'>Status</span>
-                    <span className='col-span-1'>Receipt</span>
                 </div>
-
-                {/* Table Body */}
-                {mockTransactions.map((transaction) => (
-                    <div key={transaction.id} className="grid grid-cols-6 text-sm text-gray-900 items-center px-5 py-3 border-b border-gray-100 hover:bg-gray-50 transition duration-100">
-
-                        {/* Checkbox and Date */}
-                        <div className='col-span-1 flex items-center space-x-2'>
-                            <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                            <span className='font-medium'>{transaction.date}</span>
-                        </div>
-
-                        {/* Name */}
-                        <span className='col-span-2'>{transaction.name}</span>
-
-                        {/* Amount */}
-                        <span className={`col-span-1 ${getAmountClasses(transaction.amount)}`}>
-                            {transaction.amount < 0 ? `-$${Math.abs(transaction.amount).toFixed(2)}` : `$${transaction.amount.toFixed(2)}`}
-                        </span>
-
-                        {/* Status */}
-                        <div className='col-span-1'>
-                            <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusClasses(transaction.status)}`}>
-                                {transaction.status}
-                            </span>
-                        </div>
-
-                        {/* Receipt */}
-                        <div className='col-span-1'>
-                            {transaction.receipt && (
-                                <button className="text-blue-600 hover:text-blue-800 p-1">
-                                    <FaDownload className="w-4 h-4" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                ))}
 
                 {/* Pagination */}
                 <div className="flex justify-between items-center px-5 py-4 text-sm">
                     <p className="text-gray-500">Page 1 of 30</p>
-
                     <div className='flex items-center space-x-4'>
-                        {/* Page Buttons */}
                         {renderPagination()}
-
-                        {/* Go to Page Dropdown (Simplified) */}
-                        <div className='flex items-center space-x-2'>
+                        <div className='hidden sm:flex items-center space-x-2'>
                             <span className='text-gray-700'>Go to page</span>
                             <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 py-1.5 px-3">
                                 <option>1</option>
@@ -232,8 +228,8 @@ const UserPayment = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
     )
 }
