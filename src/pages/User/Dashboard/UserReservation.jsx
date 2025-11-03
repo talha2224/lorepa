@@ -52,16 +52,16 @@ const ReservationItem = ({ reservation }) => {
 
                     <p className="text-sm text-gray-500 mb-1">{reservation.location}</p>
                     <p className="text-sm text-gray-700 font-medium mb-2">{reservation.dates}</p>
-                    <div className='flex justify-between items-center flex-1'>
+                    <div className='flex justify-between flex-wrap items-center flex-1'>
                         <span className={`text-xs font-medium px-2 py-1 rounded-md w-fit ${getStatusClasses(reservation.status)}`}>
                             {reservation.status}
                         </span>
 
-                        <div className="flex items-center justify-center gap-x-5">
-                            <p className="text-sm font-medium transition duration-150">
+                        <div className="block sm:flex items-center justify-center gap-x-5">
+                            <p className="sm:mt:0 t:3 text-sm font-medium transition duration-150">
                                 View details
                             </p>
-                            <button className="bg-blue-50 border border-blue-300 text-blue-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-150 shadow-sm">
+                            <button className="sm:mt:0 t:3 bg-blue-50 border border-blue-300 text-blue-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-150 shadow-sm">
                                 Contact Owner
                             </button>
                         </div>
