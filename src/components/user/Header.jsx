@@ -32,10 +32,12 @@ const Header = () => {
 
             <div className='hidden sm:flex justify-between items-center gap-x-4'>
                 <div className='flex items-center gap-x-2 border border-[#C3C3C3] rounded-[10px] px-3 py-2 w-[20rem]'>
-                    <BiSearchAlt className='text-[#9DA0A6]'/>
+                    <BiSearchAlt className='text-[#9DA0A6]' />
                     <input type="text" name="" id="" placeholder='Search here' className='text-[#9DA0A6] outline-none border-none flex-1' />
                 </div>
-                <IoMdNotificationsOutline className='w-[25px] h-[25px]'/>
+                <Link to={"/user/dashboard/notification"}>
+                    <IoMdNotificationsOutline className='w-[25px] h-[25px]' />
+                </Link>
                 <img src={avatar} alt="" className='w-[30px] h-[30px]' />
             </div>
 

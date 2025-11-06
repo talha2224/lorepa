@@ -37,6 +37,9 @@ import UserForget from './pages/User/Auth/UserForget';
 import UserHome from './pages/User/Dashboard/UserHome';
 import UserReservation from './pages/User/Dashboard/UserReservation';
 import UserPayment from './pages/User/Dashboard/UserPayment';
+import UserDocument from './pages/User/Dashboard/UserDocument';
+import UserNotification from './pages/User/Dashboard/UserNotification';
+import UserSupport from './pages/User/Dashboard/UserSupport';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 const UserLayout = lazy(() => import('./components/user/Layout'));
@@ -76,9 +79,9 @@ function App() {
               <Route path="reservation" element={<UserReservation />} />
               <Route path="payment" element={<UserPayment />} />
               <Route path="booking" element={<AdminBookingPage />} />
-              <Route path="user" element={<AdminUserPage />} />
-              <Route path="user/:id" element={<AdminUserDetailPage />} />
-              <Route path="settings" element={<AdminSettingsPage />} />
+              <Route path="document" element={<UserDocument />} />
+              <Route path="notification" element={<UserNotification />} />
+              <Route path="support" element={<UserSupport />} />
             </Route>
 
             <Route path='/admin/'>
