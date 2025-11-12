@@ -40,9 +40,20 @@ import UserPayment from './pages/User/Dashboard/UserPayment';
 import UserDocument from './pages/User/Dashboard/UserDocument';
 import UserNotification from './pages/User/Dashboard/UserNotification';
 import UserSupport from './pages/User/Dashboard/UserSupport';
+import BuyerLogin from './pages/Seller/Auth/BuyerLogin';
+import BuyerRegister from './pages/Seller/Auth/BuyerRegister';
+import BuyerForget from './pages/Seller/Auth/BuyerForget';
+import BuyerHome from './pages/Seller/Dashboard/BuyerHome';
+import BuyerListing from './pages/Seller/Dashboard/BuyerListing';
+import BuyerReservation from './pages/Seller/Dashboard/BuyerReservation';
+import BuyerPayment from './pages/Seller/Dashboard/BuyerPayment';
+import BuyerDocument from './pages/Seller/Dashboard/BuyerDocument';
+import BuyerSupport from './pages/Seller/Dashboard/BuyerSupport';
+import BuyerMessaging from './pages/Seller/Dashboard/BuyerMessaging';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 const UserLayout = lazy(() => import('./components/user/Layout'));
+const BuyerLayout = lazy(() => import('./components/buyer/Layout'));
 
 
 function SuspenseWithDelay({ children, fallback, delay = 0, minDisplayTime = 2000 }) {
@@ -82,6 +93,19 @@ function App() {
               <Route path="document" element={<UserDocument />} />
               <Route path="notification" element={<UserNotification />} />
               <Route path="support" element={<UserSupport />} />
+            </Route>
+
+            <Route path='/buyer/login' element={<BuyerLogin />} />
+            <Route path='/buyer/register' element={<BuyerRegister />} />
+            <Route path='/buyer/forget' element={<BuyerForget />} />
+            <Route path="/buyer/dashboard/" element={<BuyerLayout />}>
+              <Route path="home" element={<BuyerHome />} />
+              <Route path="listing" element={<BuyerListing />} />
+              <Route path="reservation" element={<BuyerReservation />} />
+              <Route path="earnings" element={<BuyerPayment />} />
+              <Route path="documents" element={<BuyerDocument />} />
+              <Route path="support" element={<BuyerSupport />} />
+              <Route path="messaging" element={<BuyerMessaging />} />
             </Route>
 
             <Route path='/admin/'>

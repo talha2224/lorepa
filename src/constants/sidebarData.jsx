@@ -1,4 +1,4 @@
-import { IoCall, IoSettingsOutline } from "react-icons/io5";
+import { IoCall, IoChatbox, IoSettingsOutline } from "react-icons/io5";
 import { MdDashboard } from 'react-icons/md';
 import { GoHome } from "react-icons/go";
 import { BsBuildings } from "react-icons/bs";
@@ -8,6 +8,7 @@ import { FaRegBell, FaRegCalendarAlt } from "react-icons/fa";
 import { HiOutlineCreditCard } from "react-icons/hi2";
 import { GrDocumentText } from "react-icons/gr";
 import { RxGear } from "react-icons/rx";
+import { RiCalendarTodoFill } from "react-icons/ri";
 
 export const navData = [
     {
@@ -54,6 +55,50 @@ export const userNav = [
         link: "notification",
         name: "Notifications",
         icon: <FaRegBell />
+    },
+    {
+        id: 6,
+        link: "support",
+        name: "Support",
+        icon: <RxGear />
+    },
+];
+export const buyerNav = [
+    {
+        id: 1,
+        link: "home",
+        name: "Dashboard",
+        icon: <GoHome />
+    },
+    {
+        id: 2,
+        link: "listing",
+        name: "Listing",
+        icon: <RiCalendarTodoFill />
+    },
+    {
+        id: 3,
+        link: "reservation",
+        name: "Reservation",
+        icon: <RiCalendarTodoFill />
+    },
+    {
+        id: 4,
+        link: "earnings",
+        name: "Earning & Payout",
+        icon: <GrDocumentText />
+    },
+    {
+        id: 5,
+        link: "documents",
+        name: "Documents & Contract",
+        icon: <GrDocumentText />
+    },
+    {
+        id: 7,
+        link: "messaging",
+        name: "Messaging",
+        icon: <IoChatbox  />
     },
     {
         id: 6,
