@@ -1,5 +1,6 @@
 export const singleTrailerTranslations = {
   en: {
+    deposit: "Deposit",
     signupsignin: "Sign in / Sign up",
     loading: "Loading trailer details...",
     trailerNotFound: "Trailer not found.",
@@ -114,6 +115,7 @@ export const singleTrailerTranslations = {
     chatWithOwner: "Download the app to chat",
   },
   es: {
+    deposit: "Depósito",
     signupsignin: "Iniciar sesión / Registrarse",
     chatWithOwner: "Descarga la aplicación para chatear",
     loading: "Cargando detalles del remolque...",
@@ -229,6 +231,7 @@ export const singleTrailerTranslations = {
     faqGlobal3A: "Lorepa se centra actualmente en Canadá. El uso transfronterizo solo está permitido con el consentimiento del propietario y la documentación adecuada.",
   },
   cn: {
+    deposit: "押金",
     "signupsignin": "登录 / 注册",
     chatWithOwner: "下载应用以聊天",
     loading: "正在加载拖车详情...",
@@ -344,6 +347,7 @@ export const singleTrailerTranslations = {
     faqGlobal3A: "Lorepa目前专注于加拿大。跨境使用仅在车主同意并提供适当文件的情况下才允许。",
   },
   fr: {
+    deposit: "Dépôt",
     "signupsignin": "Se connecter / S'inscrire",
     chatWithOwner: "Téléchargez l'application pour discuter",
     loading: "Chargement des détails de la remorque...",

@@ -329,26 +329,15 @@ const SingleTrailer = () => {
                 <p className='text-gray-600'>{translations.daily}</p>
                 <p className='text-gray-800 text-right'>${trailer.dailyRate}</p>
 
-                <p className='text-gray-600'>{translations.weekly}</p>
-                <p className='text-gray-800 text-right'>${trailer.weeklyRate}</p>
-
-                <p className='text-gray-600'>{translations.monthly}</p>
-                <p className='text-gray-800 text-right'>${trailer.monthlyRate}</p>
-
-                <p className='text-gray-600'>{translations.cleaningFee}</p>
-                <p className='text-gray-800 text-right'>${trailer.cleaningRate}</p>
-
-                <p className='text-gray-600'>{translations.securityDeposit}</p>
-                <p className='text-gray-800 text-right'>${trailer.securityRate}</p>
-
-                <p className='text-gray-600'>{translations.insuranceDeductible}</p>
-                <p className='text-gray-800 text-right'>${trailer.insuranceDeductible}</p>
+                <p className='text-gray-600'>{translations.deposit}</p>
+                <p className='text-gray-800 text-right'>${trailer.depositRate}</p>
               </div>
             </div>
           </div>
 
           <div>
-            <div className="border border-[#C3C3C3] p-5 rounded-lg mb-4">
+
+            {/* <div className="border border-[#C3C3C3] p-5 rounded-lg mb-4">
               <h2 className="text-[20px] font-[600] text-[#0A0F18] mb-4">{translations.trailerDetails}</h2>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <p className="text-gray-600">{translations.hitchType}</p>
@@ -378,15 +367,15 @@ const SingleTrailer = () => {
                 <p className="text-gray-600">{translations.vin}</p>
                 <p className="text-gray-800 text-right">{trailer.vin || '-'}</p>
               </div>
-            </div>
+            </div> */}
 
-            <div className="border border-[#C3C3C3] p-5 rounded-lg">
+            {/* <div className="border border-[#C3C3C3] p-5 rounded-lg">
               <h3 className="text-[20px] font-[600] text-[#0A0F18] mb-4">{translations.finalSetup}</h3>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <p className='text-gray-600'>{translations.trailerValue}</p>
                 <p className='text-gray-800 text-right'>${Number(trailer?.dailyRate) + Number(trailer?.monthlyRate) + Number(trailer?.cleaningRate) + Number(trailer?.securityRate) + Number(trailer?.insuranceDeductible)}</p>
               </div>
-            </div>
+            </div> */}
 
             <div className="border border-[#C3C3C3] p-5 rounded-lg mt-4">
               <h2 className="text-[20px] font-[600] text-[#0A0F18] mb-4">{translations.ratingsAndReviews}</h2>

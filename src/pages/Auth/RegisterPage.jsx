@@ -156,6 +156,7 @@ const RegisterPage = () => {
         localStorage.removeItem("socialPassword");
         localStorage.removeItem("socialName");
         localStorage.setItem('userId', res.data.data._id);
+        localStorage.setItem('role', res.data.data.role);
         toast.success(translations.successToast);
         setTimeout(() => nav("/"), 2000);
       } else {
@@ -208,7 +209,7 @@ const RegisterPage = () => {
 
         <div className="flex flex-col gap-3 mb-6">
           <GoogleLogin onSuccess={handleGoogleSignup} onError={() => toast.error(translations.googleSignupFail)} />
-          <LoginSocialFacebook
+          {/* <LoginSocialFacebook
             appId="1463083271394413"
             fields="name,email,picture"
             onResolve={handleFacebookSignup}
@@ -217,7 +218,7 @@ const RegisterPage = () => {
             <button className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
               <FaFacebookF /> {translations.continueWithFacebook}
             </button>
-          </LoginSocialFacebook>
+          </LoginSocialFacebook> */}
         </div>
 
         <motion.form onSubmit={handleRegister} className='space-y-6' variants={stagger}>

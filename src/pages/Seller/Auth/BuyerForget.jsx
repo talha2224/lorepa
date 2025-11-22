@@ -33,7 +33,7 @@ const BuyerForget = () => {
             setPasswordUpdated(true);
             setNewPassword('');
             setConfirmPassword('');
-            nav("/buyer/login")
+            nav("/seller/login")
         }, 1000);
     };
 

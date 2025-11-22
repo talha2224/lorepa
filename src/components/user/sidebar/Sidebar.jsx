@@ -3,6 +3,7 @@ import { userNav } from '../../../constants/sidebarData';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSidebar } from '../../../context/SidebarContext';
 import Logo from '../../../assets/lorepa.png'
+import { HiLogout } from 'react-icons/hi';
 
 const Sidebar = () => {
 
@@ -45,6 +46,10 @@ const Sidebar = () => {
               <p className={`${location == i.link ? "text-[#0A0F18]" : "text-white"} text-sm`}>{i.name}</p>
             </Link>
           ))}
+          <div onClick={() => { localStorage.removeItem("userId"); localStorage.removeItem("role"); nav("/") }} className={`flex mx-5 rounded-sm p-2  items-center gap-x-3 mb-2 cursor-pointer text-[#8F8F8F]`}>
+            <div className={`text-white`}><HiLogout /></div>
+            <p className={`text-white text-sm`}>Logout</p>
+          </div>
         </div>
       </div>
 
@@ -65,6 +70,10 @@ const Sidebar = () => {
                   <p className={`${location == i.link ? "text-[#0A0F18]" : "text-white"} text-sm`}>{i.name}</p>
                 </Link>
               ))}
+              <div onClick={() => { localStorage.removeItem("userId"); localStorage.removeItem("role"); nav("/") }} className={`flex mx-5 rounded-sm p-2  items-center gap-x-3 mb-2 cursor-pointer text-[#8F8F8F]`}>
+                <div className={`text-white`}><HiLogout /></div>
+                <p className={`text-white text-sm`}>Logout</p>
+              </div>
             </div>
 
           </div>

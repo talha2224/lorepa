@@ -129,6 +129,7 @@ const LoginPage = () => {
       const res = await axios.post(`${config.baseUrl}/account/login`, { email, password });
       if (res.data?.code === 200) {
         localStorage.setItem('userId', res.data.data._id);
+        localStorage.setItem('role', res.data.data.role);
         toast.success(translations.loginSuccess);
         setTimeout(() => {
           if (localStorage.getItem("naviagte")) {
@@ -153,6 +154,8 @@ const LoginPage = () => {
       try {
         const res = await axios.post(`${config.baseUrl}/account/login`, { email: googleEmail, password: googlePassword });
         localStorage.setItem('userId', res.data.data._id);
+        localStorage.setItem('role', res.data.data.role);
+
         toast.success(translations.loginSuccess);
         nav("/");
       } catch {
@@ -212,7 +215,7 @@ const LoginPage = () => {
 
         <div className="flex flex-col gap-3">
           <GoogleLogin onSuccess={handleGoogleAuth} onError={() => toast.error(translations.googleAuthFailed)} />
-          <LoginSocialFacebook
+          {/* <LoginSocialFacebook
             appId="1463083271394413"
             fields="name,email,picture"
             onResolve={handleFacebookAuth}
@@ -221,7 +224,7 @@ const LoginPage = () => {
             <button className="w-full flex items-center justify-center gap-2 py-2 bg-blue-700 text-white rounded-md">
               <FaFacebookF /> {translations.continueWithFacebook}
             </button>
-          </LoginSocialFacebook>
+          </LoginSocialFacebook> */}
         </div>
 
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>

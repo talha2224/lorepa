@@ -16,7 +16,10 @@ const navBarTransaltions = {
     whoAreWe: "Who are we",
     contactUs: "Contact us",
     calculator: "Calculator",
-    turoVsLorepa: "Turo vs. Lorepa"
+    turoVsLorepa: "Turo vs. Lorepa",
+    continueSeller: "Continue as Seller",
+    continueBuyer: "Continue as Buyer",
+    dashboard: "Dashboard"
   },
   es: {
     becomeAHost: "Conviértete en anfitrión",
@@ -26,7 +29,10 @@ const navBarTransaltions = {
     whoAreWe: "¿Quiénes somos?",
     contactUs: "Contáctanos",
     calculator: "Calculadora",
-    turoVsLorepa: "Turo vs. Lorepa"
+    turoVsLorepa: "Turo vs. Lorepa",
+    continueSeller: "Continuar como Vendedor",
+    continueBuyer: "Continuar como Comprador",
+    dashboard: "Panel de Control"
   },
   cn: {
     becomeAHost: "成为房东",
@@ -36,7 +42,10 @@ const navBarTransaltions = {
     whoAreWe: "我们是谁",
     contactUs: "联系我们",
     calculator: "计算器",
-    turoVsLorepa: "Turo 对比 Lorepa"
+    turoVsLorepa: "Turo 对比 Lorepa",
+    continueSeller: "以卖家身份继续",
+    continueBuyer: "以买家身份继续",
+    dashboard: "仪表板"
   },
   fr: {
     becomeAHost: "Devenir hôte",
@@ -46,14 +55,17 @@ const navBarTransaltions = {
     whoAreWe: "Qui sommes-nous",
     contactUs: "Nous contacter",
     calculator: "Calculatrice",
-    turoVsLorepa: "Turo vs. Lorepa"
+    turoVsLorepa: "Turo vs. Lorepa",
+    continueSeller: "Continuer en tant que Vendeur",
+    continueBuyer: "Continuer en tant qu'Acheteur",
+    dashboard: "Tableau de Bord"
   }
 };
+
 
 const Navbar = () => {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showNav, setshowNav] = useState(false);
-  const [language, setLanguage] = useState("en");
   const isLogin = localStorage.getItem("userId");
 
   const [translations, setTranslations] = useState(() => {
@@ -74,15 +86,7 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    if (storedLang) {
-      setLanguage(storedLang);
-    }
-  }, []);
-
   const handleLanguageChange = (langSymbol) => {
-    setLanguage(langSymbol);
     localStorage.setItem("lang", langSymbol);
     setShowLanguages(false);
     window.location.reload();
@@ -100,13 +104,6 @@ const Navbar = () => {
 
           <div className="block relative">
             <div className="ml-4 flex items-center md:ml-6 gap-x-4">
-              {isLogin && (
-                <Link to={"/host"}>
-                  <button className='text-xs border-black border cursor-pointer p-2 rounded-md sm:block hidden'>
-                    {translations.becomeAHost}
-                  </button>
-                </Link>
-              )}
               <CiGlobe className='cursor-pointer' onClick={() => setShowLanguages(!showLanguages)} />
               <div className="flex items-center gap-x-2 bg-[#F1F1F1] rounded-md p-2">
                 <RxHamburgerMenu onClick={() => setshowNav(!showNav)} className='cursor-pointer' />
@@ -128,11 +125,10 @@ const Navbar = () => {
             {showNav && (
               <div className='absolute z-10 right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg'>
                 <div className='py-1'>
+                  {isLogin && (<Link to={localStorage.getItem("role") === "owner" ? "/seller/dashboard/home" : "/user/dashboard/home"} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.dashboard}</Link>)}
                   {!isLogin && (<Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.login}</Link>)}
                   {!isLogin && (<Link to="/register" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.signup}</Link>)}
                   {isLogin && (<p onClick={() => { localStorage.removeItem("userId"); window.location.reload(); }} className='cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.logout}</p>)}
-                  {isLogin && <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.becomeAHost}</Link>}
-
                   <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
                     <IoKey />
                     <Link to="/who" className='block text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>
@@ -142,11 +138,11 @@ const Navbar = () => {
                     <Link to="/contact">{translations.contactUs}</Link>
                   </div>
                   <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
-                    <CiCalculator1/>
+                    <CiCalculator1 />
                     <Link to="/calculator">{translations.calculator}</Link>
                   </div>
                   <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
-                    <BiTransfer/>
+                    <BiTransfer />
                     <Link to="/compare">{translations.turoVsLorepa}</Link>
                   </div>
                 </div>

@@ -22,7 +22,8 @@ const navBar2Translations = {
         contactUs: "Contact us",
         calculator: "Calculator",
         montrealPlaceholder: "Montreal",
-        turoVsLorepa: "Turo vs. Lorepa"
+        turoVsLorepa: "Turo vs. Lorepa",
+        dashboard: "Dashboard"
     },
     es: {
         where: "¿Dónde?",
@@ -36,7 +37,8 @@ const navBar2Translations = {
         contactUs: "Contáctanos",
         calculator: "Calculadora",
         montrealPlaceholder: "Montreal",
-        turoVsLorepa: "Turo vs. Lorepa"
+        turoVsLorepa: "Turo vs. Lorepa",
+        dashboard: "Panel de Control"
     },
     cn: {
         where: "地点",
@@ -50,7 +52,8 @@ const navBar2Translations = {
         contactUs: "联系我们",
         calculator: "计算器",
         montrealPlaceholder: "蒙特利尔",
-        turoVsLorepa: "Turo 对比 Lorepa"
+        turoVsLorepa: "Turo 对比 Lorepa",
+        dashboard: "仪表板"
 
     },
     fr: {
@@ -65,7 +68,8 @@ const navBar2Translations = {
         contactUs: "Nous contacter",
         calculator: "Calculatrice",
         montrealPlaceholder: "Montréal",
-        turoVsLorepa: "Turo vs. Lorepa"
+        turoVsLorepa: "Turo vs. Lorepa",
+        dashboard: "Tableau de Bord"
 
     }
 };
@@ -270,10 +274,10 @@ const Navbar2 = () => {
                         {showNav && (
                             <div className=' absolute z-10 right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg'>
                                 <div className='py-1'>
+                                    {isLogin && (<Link to={localStorage.getItem("role") === "owner" ? "/seller/dashboard/home" : "/user/dashboard/home"} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.dashboard}</Link>)}
                                     {!isLogin && (<Link to="/login" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.login}</Link>)}
                                     {!isLogin && (<Link to="/register" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.signup}</Link>)}
                                     {isLogin && (<p onClick={() => { localStorage.removeItem("userId"); window.location.reload() }} className=' cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.logout}</p>)}
-                                    {isLogin && <Link to="/host" className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>{translations.becomeAHost}</Link>}
                                     <div className='px-4 py-2 flex items-center gap-x-2 text-gray-700 hover:bg-gray-100 text-sm'>
                                         <IoKey />
                                         <Link to="/who" className='block text-sm text-gray-700 hover:bg-gray-100'>{translations.whoAreWe}</Link>

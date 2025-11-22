@@ -1,26 +1,17 @@
-import React, { useState } from 'react'
-import trailer from '../../../assets/trailer.png'
-import trailer2 from '../../../assets/trailer2.png'
-import trailer3 from '../../../assets/trailer.png'
+import React, { useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
+import config from '../../../config'
+import axios from 'axios'
 
-const mockReservations = [
-    { id: 1, title: "Diamond C Utility 77\" x 14'", user: "James R.", location: "Saskatoon, Saskatchewan", dates: "Dec 15 – 20, 2025", status: "Confirmed", image: trailer, type: 'Upcoming' },
-    { id: 2, title: "16' Enclosed Moving Trailer", user: "Mike J.", location: "Saskatoon, Saskatchewan", dates: "Oct 10 – 12, 2024", status: "Completed", image: trailer2, type: 'Past' },
-    { id: 3, title: "Diamond C Utility 77\" x 14'", user: "James R.", location: "Saskatoon, Saskatchewan", dates: "Sep 5 – 7, 2024", status: "Cancelled", image: trailer3, type: 'Past' },
-    { id: 4, title: "Heavy Duty Flatbed", user: "Sarah K.", location: "Regina, Saskatchewan", dates: "Jan 25 – 30, 2026", status: "Pending", image: trailer, type: 'Upcoming' },
-];
-
-// Helper component for status tag styles
 const getStatusClasses = (status) => {
     switch (status) {
-        case 'Confirmed':
+        case 'confirmed':
             return 'text-green-700 bg-green-100';
-        case 'Completed':
+        case 'completed':
             return 'text-gray-700 bg-gray-200';
-        case 'Cancelled':
+        case 'cancelled':
             return 'text-red-700 bg-red-100';
-        case 'Pending':
+        case 'pending':
             return 'text-yellow-700 bg-yellow-100';
         default:
             return 'text-gray-700 bg-gray-100';
@@ -29,29 +20,27 @@ const getStatusClasses = (status) => {
 
 const TABS = ['All', 'Upcoming', 'Past', 'Cancel'];
 
-// Reservation Item Component (Reusable)
 const ReservationItem = ({ reservation }) => {
     return (
         <div className="py-4 border-b border-gray-200 last:border-b-0">
 
-            {/* Left: Image and Details */}
             <div className="flex items-start space-x-4">
                 <img
-                    src={reservation.image}
-                    alt={reservation.title}
+                    src={reservation.trailerId?.images[0]}
+                    alt={reservation.trailerId?.title}
                     className="w-32 h-20 sm:w-40 sm:h-24 object-cover rounded-lg flex-shrink-0"
                 />
 
                 <div className='flex-1'>
-                    <p className="font-bold text-gray-900 text-lg leading-tight mb-1">{reservation.title}</p>
+                    <p className="font-bold text-gray-900 text-lg leading-tight mb-1">{reservation.trailerId?.title}</p>
 
                     <div className="flex items-center text-sm text-gray-600 mb-1">
                         <FaUser className="w-3.5 h-3.5 mr-1 text-red-600" />
-                        <span className="font-medium">{reservation.user}</span>
+                        <span className="font-medium">{reservation.owner_id?.name}</span>
                     </div>
 
-                    <p className="text-sm text-gray-500 mb-1">{reservation.location}</p>
-                    <p className="text-sm text-gray-700 font-medium mb-2">{reservation.dates}</p>
+                    <p className="text-sm text-gray-500 mb-1">{[reservation.trailerId?.country, reservation.trailerId?.city]?.filter(i => i !== null).join(", ")}</p>
+                    <p className="text-sm text-gray-700 font-medium mb-2">{[reservation.startDate, reservation?.endDate]?.filter(i => i !== null).join(", ")}</p>
                     <div className='flex justify-between flex-wrap items-center flex-1'>
                         <span className={`text-xs font-medium px-2 py-1 rounded-md w-fit ${getStatusClasses(reservation.status)}`}>
                             {reservation.status}
@@ -76,12 +65,38 @@ const ReservationItem = ({ reservation }) => {
 
 const UserReservation = () => {
     const [activeTab, setActiveTab] = useState('All');
+    const [bookings, setBookings] = useState([]);
 
-    const filteredReservations = mockReservations.filter(res => {
-        if (activeTab === 'All') return true;
-        if (activeTab === 'Cancel') return res.status === 'Cancelled';
-        return res.type === activeTab;
+    const filteredReservations = bookings.filter((booking) => {
+        const today = new Date();
+
+        switch (activeTab) {
+            case 'All':
+                return true;
+            case 'Upcoming':
+                return new Date(booking.startDate) >= today && booking.status !== 'cancelled';
+            case 'Past':
+                return new Date(booking.endDate) < today || booking.status === 'completed';
+            case 'Cancel':
+                return booking.status === 'cancelled';
+            default:
+                return true;
+        }
     });
+
+
+    const fetchBookings = async () => {
+        try {
+            const result = await axios.get(`${config.baseUrl}/booking/buyer/${localStorage.getItem("userId")}`);
+            setBookings(result.data.data);
+        } catch (err) {
+            toast.error("Failed to fetch bookings");
+        }
+    };
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
 
     return (
         <div>

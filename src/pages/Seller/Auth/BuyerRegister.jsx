@@ -46,7 +46,7 @@ const BuyerRegister = () => {
       return;
     }
     else{
-      navigation("/buyer/dashboard/home")
+      navigation("/seller/dashboard/home")
     }
   };
 
@@ -222,7 +222,7 @@ const BuyerRegister = () => {
         <motion.div variants={fadeInUp} className='mt-8 text-center text-sm'>
           <p>
             Already have an account?{' '}
-            <Link to={"/buyer/login"} className='text-blue-600 hover:text-blue-500'>Login</Link>
+            <Link to={"/seller/login"} className='text-blue-600 hover:text-blue-500'>Login</Link>
           </p>
         </motion.div>
       </motion.div>

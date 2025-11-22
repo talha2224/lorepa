@@ -92,7 +92,7 @@ const AdminListingPage = () => {
                   View details
                 </Link>
                 <div className='flex space-x-1'>
-                  {['Pending', 'Approved', 'Decline'].map(status => (
+                  {['pending', 'approved', 'decline'].map(status => (
                     <button
                       key={status}
                       onClick={() => updateStatus(listing._id, status)}

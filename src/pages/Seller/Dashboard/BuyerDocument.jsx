@@ -1,62 +1,24 @@
-import React, { useState } from 'react';
-import { AiOutlineDownload } from 'react-icons/ai';
-import { FaCalendarAlt, FaTruck, FaUserCircle, FaDownload, FaSearch } from 'react-icons/fa';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { FaCalendarAlt, FaDownload, FaSearch, FaPlus } from 'react-icons/fa';
 import { HiDownload } from 'react-icons/hi';
-import { IoWalletOutline, IoClose } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
 import { MdOutlineDocumentScanner } from 'react-icons/md';
+import config from '../../../config';
+import toast from 'react-hot-toast';
+import UploadNewDocumentModal from '../../../components/UploadNewDocumentModal';
+import { formatReadableDate } from '../../../helpers/function';
 
-// Data structure for the documents
-const documentsData = [
-    {
-        id: 1,
-        title: "Diamond C Utility 77\" x14'",
-        type: "Contract",
-        trailer: "Diamond C Utility",
-        uploaded: "Dec 12, 2025",
-        color: "bg-[#2563EB]",
-        documentType: "Contracts",
-    },
-    {
-        id: 2,
-        title: "Check-in Photos - Diamond C",
-        type: "Check-in Photos",
-        trailer: "Diamond C Utility",
-        uploaded: "Dec 12, 2025",
-        color: "bg-purple-600",
-        documentType: "Check-in Photos",
-    },
-    {
-        id: 3,
-        title: "Check-out Photos - Diamond C",
-        type: "Check-out Photos",
-        trailer: "Diamond C Utility",
-        uploaded: "Dec 12, 2025",
-        color: "bg-pink-600",
-        documentType: "Check-out Photos",
-    },
-    {
-        id: 4,
-        title: "Insurance Rider",
-        type: "Contract",
-        trailer: "Diamond C Utility",
-        uploaded: "Dec 12, 2025",
-        color: "bg-[#2563EB]",
-        documentType: "Contracts",
-    },
-    {
-        id: 5,
-        title: "Damage Report - Flatbed",
-        type: "Report",
-        trailer: "Diamond C Utility",
-        uploaded: "Dec 12, 2025",
-        color: "bg-red-600",
-        documentType: "Reports",
-    },
+
+const documentTypes = [
+    "Rental Contract",
+    "Insurance Rider",
+    "Damage Report",
+    "Check-in Photos",
+    "Check-out Photos",
 ];
 
-// Helper component for the document card
-const DocumentCard = ({ doc, onView }) => {
-    // Determine icon and text color for the document type chip
+const DocumentCard = ({ doc, onView, onDownload }) => {
     const getChipStyles = (type) => {
         switch (type) {
             case "Contract":
@@ -71,32 +33,52 @@ const DocumentCard = ({ doc, onView }) => {
         }
     };
 
+    // Determine status color
+    const getStatusStyles = (status) => {
+        switch (status) {
+            case "Review":
+                return "text-yellow-700";
+            case "Expired":
+                return "text-red-700";
+            case "Completed":
+            case "Active":
+                return "text-green-700";
+            default:
+                return "text-gray-700";
+        }
+    };
+
+
     return (
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
-            <div className={`p-6 flex flex-col justify-between h-48 ${doc.color}`}>
+            <div className={`p-6 flex flex-col justify-between h-48 bg-[#3B82F6]`}>
                 <MdOutlineDocumentScanner className="text-white text-5xl" />
-                <FaDownload className="text-white text-xl cursor-pointer hover:text-gray-200 transition" />
+                <FaDownload onClick={() => onDownload(doc.fileUrl, doc.uploadType)} className="text-white text-xl cursor-pointer hover:text-gray-200 transition self-end" />
             </div>
             <div className="p-4 space-y-2">
-                <p className="text-sm font-semibold truncate">{doc.title}</p>
+                <p className="text-sm font-semibold truncate">{doc.uploadType}</p>
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getChipStyles(doc.type)}`}>
-                    {doc.type}
+                    {doc.documentType}
                 </span>
                 <p className="text-xs text-gray-500">
-                    <span className='font-bold text-black'>Trailer:</span> {doc.trailer}
+                    <span className='font-bold text-black'>Trailer:</span> {doc.trailerId?.title}
                 </p>
                 <p className="text-xs text-gray-500">
-                    <span className='font-bold text-black'>Uploaded:</span>{doc.uploaded}
+                    <span className='font-bold text-black'>Uploaded:</span> {formatReadableDate(doc.createdAt)}
+                </p>
+                <p className="text-xs text-gray-500">
+                    <span className='font-bold text-black'>Status:</span> <span className={`font-semibold ${getStatusStyles(doc.status)}`}>{doc.trailerId?.status}</span>
                 </p>
 
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center pt-2'>
                     <button
                         onClick={() => onView(doc)}
-                        className="mt-2 px-5 text-[#2563EB] border border-blue-600 hover:bg-blue-50 text-sm font-medium py-1 rounded-md transition"
+                        className="px-5 text-[#2563EB] border border-blue-600 hover:bg-blue-50 text-sm font-medium py-1 rounded-md transition"
                     >
                         View
                     </button>
-                    <HiDownload className='text-[#2563EB]' />
+                    {/* Icon on the bottom right */}
+                    <HiDownload onClick={() => onDownload(doc.fileUrl, doc.uploadType)} className='text-[#2563EB] text-xl' />
 
                 </div>
             </div>
@@ -104,8 +86,8 @@ const DocumentCard = ({ doc, onView }) => {
     );
 };
 
-// Modal component
-const DocumentModal = ({ isOpen, onClose, documentTitle }) => {
+
+const DocumentModal = ({ isOpen, onClose, document }) => {
     if (!isOpen) return null;
 
     return (
@@ -114,7 +96,7 @@ const DocumentModal = ({ isOpen, onClose, documentTitle }) => {
                 {/* Modal Header */}
                 <div className="p-4 border-b flex justify-between items-center">
                     <div className="flex items-center space-x-2">
-                        <h3 className="text-lg font-bold">{documentTitle}</h3>
+                        <h3 className="text-lg font-bold">{document?.documentType}</h3>
                         <span className="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-100 text-green-700">
                             Contract
                         </span>
@@ -138,32 +120,87 @@ const DocumentModal = ({ isOpen, onClose, documentTitle }) => {
     );
 };
 
-// Main Component
 const BuyerDocument = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isViewerModalOpen, setIsViewerModalOpen] = useState(false);
     const [selectedDocument, setSelectedDocument] = useState(null);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
+    const [trailers, setTrailers] = useState([]);
+    const [documentsData, setDocumentData] = useState([])
 
-    const openModal = (doc) => {
+    const openViewerModal = (doc) => {
         setSelectedDocument(doc);
-        setIsModalOpen(true);
+        setIsViewerModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
+    const closeViewerModal = () => {
+        setIsViewerModalOpen(false);
         setSelectedDocument(null);
     };
-
-    // Filter documents based on active tab and search term
+    const openUploadModal = () => {
+        setIsUploadModalOpen(true);
+    };
+    const closeUploadModal = () => {
+        setIsUploadModalOpen(false);
+    };
     const filteredDocuments = documentsData.filter(doc => {
         const matchesTab = activeTab === 'All' || doc.documentType === activeTab;
-        const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            doc.trailer.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = doc.documentType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            doc.description.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesTab && matchesSearch;
     });
 
     const tabs = ['All', 'Contracts', 'Check-in Photos', 'Check-out Photos', 'Reports'];
+
+    const fetchTrailers = async () => {
+        try {
+            const res = await axios.get(`${config.baseUrl}/trailer/all/approved`);
+            let allTrailers = res.data.data || [];
+            setTrailers(allTrailers);
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to fetch trailers.");
+        }
+    };
+
+    const fetchDocuments = async () => {
+        try {
+            const userId = localStorage.getItem("userId");
+
+            const res = await axios.get(`${config.baseUrl}/document/user/${userId}`);
+
+            setDocumentData(res.data.data);
+        } catch (err) {
+            console.log(err);
+            toast.error("Failed to fetch documents.");
+        }
+    };
+
+    useEffect(() => {
+        if (!isUploadModalOpen) {
+            fetchTrailers();
+            fetchDocuments()
+        }
+    }, [isUploadModalOpen])
+
+    const handleDownload = (fileUrl, fileName) => {
+        if (!fileUrl) {
+            toast.error("File not found");
+            return;
+        }
+
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = fileName || "document";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast.success("Download started");
+    };
+
+
 
     return (
         <div className="min-h-screen">
@@ -171,9 +208,13 @@ const BuyerDocument = () => {
                 {/* Header and Download Button */}
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold text-gray-800">My Documents</h1>
-                    <button className="flex items-center px-4 py-2 bg-[#2563EB] text-white rounded-lg  hover:bg-blue-700 transition">
-                        <HiDownload className="mr-2" />
-                        Download All (ZIP)
+                    {/* UPDATED BUTTON: Opens the new Upload Modal */}
+                    <button
+                        onClick={openUploadModal}
+                        className="flex items-center px-4 py-2 bg-[#2563EB] text-white rounded-lg  hover:bg-blue-700 transition"
+                    >
+                        <FaPlus className="mr-2" />
+                        Add New Document
                     </button>
                 </div>
 
@@ -218,7 +259,7 @@ const BuyerDocument = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {filteredDocuments.length > 0 ? (
                         filteredDocuments.map((doc) => (
-                            <DocumentCard key={doc.id} doc={doc} onView={openModal} />
+                            <DocumentCard key={doc._id} doc={doc} onView={openViewerModal} onDownload={handleDownload} />
                         ))
                     ) : (
                         <p className="col-span-full text-center text-gray-500 py-10">
@@ -229,9 +270,17 @@ const BuyerDocument = () => {
 
                 {/* Document Viewer Modal */}
                 <DocumentModal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    documentTitle={selectedDocument ? `Rental Contract - ${selectedDocument.uploaded.replace('Dec', 'Dec ')}` : ''}
+                    isOpen={isViewerModalOpen}
+                    onClose={closeViewerModal}
+                    document={selectedDocument}
+                />
+
+                {/* NEW: Upload New Document Modal */}
+                <UploadNewDocumentModal
+                    isOpen={isUploadModalOpen}
+                    onClose={closeUploadModal}
+                    trailers={trailers}
+                    documentTypes={documentTypes}
                 />
             </div>
         </div>

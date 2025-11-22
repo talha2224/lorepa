@@ -8,6 +8,7 @@ import config from '../config';
 import toast from 'react-hot-toast';
 import { trailersListingTranslations } from '../translations/trailerListing';
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import BookingModal from '../components/BookingModel';
 
 const GOOGLE_API_KEY = config.GOOGLE_API_KEY;
 
@@ -29,9 +30,7 @@ const fadeInUp = {
 const selectStyle = "bg-[#F1F1F1] p-2 rounded-md";
 const containerStyle = { width: "100%", height: "100%" };
 
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const createTruckMarker = (price) => {
   const svg = `
@@ -45,7 +44,6 @@ const createTruckMarker = (price) => {
   return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
 };
 
-
 const TrailersListing = () => {
   const nav = useNavigate();
   const query = useQuery();
@@ -58,13 +56,14 @@ const TrailersListing = () => {
   const [filteredTrailers, setFilteredTrailers] = useState([]);
   const [trailers, setTrailers] = useState([]);
   const [activeTrailer, setActiveTrailer] = useState(null);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedTrailerForBooking, setSelectedTrailerForBooking] = useState(null);
 
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
     return trailersListingTranslations[storedLang] || trailersListingTranslations.en;
   });
 
-  // Google Maps API Loader
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_API_KEY
   });
@@ -76,13 +75,40 @@ const TrailersListing = () => {
     };
     window.addEventListener('storage', handleStorageChange);
     handleStorageChange();
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const handleCardClick = (id) => {
-    nav(`/trailers/${id}`);
+  const handleCardClick = (id) => nav(`/trailers/${id}`);
+
+  const handleBookNowClick = (e, trailer) => {
+    e.stopPropagation();
+    setSelectedTrailerForBooking(trailer);
+    setIsBookingModalOpen(true);
+  };
+
+  const handleCloseBookingModal = () => {
+    setIsBookingModalOpen(false);
+    setSelectedTrailerForBooking(null);
+  };
+
+  const handleBookingSubmit = async ({ trailerId, startDate, endDate, price }) => {
+    const user_id = localStorage.getItem('userId');
+    if (!user_id) {
+      toast.error(translations.userNotFound);
+      return;
+    }
+
+    const payload = { user_id, trailerId, startDate, endDate, price };
+    let loadingToast = toast.loading(translations.submittingBooking);
+
+    try {
+      await axios.post(`${config.baseUrl}/booking/create`, payload);
+      toast.success(translations.bookingSubmittedSuccess, { id: loadingToast });
+      handleCloseBookingModal();
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error(error.response?.data?.msg || translations.submissionFailed, { id: loadingToast });
+    }
   };
 
   useEffect(() => {
@@ -92,23 +118,14 @@ const TrailersListing = () => {
 
   useEffect(() => {
     let filtered = [...trailers];
-    if (priceFilter === 'lowToHigh') {
-      filtered.sort((a, b) => parseFloat(a.dailyRate) - parseFloat(b.dailyRate));
-    } else if (priceFilter === 'highToLow') {
-      filtered.sort((a, b) => parseFloat(b.dailyRate) - parseFloat(a.dailyRate));
-    }
-    if (typeFilter) {
-      filtered = filtered.filter(t => t.category?.toLowerCase() === typeFilter.toLowerCase());
-    }
-    if (keyword.trim()) {
-      filtered = filtered.filter(
-        t => t.title?.toLowerCase().includes(keyword.toLowerCase()) ||
-          t.description?.toLowerCase().includes(keyword.toLowerCase())
-      );
-    }
-    if (sortBy === 'popular') {
-      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    }
+    if (priceFilter === 'lowToHigh') filtered.sort((a, b) => parseFloat(a.dailyRate) - parseFloat(b.dailyRate));
+    else if (priceFilter === 'highToLow') filtered.sort((a, b) => parseFloat(b.dailyRate) - parseFloat(a.dailyRate));
+    if (typeFilter) filtered = filtered.filter(t => t.category?.toLowerCase() === typeFilter.toLowerCase());
+    if (keyword.trim()) filtered = filtered.filter(t =>
+      t.title?.toLowerCase().includes(keyword.toLowerCase()) ||
+      t.description?.toLowerCase().includes(keyword.toLowerCase())
+    );
+    if (sortBy === 'popular') filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setFilteredTrailers(filtered);
   }, [priceFilter, typeFilter, keyword, sortBy, trailers]);
 
@@ -119,11 +136,7 @@ const TrailersListing = () => {
       if (cityFilter) {
         allTrailers = allTrailers.filter((t) => {
           const fullLocation = `${t.city || ''}, ${t.state || ''}`.toLowerCase();
-          return (
-            t.city?.toLowerCase().includes(cityFilter) ||
-            t.state?.toLowerCase().includes(cityFilter) ||
-            fullLocation.includes(cityFilter)
-          );
+          return t.city?.toLowerCase().includes(cityFilter) || t.state?.toLowerCase().includes(cityFilter) || fullLocation.includes(cityFilter);
         });
       }
       setTrailers(allTrailers);
@@ -138,7 +151,6 @@ const TrailersListing = () => {
       <Navbar2 />
       <main className="flex-1 p-6 md:p-8 lg:p-10">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left Section */}
           <div className="lg:w-2/3">
             <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
               <div className="flex flex-wrap gap-4">
@@ -184,8 +196,7 @@ const TrailersListing = () => {
                   onClick={() => handleCardClick(trailer._id)}
                 >
                   <img
-                    src={trailer.images?.[0] ||
-                      `https://placehold.co/400x300/F3F4F6/9CA3AF?text=${encodeURIComponent(translations.noImage)}`}
+                    src={trailer.images?.[0] || `https://placehold.co/400x300/F3F4F6/9CA3AF?text=${encodeURIComponent(translations.noImage)}`}
                     alt={trailer.title}
                     className="w-full h-48 object-cover"
                   />
@@ -193,22 +204,26 @@ const TrailersListing = () => {
                     <h3 className="text-lg font-semibold text-gray-800 mb-1">{trailer.title}</h3>
                     <p className="text-gray-600 text-sm mb-1">{trailer.userId?.email || translations.unknownOwner}</p>
                     <p className="text-gray-500 text-xs mb-2">{trailer.city}, {trailer.state}</p>
-                    <p className="text-black font-medium text-lg">${trailer.dailyRate}{translations.perDay}</p>
+                    <div className='flex items-center justify-between'>
+                      <p className="text-black font-medium text-lg">${trailer.dailyRate}{translations.perDay}</p>
+                      <button
+                        className='bg-blue-700 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-800 transition-colors'
+                        onClick={(e) => handleBookNowClick(e, trailer)}
+                      >
+                        {translations.bookNow}
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          {/* Right Section - Map */}
           <div className="lg:w-1/3 flex-shrink-0 h-[80vh]">
             {isLoaded && (
               <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={{
-                  lat: trailers[0]?.latitude || 37.7749,
-                  lng: trailers[0]?.longitude || -122.4194
-                }}
+                center={{ lat: trailers[0]?.latitude || 37.7749, lng: trailers[0]?.longitude || -122.4194 }}
                 zoom={10}
               >
                 {trailers.map((trailer) => (
@@ -216,19 +231,13 @@ const TrailersListing = () => {
                     key={trailer._id}
                     position={{ lat: parseFloat(trailer.latitude), lng: parseFloat(trailer.longitude) }}
                     onClick={() => setActiveTrailer(trailer)}
-                    icon={{
-                      url: createTruckMarker(trailer.dailyRate),
-                      scaledSize: new window.google.maps.Size(80, 50),
-                    }}
+                    icon={{ url: createTruckMarker(trailer.dailyRate), scaledSize: new window.google.maps.Size(80, 50) }}
                   />
                 ))}
 
                 {activeTrailer && (
                   <InfoWindow
-                    position={{
-                      lat: parseFloat(activeTrailer.latitude),
-                      lng: parseFloat(activeTrailer.longitude),
-                    }}
+                    position={{ lat: parseFloat(activeTrailer.latitude), lng: parseFloat(activeTrailer.longitude) }}
                     onCloseClick={() => setActiveTrailer(null)}
                   >
                     <div className="p-2">
@@ -242,14 +251,18 @@ const TrailersListing = () => {
             )}
           </div>
         </div>
+
+        <BookingModal
+          isOpen={isBookingModalOpen}
+          onClose={handleCloseBookingModal}
+          trailer={selectedTrailerForBooking}
+          translations={translations}
+          onSubmit={handleBookingSubmit}
+        />
+
       </main>
 
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.3 }}
-      >
+      <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: false, amount: 0.3 }}>
         <Footer />
       </motion.div>
     </div>

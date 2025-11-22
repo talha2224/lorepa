@@ -20,7 +20,7 @@ const BuyerLogin = () => {
         // if (email === "user@lorepa.com" && password === "Admin@1234") {
         toast.success("Login Sucessfull")
         setTimeout(() => {
-            nav("/buyer/dashboard/home")
+            nav("/seller/dashboard/home")
         }, 2000);
         // }
         // else {
@@ -120,7 +120,7 @@ const BuyerLogin = () => {
                     </div>
 
                     <div className='mt-8 text-center text-sm'>
-                        <p>Don't have an account <Link to={"/buyer/register"} className='text-blue-600 hover:text-blue-500'>Register</Link></p>
+                        <p>Don't have an account <Link to={"/seller/register"} className='text-blue-600 hover:text-blue-500'>Register</Link></p>
                     </div>
                 </form>
 

@@ -422,10 +422,10 @@ const LandingPage = () => {
               <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.becomeHostDescription}</p>
               <div onClick={() => {
                 if (isLogin) {
-                  nav("/host")
+                  localStorage.getItem("role")=="owner" ? nav("/seller/dashboard/home") : nav("/register")
                 }
                 else {
-                  localStorage.setItem("naviagte", "/host"); nav("/login")
+                  nav("/login")
                 }
               }}>
                 <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.becomeHostButton}</button>

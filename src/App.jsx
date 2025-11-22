@@ -93,12 +93,14 @@ function App() {
               <Route path="document" element={<UserDocument />} />
               <Route path="notification" element={<UserNotification />} />
               <Route path="support" element={<UserSupport />} />
+              <Route path="messaging" element={<BuyerMessaging />} />
+
             </Route>
 
-            <Route path='/buyer/login' element={<BuyerLogin />} />
-            <Route path='/buyer/register' element={<BuyerRegister />} />
-            <Route path='/buyer/forget' element={<BuyerForget />} />
-            <Route path="/buyer/dashboard/" element={<BuyerLayout />}>
+            <Route path='/seller/login' element={<BuyerLogin />} />
+            <Route path='/seller/register' element={<BuyerRegister />} />
+            <Route path='/seller/forget' element={<BuyerForget />} />
+            <Route path="/seller/dashboard/" element={<BuyerLayout />}>
               <Route path="home" element={<BuyerHome />} />
               <Route path="listing" element={<BuyerListing />} />
               <Route path="reservation" element={<BuyerReservation />} />

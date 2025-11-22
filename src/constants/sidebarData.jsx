@@ -51,6 +51,12 @@ export const userNav = [
         icon: <GrDocumentText />
     },
     {
+        id: 7,
+        link: "messaging",
+        name: "Messaging",
+        icon: <IoChatbox />
+    },
+    {
         id: 5,
         link: "notification",
         name: "Notifications",
@@ -98,7 +104,7 @@ export const buyerNav = [
         id: 7,
         link: "messaging",
         name: "Messaging",
-        icon: <IoChatbox  />
+        icon: <IoChatbox />
     },
     {
         id: 6,

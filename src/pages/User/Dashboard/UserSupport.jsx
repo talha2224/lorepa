@@ -1,102 +1,48 @@
-import React, { useState } from 'react';
-import { FaSearch, FaChevronDown, FaChevronUp, FaEye, FaPlus, FaTimes, FaPaperclip, FaTelegramPlane } from 'react-icons/fa';
-
-// --- Data Structures ---
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { FaSearch, FaChevronDown, FaChevronUp, FaEye, FaPlus, FaTimes, FaPaperclip, FaTelegramPlane } from 'react-icons/fa'
+import config from '../../../config'
+import toast from 'react-hot-toast'
+import { IoIosArrowRoundBack } from 'react-icons/io'
 
 const mockFaqs = [
     {
         id: 1,
         question: "How do I modify or cancel an existing booking?",
-        answer: "To modify or cancel a booking, please navigate to the 'Reservations' tab in the sidebar, select the specific booking, and look for the 'Modify' or 'Cancel' options. Note that cancellation fees may apply depending on the time remaining before the rental start.",
+        answer: "To modify or cancel a booking, go to 'Reservations', select booking and modify or cancel."
     },
     {
         id: 2,
         question: "What payment methods are accepted?",
-        answer: "We currently accept Visa, MasterCard, American Express, and PayPal for all bookings and deposits.",
+        answer: "We accept Visa, MasterCard, American Express, and PayPal."
     },
     {
         id: 3,
-        question: "What should I do if my trailer breaks down during the rental period?",
-        answer: "Immediately contact our 24/7 roadside assistance line provided in your rental agreement. Do not attempt to fix the trailer yourself. We will dispatch help as quickly as possible.",
-    },
-    {
-        id: 4,
-        question: "Where do I upload my check-in and check-out photos?",
-        answer: "You can upload check-in and check-out photos directly from the 'Documents' page or via the link provided in your trip status notifications.",
-    },
-];
+        question: "What should I do if my trailer breaks down?",
+        answer: "Contact our 24/7 roadside assistance immediately."
+    }
+]
 
-const mockTickets = [
-    {
-        id: '#1043',
-        subject: 'Payment refund delay',
-        status: 'Open',
-        lastUpdate: '2h ago',
-    },
-    {
-        id: '#1050',
-        subject: 'Issue with Check-in Photos',
-        status: 'Open',
-        lastUpdate: '1 day ago',
-    },
-    {
-        id: '#1051',
-        subject: 'Inaccurate Flatbed dimensions',
-        status: 'Open',
-        lastUpdate: '2h ago',
-    },
-    {
-        id: '#1052',
-        subject: 'Wrong trailer delivered',
-        status: 'Open',
-        lastUpdate: '2h ago',
-    },
-    {
-        id: '#1053',
-        subject: 'Late return penalty inquiry',
-        status: 'Open',
-        lastUpdate: '2h ago',
-    },
-];
-
-// --- Sub-Components ---
-
-/**
- * FAQ List Component
- */
 const FaqSection = ({ faqs }) => {
-    const [openId, setOpenId] = useState(null);
-
-    const toggleFaq = (id) => {
-        setOpenId(openId === id ? null : id);
-    };
+    const [openId, setOpenId] = useState(null)
+    const toggleFaq = (id) => setOpenId(openId === id ? null : id)
 
     return (
         <div className="mt-8">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Help Center</h3>
-            {/* Search Bar */}
             <div className="relative mb-6">
-                <input
-                    type="text"
-                    placeholder="Search here"
-                    className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                />
+                <input type="text" placeholder="Search here" className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg" />
                 <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
-
-            {/* Accordion Items */}
             <div className="border border-gray-200 rounded-lg divide-y divide-gray-200">
                 {faqs.map((faq) => (
-                    <div key={faq.id} className="cursor-pointer">
-                        <button
-                            className="flex justify-between items-center w-full p-4 text-left hover:bg-gray-50 transition"
-                            onClick={() => toggleFaq(faq.id)}
-                        >
+                    <div key={faq.id}>
+                        <button onClick={() => toggleFaq(faq.id)} className="flex justify-between items-center w-full p-4 text-left">
                             <span className="text-gray-700 font-medium">{faq.question}</span>
-                            {openId === faq.id ? <FaChevronUp className="text-gray-500" /> : <FaChevronDown className="text-gray-500" />}
+                            {openId === faq.id ? <FaChevronUp /> : <FaChevronDown />}
                         </button>
                         {openId === faq.id && (
-                            <div className="px-4 pb-4 pt-2 bg-gray-50 text-gray-600 text-sm border-t border-gray-200">
+                            <div className="px-4 pb-4 pt-2 bg-gray-50 text-gray-600 text-sm">
                                 {faq.answer}
                             </div>
                         )}
@@ -104,69 +50,50 @@ const FaqSection = ({ faqs }) => {
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
-/**
- * Tickets Table Component
- */
 const TicketsTable = ({ tickets, onViewTicket }) => {
-    const [activeTab, setActiveTab] = useState('open'); // 'open' or 'closed'
-
+    const [activeTab, setActiveTab] = useState('open')
     const filteredTickets = activeTab === 'open'
         ? tickets.filter(t => t.status === 'Open')
-        : tickets.filter(t => t.status !== 'Open'); // Simple closed filter
+        : tickets.filter(t => t.status !== 'Open')
 
     return (
         <div className="mt-4">
-            {/* Sub-Tabs */}
-            <div className="flex space-x-4 border-b border-gray-200 mb-6">
-                <button
-                    onClick={() => setActiveTab('open')}
-                    className={`pb-2 text-sm font-medium ${activeTab === 'open' ? 'border-b-2 border-blue-600 text-[#2563EB]' : 'text-gray-500 hover:text-gray-700'}`}
-                >
+            <div className="flex space-x-4 border-b mb-6">
+                <button onClick={() => setActiveTab('open')} className={`pb-2 ${activeTab === 'open' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}>
                     Open Tickets ({tickets.filter(t => t.status === 'Open').length})
                 </button>
-                <button
-                    onClick={() => setActiveTab('closed')}
-                    className={`pb-2 text-sm font-medium ${activeTab === 'closed' ? 'border-b-2 border-blue-600 text-[#2563EB]' : 'text-gray-500 hover:text-gray-700'}`}
-                >
+                <button onClick={() => setActiveTab('closed')} className={`pb-2 ${activeTab === 'closed' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500'}`}>
                     Closed Tickets ({tickets.filter(t => t.status !== 'Open').length})
                 </button>
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto bg-white rounded-lg shadow-md">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            {['TICKET ID', 'SUBJECT', 'STATUS', 'LAST UPDATE', 'ACTIONS'].map((header) => (
-                                <th
-                                    key={header}
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
-                                    {header}
+                            {['TICKET ID', 'SUBJECT', 'STATUS', 'LAST UPDATE', 'ACTIONS'].map((h) => (
+                                <th key={h} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    {h}
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody>
                         {filteredTickets.map((ticket) => (
-                            <tr key={ticket.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{ticket.id}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{ticket.subject}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            <tr key={ticket._id}>
+                                <td className="px-6 py-4 text-sm">{ticket._id}</td>
+                                <td className="px-6 py-4 text-sm">{ticket.subject}</td>
+                                <td className="px-6 py-4">
+                                    <span className="px-2 text-xs rounded-full bg-green-100 text-green-800">
                                         {ticket.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{ticket.lastUpdate}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button
-                                        onClick={() => onViewTicket(ticket.id)}
-                                        className="text-[#2563EB] hover:text-blue-900 focus:outline-none"
-                                        title="View Ticket"
-                                    >
+                                <td className="px-6 py-4 text-sm">{ticket.updatedAt?.slice(0, 10)}</td>
+                                <td className="px-6 py-4 text-sm">
+                                    <button onClick={() => onViewTicket(ticket)} className="text-blue-600">
                                         <FaEye />
                                     </button>
                                 </td>
@@ -175,255 +102,160 @@ const TicketsTable = ({ tickets, onViewTicket }) => {
                     </tbody>
                 </table>
             </div>
-
-            {/* Pagination */}
-            <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
-                <p>Page 1 of 30</p>
-                <div className="flex items-center space-x-2">
-                    <span className="cursor-pointer font-bold text-[#2563EB]">1</span>
-                    <span className="cursor-pointer">2</span>
-                    <span className="cursor-pointer">3</span>
-                    <span>...</span>
-                    <span className="cursor-pointer">10</span>
-                    <span className="cursor-pointer">11</span>
-                    <span className="cursor-pointer">12</span>
-                    <span>Go to page</span>
-                    <select className="border border-gray-300 rounded-lg py-1 px-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option>00</option>
-                    </select>
-                </div>
-            </div>
         </div>
-    );
-};
+    )
+}
 
-/**
- * Create Ticket Modal
- */
-const CreateTicketModal = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
+const CreateTicketModal = ({ isOpen, onClose, onSubmit }) => {
+    const [userType, setUserType] = useState("Guest")
+    const [subject, setSubject] = useState("")
+    const [category, setCategory] = useState("")
+    const [description, setDescription] = useState("")
+    const [attachment, setAttachment] = useState(null)
+
+    if (!isOpen) return null
+
+    const submitHandler = () => {
+        onSubmit({ userType, subject, category, description, attachment })
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg w-full max-w-lg shadow-2xl">
-                {/* Modal Header */}
                 <div className="p-5 border-b flex justify-between items-center">
-                    <h3 className="text-xl font-bold text-gray-800">Create Support Ticket</h3>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-                        <FaTimes className="text-xl" />
-                    </button>
+                    <h3 className="text-xl font-bold">Create Support Ticket</h3>
+                    <button onClick={onClose}><FaTimes /></button>
                 </div>
 
-                {/* Modal Body */}
                 <div className="p-6 space-y-4">
-                    {/* User Type Radio */}
                     <div className="flex space-x-4">
-                        <label className="inline-flex items-center">
-                            <input type="radio" className="form-radio text-[#2563EB]" name="userType" value="Guest" defaultChecked />
-                            <span className="ml-2 text-gray-700 font-medium">Guest</span>
+                        <label className="flex items-center space-x-2">
+                            <input type="radio" checked={userType === "Guest"} onChange={() => setUserType("Guest")} />
+                            <span>Guest</span>
                         </label>
-                        <label className="inline-flex items-center">
-                            <input type="radio" className="form-radio text-[#2563EB]" name="userType" value="Host" />
-                            <span className="ml-2 text-gray-700 font-medium">Host</span>
+                        <label className="flex items-center space-x-2">
+                            <input type="radio" checked={userType === "Host"} onChange={() => setUserType("Host")} />
+                            <span>Host</span>
                         </label>
                     </div>
 
-                    {/* Subject */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                        <input
-                            type="text"
-                            placeholder="Enter Subject"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        />
-                    </div>
+                    <input placeholder="Subject" className="w-full border p-2 rounded" value={subject} onChange={e => setSubject(e.target.value)} />
 
-                    {/* Category & Attachment */}
-                    <div className="flex space-x-4">
-                        <div className="flex-1">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white">
-                                <option>Select Category</option>
-                                <option>Billing</option>
-                                <option>Technical Issue</option>
-                                <option>Reservation</option>
-                            </select>
-                        </div>
-                        <div className="flex-1">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Attachment (Optional)</label>
-                            <div className="w-full py-2 border border-gray-300 rounded-lg text-center text-gray-600 bg-gray-50 cursor-pointer hover:bg-gray-100 transition">
-                                Upload File
-                            </div>
-                        </div>
-                    </div>
+                    <select className="w-full border p-2 rounded" value={category} onChange={e => setCategory(e.target.value)}>
+                        <option value="">Select Category</option>
+                        <option>Billing</option>
+                        <option>Technical Issue</option>
+                        <option>Reservation</option>
+                    </select>
 
-                    {/* Description */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea
-                            placeholder="Describe your issue"
-                            rows="4"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none"
-                        ></textarea>
-                    </div>
+                    <label className="block w-full border p-2 bg-gray-50 text-center rounded cursor-pointer">
+                        <input type="file" className="hidden" onChange={(e) => setAttachment(e.target.files[0])} />
+                        Upload Attachment
+                    </label>
 
-                    {/* Submit Button */}
-                    <button className="w-full py-2.5 bg-[#2563EB] text-white font-semibold rounded-lg hover:bg-[#2563EB] transition shadow-md">
+                    <textarea placeholder="Describe your issue" className="w-full border p-2 rounded" rows="4" value={description} onChange={e => setDescription(e.target.value)} />
+
+                    <button onClick={submitHandler} className="w-full py-2 bg-blue-600 text-white rounded">
                         Submit Ticket
                     </button>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-/**
- * Ticket Chat View Component
- */
-const TicketChatView = ({ ticketId, onBack }) => {
-    const mockMessages = [
-        {
-            sender: 'User',
-            text: 'I was promised a refund 5 days ago, but I still haven’t seen it. Can you check the status?',
-            time: 'Oct 6, 2025, 8:00 AM',
-            isUser: true,
-        },
-        {
-            sender: 'Support Team',
-            text: 'Hello! We apologize for the delay. I’ve just escalated this to our finance team. You should receive a confirmation email within the next 24 hours',
-            time: 'Oct 6, 2025, 9:00 AM',
-            isUser: false,
-        },
-    ];
+const BuyerSupport = () => {
+    const [mainView, setMainView] = useState('tickets')
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedTicketId, setSelectedTicketId] = useState(null)
+    const [tickets, setTickets] = useState([])
+    const userId = localStorage.getItem("userId")
 
-    return (
-        <div className="bg-white p-6 rounded-lg shadow-md h-[calc(100vh-160px)] flex flex-col">
-            {/* Header */}
-            <div className="pb-4 border-b flex justify-between items-center">
-                <button onClick={onBack} className="text-[#2563EB] flex items-center hover:text-blue-800 transition">
-                    <span className="mr-2">←</span> Back to Tickets
-                </button>
-                <span className="px-3 py-1 text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    Open
-                </span>
-            </div>
+    const fetchTickets = async () => {
+        try {
+            const res = await axios.get(`${config.baseUrl}/ticket/user/${userId}`)
+            setTickets(res.data.data)
+        } catch {
+            toast.error("Failed to load tickets")
+        }
+    }
 
-            {/* Ticket Title */}
-            <h2 className="text-2xl font-bold text-gray-800 my-4">{ticketId} — ZFDSGFHGJ</h2>
+    useEffect(() => {
+        fetchTickets()
+    }, [])
 
-            {/* Chat Area */}
-            <div className="flex-grow overflow-y-auto space-y-4 pr-2">
-                {mockMessages.map((msg, index) => (
-                    <div key={index} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-xl p-3 rounded-xl shadow-sm ${msg.isUser ? 'bg-[#2563EB] text-white rounded-br-none' : 'bg-gray-100 text-gray-800 rounded-tl-none'}`}>
-                            {!msg.isUser && <p className="text-xs font-semibold mb-1">{msg.sender}</p>}
-                            <p className="text-sm">{msg.text}</p>
-                            <p className={`text-right text-xs mt-1 ${msg.isUser ? 'text-blue-200' : 'text-gray-500'}`}>{msg.time}</p>
-                        </div>
-                    </div>
-                ))}
-                {/* Placeholder for new message bubble */}
-            </div>
+    const createTicket = async ({ userType, subject, category, description, attachment }) => {
+        const form = new FormData()
+        form.append("userId", userId)
+        form.append("userType", userType)
+        form.append("subject", subject)
+        form.append("category", category)
+        form.append("description", description)
+        if (attachment) form.append("attachment", attachment)
 
-            {/* Message Input */}
-            <div className="pt-4 border-t mt-4 flex items-center space-x-3">
-                <input
-                    type="text"
-                    placeholder="Type Your Message"
-                    className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                />
-                <button className="text-gray-500 hover:text-[#2563EB] p-2 transition">
-                    <FaPaperclip className="text-xl" />
-                </button>
-                <button className="bg-[#2563EB] text-white p-2 rounded-full hover:bg-[#2563EB] transition">
-                    <FaTelegramPlane className="text-xl" />
-                </button>
-            </div>
-        </div>
-    );
-};
+        const loadingToast = toast.loading("Creating ticket...")
 
-// --- Main Component ---
+        try {
+            await axios.post(`${config.baseUrl}/ticket/create`, form)
+            toast.success("Ticket created", { id: loadingToast })
+            setIsModalOpen(false)
+            fetchTickets()
+        } catch {
+            toast.error("Failed to create ticket", { id: loadingToast })
+        }
+    }
 
-const UserSupport = () => {
-    // State to manage the main view: 'tickets', 'faqs', or 'chat'
-    const [mainView, setMainView] = useState('faqs');
-    // State to manage the visibility of the "Create Ticket" modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    // State to track which ticket is being viewed in the 'chat' state
-    const [selectedTicketId, setSelectedTicketId] = useState(null);
 
     const handleViewTicket = (id) => {
-        setSelectedTicketId(id);
-        setMainView('chat');
-    };
+        setSelectedTicketId(id)
+        setMainView('chat')
+    }
 
-    const handleBackToTickets = () => {
-        setSelectedTicketId(null);
-        setMainView('tickets');
-    };
-
-    const isChatView = mainView === 'chat';
-    const currentTicket = mockTickets.find(t => t.id === selectedTicketId) || {};
+    const handleBack = () => {
+        setSelectedTicketId(null)
+        setMainView('tickets')
+    }
 
     return (
         <div>
             <div>
-                {/* Header Section */}
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold text-gray-800">Support & Tickets</h1>
-                    {!isChatView && (
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="flex items-center px-4 py-2 bg-[#2563EB] text-white rounded-lg font-medium hover:bg-[#2563EB] transition"
-                        >
-                            <FaPlus className="mr-2 text-sm" />
-                            Create New Ticket
+                    {mainView !== 'chat' && (
+                        <button onClick={() => setIsModalOpen(true)} className="flex items-center px-4 py-2 bg-blue-600 text-white rounded">
+                            <FaPlus className="mr-2" /> Create New Ticket
                         </button>
                     )}
                 </div>
 
-                {/* Main Content (Tabs or Chat View) */}
-                {!isChatView ? (
+                {mainView !== 'chat' ? (
                     <>
-                        {/* Tabs for Tickets/FAQ's */}
                         <div className="flex space-x-2 mb-8">
-                            <button
-                                onClick={() => setMainView('tickets')}
-                                className={`px-6 py-2 rounded-lg text-sm font-semibold transition ${mainView === 'tickets' ? 'bg-[#2563EB] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
-                            >
+                            <button onClick={() => setMainView('tickets')} className={`px-6 py-2 rounded ${mainView === 'tickets' ? 'bg-blue-600 text-white' : 'bg-white border'}`}>
                                 Tickets
                             </button>
-                            <button
-                                onClick={() => setMainView('faqs')}
-                                className={`px-6 py-2 rounded-lg text-sm font-semibold transition ${mainView === 'faqs' ? 'bg-[#2563EB] text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
-                            >
+                            <button onClick={() => setMainView('faqs')} className={`px-6 py-2 rounded ${mainView === 'faqs' ? 'bg-blue-600 text-white' : 'bg-white border'}`}>
                                 FAQ's
                             </button>
                         </div>
 
-                        {/* Conditional Rendering of Tab Content */}
                         <div className="bg-white p-6 rounded-xl shadow-lg">
                             {mainView === 'faqs' && <FaqSection faqs={mockFaqs} />}
-                            {mainView === 'tickets' && <TicketsTable tickets={mockTickets} onViewTicket={handleViewTicket} />}
+                            {mainView === 'tickets' && <TicketsTable tickets={tickets} onViewTicket={handleViewTicket} />}
                         </div>
                     </>
                 ) : (
-                    /* Ticket Chat View */
-                    <TicketChatView
-                        ticketId={currentTicket.id}
-                        onBack={handleBackToTickets}
-                    />
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                        <button onClick={handleBack} className="text-blue-600 flex items-center gap-3"><IoIosArrowRoundBack /> Back</button>
+                        <h2 className="text-xl font-bold mt-4">Subject: {selectedTicketId?.subject}</h2>
+                        <h2 className="text-sm mt-4">Description: {selectedTicketId?.description}</h2>
+                    </div>
                 )}
 
-                {/* Create Ticket Modal */}
-                <CreateTicketModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                />
+                <CreateTicketModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={createTicket} />
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default UserSupport;
+export default BuyerSupport
