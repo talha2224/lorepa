@@ -129,9 +129,9 @@ const AdminHomePage = () => {
                   {listing.status}
                 </span>
               </div>
-              <a href='#' className='mt-4 sm:mt-0 text-blue-600 hover:text-blue-800 text-sm whitespace-nowrap'>
+              {/* <a href='#' className='mt-4 sm:mt-0 text-blue-600 hover:text-blue-800 text-sm whitespace-nowrap'>
                 View details
-              </a>
+              </a> */}
             </div>
           ))}
         </div>

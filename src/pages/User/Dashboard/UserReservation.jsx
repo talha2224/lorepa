@@ -47,9 +47,9 @@ const ReservationItem = ({ reservation }) => {
                         </span>
 
                         <div className="block sm:flex items-center justify-center gap-x-5">
-                            <p className="sm:mt:0 t:3 text-sm font-medium transition duration-150">
+                            {/* <p className="sm:mt:0 t:3 text-sm font-medium transition duration-150">
                                 View details
-                            </p>
+                            </p> */}
                             <button className="sm:mt:0 t:3 bg-blue-50 border border-blue-300 text-blue-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-150 shadow-sm">
                                 Contact Owner
                             </button>
