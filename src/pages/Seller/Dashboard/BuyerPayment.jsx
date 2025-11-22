@@ -5,7 +5,9 @@ import { FiClock } from 'react-icons/fi'
 import axios from 'axios'
 import config from '../../../config'
 import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
+pdfMake.vfs = pdfFonts.vfs;
 const STATUS_MAP = {
     paid: { color: 'bg-green-100 text-green-700', icon: FaCheckCircle },
     pending: { color: 'bg-yellow-100 text-yellow-700', icon: FiClock },

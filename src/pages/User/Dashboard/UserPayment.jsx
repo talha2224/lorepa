@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-// Importing icons from the react-icons package (Fa: Font Awesome, Io: Ionicons)
 import { FaDollarSign, FaCalendarAlt, FaRedo, FaDownload } from 'react-icons/fa'
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi'
 import { IoFunnelOutline, IoShareOutline } from 'react-icons/io5'
 import config from '../../../config';
 import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
+pdfMake.vfs = pdfFonts.vfs;
 // Helper function for transaction status styling
 const getStatusClasses = (status) => {
     switch (status) {
