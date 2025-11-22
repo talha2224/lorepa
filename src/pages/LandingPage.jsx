@@ -219,11 +219,15 @@ const LandingPage = () => {
     const storedLang = localStorage.getItem('lang');
     return translations[storedLang] || translations.en;
   });
-  const [location, setLocation] = useState("");
-  const [inputValue, setInputValue] = useState(""); // This variable seems unused, consider removing if not needed.
+  const wrapperRef = useRef(null);
+  const [location, setLocation] = useState('');
+  const [fromDate, setFromDate] = useState('');
+  const [fromTime, setFromTime] = useState('');
+  const [untilDate, setUntilDate] = useState('');
+  const [untilTime, setUntilTime] = useState('');
+
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const wrapperRef = useRef(null);
   const isLogin = localStorage.getItem("userId")
   const nav = useNavigate()
   useEffect(() => {
@@ -262,8 +266,7 @@ const LandingPage = () => {
     };
 
     fetchContent();
-  }, [translationsData]); // Depend on translationsData to update FAQs when language changes
-
+  }, [translationsData]);
   const fetchSuggestions = async (inputText) => {
     if (!inputText) {
       setSuggestions([]);
@@ -310,6 +313,15 @@ const LandingPage = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  const buildSearchUrl = () => {
+    const params = new URLSearchParams();
+    if (location) params.append('city', location);
+    if (fromDate) params.append('fromDate', fromDate);
+    if (fromTime) params.append('fromTime', fromTime);
+    if (untilDate) params.append('untilDate', untilDate);
+    if (untilTime) params.append('untilTime', untilTime);
+    return `/trailers?${params.toString()}`;
+  };
 
   return (
     <div className="w-screen min-h-screen bg-[#fff] flex flex-col overflow-x-hidden">
@@ -325,7 +337,13 @@ const LandingPage = () => {
           <motion.div variants={blurIn} initial="hidden" animate="visible" className="bg-white md:bg-opacity-100 bg-opacity-80 rounded-md p-3 sm:w-[80%] w-[90%] mx-20 my-10 md:flex justify-center items-center flex-wrap">
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem] relative" ref={wrapperRef}>
               <h1 className="text-sm">{translationsData?.where}</h1>
-              <input value={location} onChange={(e) => { fetchSuggestions(e.target.value); setLocation(e.target.value) }} type="text" placeholder={translationsData?.placeholder} className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm" />
+              <input
+                value={location}
+                onChange={(e) => { fetchSuggestions(e.target.value); setLocation(e.target.value); }}
+                type="text"
+                placeholder={translationsData?.placeholder}
+                className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] flex-1 text-sm"
+              />
               {showSuggestions && suggestions.length > 0 && (
                 <ul className="absolute z-50 top-[4rem] left-0 right-0 bg-white shadow-md rounded-md mt-1 max-h-60 overflow-y-auto">
                   {suggestions.map((item, index) => (
@@ -335,38 +353,29 @@ const LandingPage = () => {
                   ))}
                 </ul>
               )}
-
             </div>
+
+            {/* From Date & Time */}
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.from}</h1>
               <div className="flex justify-between items-center gap-x-3">
-                <input
-                  type="date"
-                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
-                />
-                <input
-                  type="time"
-                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
-                />
+                <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm" value={fromDate} onChange={e => setFromDate(e.target.value)} />
+                <input type="time" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm" value={fromTime} onChange={e => setFromTime(e.target.value)} />
               </div>
             </div>
 
+            {/* Until Date & Time */}
             <div className="flex-1 border border-[#9DA0A6] mt-1 mr-3 py-1 px-6 rounded-[2rem]">
               <h1 className="text-sm">{translationsData?.until}</h1>
               <div className="flex justify-between items-center gap-x-3">
-                <input
-                  type="date"
-                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
-                />
-                <input
-                  type="time"
-                  className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm"
-                />
+                <input type="date" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm" value={untilDate} onChange={e => setUntilDate(e.target.value)} />
+                <input type="time" className="border-none bg-transparent outline-none placeholder:text-[#9DA0A6] text-sm" value={untilTime} onChange={e => setUntilTime(e.target.value)} />
               </div>
             </div>
 
+            {/* Search Button */}
             <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
-              <Link to={`/trailers?city=${location}`} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
+              <Link to={buildSearchUrl()} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
                 <FaSearch />
               </Link>
             </div>
@@ -403,10 +412,10 @@ const LandingPage = () => {
               <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.rentTrailerDescription}</p>
               <div onClick={() => {
                 if (isLogin) {
-                  nav("/booking")
+                  nav("/trailers?city=")
                 }
                 else {
-                  localStorage.setItem("naviagte", "/booking"); nav("/login")
+                  localStorage.setItem("naviagte", "/trailers?city="); nav("/login")
                 }
               }}>
                 <button className="border border-[#000] text-[#000] px-4 py-2 rounded-lg bg-transparent">{translationsData.rentTrailerButton}</button>
@@ -422,7 +431,7 @@ const LandingPage = () => {
               <p className="text-gray-700 mb-4 sm:text-base text-sm">{translationsData.becomeHostDescription}</p>
               <div onClick={() => {
                 if (isLogin) {
-                  localStorage.getItem("role")=="owner" ? nav("/seller/dashboard/home") : nav("/register")
+                  localStorage.getItem("role") == "owner" ? nav("/seller/dashboard/home") : nav("/register")
                 }
                 else {
                   nav("/login")

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaMobileAlt, FaBell, FaCheckCircle } from 'react-icons/fa';
 import { IoWalletOutline } from 'react-icons/io5';
 import { MdOutlineDocumentScanner } from 'react-icons/md';
+import config from '../../../config';
 
 // --- Components ---
 
@@ -124,48 +126,35 @@ const UserNotification = () => {
     sms: false,
     inApp: true,
   });
+  const [activities, setActivities] = useState([]);
 
   const handleToggle = (key) => {
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const mockActivities = [
-    {
-      icon: <FaCheckCircle />,
-      title: "Booking Confirmed",
-      description: "Your booking with Diamond C Utility is confirmed.",
-      time: "2h ago",
-      isNew: true,
-    },
-    {
-      icon: <IoWalletOutline />,
-      title: "Payment Received",
-      description: "Your payment of $320 was successfully processed.",
-      time: "Yesterday",
-      isNew: true,
-    },
-    {
-      icon: <MdOutlineDocumentScanner />,
-      title: "Contract Signed",
-      description: "Your rental agreement has been signed and archived.",
-      time: "2 days ago",
-      isNew: false,
-    },
-    {
-      icon: <FaBell />,
-      title: "Reminder: Return Due",
-      description: "Return your trailer tomorrow at 10 AM.",
-      time: "2 days ago",
-      isNew: false,
-    },
-    {
-      icon: <MdOutlineDocumentScanner />,
-      title: "New Trip Documents",
-      description: "Access your check-in photos now.",
-      time: "1 week ago",
-      isNew: false,
-    },
-  ];
+  const fetchNotifications = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      const res = await axios.get(`${config.baseUrl}/notification/user/${userId}`);
+      const notifs = res.data.data.map(notif => ({
+        icon: <FaBell />,
+        title: notif.title,
+        description: notif.description,
+        time: new Date(notif.createdAt).toLocaleString(),
+        isNew: !notif.isRead,
+      }));
+      setActivities(notifs);
+    } catch (err) {
+      console.error('Error fetching notifications:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
 
   return (
     <div>
@@ -179,7 +168,7 @@ const UserNotification = () => {
 
         {/* Right Column: Activity */}
         <div className="lg:col-span-2">
-          <RecentActivity activities={mockActivities} />
+          <RecentActivity activities={activities} />
         </div>
       </div>
     </div>

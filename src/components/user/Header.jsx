@@ -38,7 +38,7 @@ const Header = () => {
                 <Link to={"/user/dashboard/notification"}>
                     <IoMdNotificationsOutline className='w-[25px] h-[25px]' />
                 </Link>
-                <img src={avatar} alt="" className='w-[30px] h-[30px]' />
+                {/* <img src={avatar} alt="" className='w-[30px] h-[30px]' /> */}
             </div>
 
         </div>

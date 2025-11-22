@@ -110,6 +110,7 @@ const BuyerReservation = () => {
     const handleChangeStatus = async (id, status) => {
         try {
             const result = await axios.put(`${config.baseUrl}/booking/status/${id}`, { status });
+            fetchBookings()
             toast.success(`Booking ${status} successfully`);
         } catch (err) {
             toast.error("Failed to update status");

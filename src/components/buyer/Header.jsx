@@ -35,10 +35,10 @@ const Header = () => {
                     <BiSearchAlt className='text-[#9DA0A6]' />
                     <input type="text" name="" id="" placeholder='Search here' className='text-[#9DA0A6] outline-none border-none flex-1' />
                 </div>
-                <Link to={"/user/dashboard/notification"}>
+                <Link to={"/seller/dashboard/notification"}>
                     <IoMdNotificationsOutline className='w-[25px] h-[25px]' />
                 </Link>
-                <img src={avatar} alt="" className='w-[30px] h-[30px]' />
+                {/* <img src={avatar} alt="" className='w-[30px] h-[30px]' /> */}
             </div>
 
         </div>

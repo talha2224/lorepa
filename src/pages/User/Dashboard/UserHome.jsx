@@ -5,6 +5,7 @@ import trailerPlaceholder from '../../../assets/trailer.png';
 import axios from 'axios';
 import config from '../../../config';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const getStatusClasses = (status) => {
   switch (status) {
@@ -39,6 +40,27 @@ const UserHome = () => {
   const latestBooking = bookings
     .slice()
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+  const nav = useNavigate()
+  const createChat = async () => {
+    try {
+      const currentUserId = localStorage.getItem("userId");
+      const otherUserId = latestBooking?.owner_id?._id;
+
+      if (!currentUserId || !otherUserId) return;
+
+      const response = await axios.post(`${config.baseUrl}/chat/create`, {
+        participants: [currentUserId, otherUserId]
+      });
+
+      const chat = response.data.data;
+      console.log("Chat created or existing chat returned:", chat);
+
+      nav(`/user/dashboard/messaging`);
+    } catch (error) {
+      console.error("Error creating chat:", error);
+    }
+  };
 
   return (
     <div className='flex-1 h-[100%] overflow-y-auto'>
@@ -79,7 +101,7 @@ const UserHome = () => {
             </span>
           )}
 
-          <button className="w-full bg-transparent border border-[#2563EB] text-[#2563EB] font-semibold py-2.5 rounded-lg transition duration-150 shadow-md hover:bg-indigo-100">
+          <button onClick={createChat} className="w-full bg-transparent border border-[#2563EB] text-[#2563EB] font-semibold py-2.5 rounded-lg transition duration-150 shadow-md hover:bg-indigo-100">
             Contact Owner
           </button>
         </div>

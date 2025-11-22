@@ -108,6 +108,7 @@ function App() {
               <Route path="documents" element={<BuyerDocument />} />
               <Route path="support" element={<BuyerSupport />} />
               <Route path="messaging" element={<BuyerMessaging />} />
+              <Route path="notification" element={<UserNotification />} />
             </Route>
 
             <Route path='/admin/'>

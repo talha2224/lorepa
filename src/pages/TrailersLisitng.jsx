@@ -48,7 +48,8 @@ const TrailersListing = () => {
   const nav = useNavigate();
   const query = useQuery();
   const cityFromQuery = query.get('city')?.toLowerCase() || '';
-
+  const isLogin = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
   const [priceFilter, setPriceFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [keyword, setKeyword] = useState('');
@@ -206,12 +207,15 @@ const TrailersListing = () => {
                     <p className="text-gray-500 text-xs mb-2">{trailer.city}, {trailer.state}</p>
                     <div className='flex items-center justify-between'>
                       <p className="text-black font-medium text-lg">${trailer.dailyRate}{translations.perDay}</p>
-                      <button
-                        className='bg-blue-700 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-800 transition-colors'
-                        onClick={(e) => handleBookNowClick(e, trailer)}
-                      >
-                        {translations.bookNow}
-                      </button>
+                      {
+                        (isLogin && role !== "owner") &&
+                        <button
+                          className='bg-blue-700 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-800 transition-colors'
+                          onClick={(e) => handleBookNowClick(e, trailer)}
+                        >
+                          {translations.bookNow}
+                        </button>
+                      }
                     </div>
                   </div>
                 </motion.div>

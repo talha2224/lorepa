@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 // Importing icons from the react-icons package (Fa: Font Awesome, Io: Ionicons)
 import { FaDollarSign, FaCalendarAlt, FaRedo, FaDownload } from 'react-icons/fa'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi'
 import { IoFunnelOutline, IoShareOutline } from 'react-icons/io5'
-
-// --- Mock Data ---
-const mockTransactions = [
-    { id: 1, date: 'Dec 10, 2025', name: 'Diamond C Utility 77"', amount: -320.00, status: 'Paid', receipt: true },
-    { id: 2, date: 'Nov 22, 2025', name: 'Enclosed Cargo 6x12', amount: -400.00, status: 'Refunded', receipt: true },
-    { id: 3, date: 'Oct 05, 2025', name: 'Flatbed 8x20', amount: 520.00, status: 'Paid', receipt: true },
-    { id: 4, date: 'Aug 18, 2025', name: 'Big Tex Dump Trailer', amount: 450.00, status: 'Paid', receipt: true },
-    { id: 5, date: 'Jul 01, 2025', name: '2017 Diamond C Utility 77" x14\'', amount: 650.00, status: 'Paid', receipt: true },
-    { id: 6, date: 'Dec 10, 2025', name: 'Diamond C Utility 77"', amount: -320.00, status: 'Paid', receipt: true },
-];
+import config from '../../../config';
+import pdfMake from "pdfmake/build/pdfmake";
 
 // Helper function for transaction status styling
 const getStatusClasses = (status) => {
@@ -31,73 +24,82 @@ const getAmountClasses = (amount) => {
     return amount < 0 ? 'text-red-500 font-semibold' : 'text-green-600 font-semibold';
 };
 
-
 const UserPayment = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 12;
+    const [transactions, setTransactions] = useState([])
 
-    const renderPagination = () => {
-        const pages = [];
-        const maxPagesToShow = 5;
-
-        // Always show page 1
-        pages.push(1);
-
-        // Add ellipses or middle pages
-        if (totalPages > maxPagesToShow) {
-            if (currentPage > maxPagesToShow - 2) {
-                pages.push('...');
+    useEffect(() => {
+        const userId = localStorage.getItem("userId")
+        if (!userId) return
+        const fetchTransactions = async () => {
+            try {
+                const res = await axios.get(`${config.baseUrl}/transaction/user/${userId}`)
+                setTransactions(
+                    res.data.data.map((t) => ({
+                        id: t._id || t.id,
+                        date: new Date(t.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                        name: t.trailerName || 'N/A',
+                        amount: t.amount,
+                        status: t.status,
+                        transactor: 'User',
+                        fee: t.fee || 0,
+                        feeSource: t.feeSource || 'Stripe',
+                        receipt: t.status.toLowerCase() === 'paid',
+                    }))
+                )
+            } catch (err) {
+                console.error('Error fetching transactions:', err)
             }
+        }
+        fetchTransactions()
+    }, [])
 
-            let start = Math.max(2, currentPage - 1);
-            let end = Math.min(totalPages - 1, currentPage + 1);
+    const generatePDF = (singleTransaction = null) => {
+        const tableBody = [
+            ["Date", "Transactor", "Amount", "Fee", "Status"]
+        ];
 
-            if (currentPage <= maxPagesToShow - 2) {
-                end = maxPagesToShow - 1;
-                if (end < totalPages - 1) pages.push(2, 3, 4);
-            } else if (currentPage > totalPages - (maxPagesToShow - 2)) {
-                start = totalPages - (maxPagesToShow - 2)
-                end = totalPages - 1;
-            }
-
-            for (let i = start; i <= end; i++) {
-                if (!pages.includes(i)) pages.push(i);
-            }
-
-            if (currentPage < totalPages - 2) {
-                pages.push('...');
-            }
+        if (singleTransaction) {
+            tableBody.push([
+                singleTransaction.date,
+                singleTransaction.transactor,
+                `$${singleTransaction.amount.toFixed(2)}`,
+                `$${singleTransaction.fee.toFixed(2)}`,
+                singleTransaction.status,
+            ]);
         } else {
-            for (let i = 2; i < totalPages; i++) pages.push(i);
+            transactions.forEach(t => {
+                tableBody.push([
+                    t.date,
+                    t.transactor,
+                    `$${t.amount.toFixed(2)}`,
+                    `$${t.fee.toFixed(2)}`,
+                    t.status,
+                ]);
+            });
         }
 
-        if (totalPages > 1 && !pages.includes(totalPages)) pages.push(totalPages);
+        const docDefinition = {
+            content: [
+                { text: 'LOREPA - Transaction Report', fontSize: 18, margin: [0, 0, 0, 10] },
+                { text: `Generated on: ${new Date().toLocaleString()}`, fontSize: 12, margin: [0, 0, 0, 20] },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', '*', '*', '*', '*'],
+                        body: tableBody,
+                    },
+                    layout: 'lightHorizontalLines'
+                }
+            ],
+            defaultStyle: {
+                fontSize: 10
+            }
+        };
 
-
-        return (
-            <div className="flex items-center space-x-1">
-                {pages.map((page, index) => (
-                    <button
-                        key={index}
-                        onClick={() => typeof page === 'number' && setCurrentPage(page)}
-                        className={`
-              w-8 h-8 flex items-center justify-center text-sm font-medium rounded-lg transition duration-150
-              ${typeof page === 'number'
-                                ? (page === currentPage
-                                    ? 'bg-blue-600 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gray-100')
-                                : 'text-gray-400 cursor-default'
-                            }
-            `}
-                        disabled={typeof page !== 'number'}
-                    >
-                        {page}
-                    </button>
-                ))}
-            </div>
+        pdfMake.createPdf(docDefinition).download(
+            singleTransaction ? `transaction_${singleTransaction.date}.pdf` : "transaction_report.pdf"
         );
     };
-
 
     return (
         <div className=''>
@@ -110,7 +112,10 @@ const UserPayment = () => {
                         <IoFunnelOutline className="w-4 h-4" />
                         <span>Filter by date range</span>
                     </button>
-                    <button className="flex items-center space-x-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-150 shadow-sm">
+                    <button
+                        onClick={() => generatePDF()} // <-- Export ALL transactions
+                        className="flex items-center space-x-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-150 shadow-sm"
+                    >
                         <IoShareOutline className="w-4 h-4" />
                         <span>Export All</span>
                     </button>
@@ -129,7 +134,9 @@ const UserPayment = () => {
                         <span className="text-sm font-semibold text-[#9DA0A6] ml-auto">+5.2% MoM</span>
                     </div>
                     <span className="text-sm font-medium text-gray-700 mb-4">Total Spent</span>
-                    <p className="text-4xl font-extrabold text-gray-900 leading-none">$1240.00</p>
+                    <p className="text-4xl font-extrabold text-gray-900 leading-none">
+                        ${transactions.reduce((sum, t) => sum + (t.amount < 0 ? 0 : t.amount), 0).toFixed(2)}
+                    </p>
                 </div>
 
                 {/* Card: This Month */}
@@ -141,7 +148,9 @@ const UserPayment = () => {
                         <span className="text-sm font-semibold text-green-600 ml-auto">+5.2% MoM</span>
                     </div>
                     <span className="text-sm font-medium text-gray-700 mb-4">This Month</span>
-                    <p className="text-4xl font-extrabold text-gray-900 leading-none">$320.00</p>
+                    <p className="text-4xl font-extrabold text-gray-900 leading-none">
+                        ${transactions.filter(t => new Date(t.date).getMonth() === new Date().getMonth()).reduce((sum, t) => sum + t.amount, 0).toFixed(2)}
+                    </p>
                 </div>
 
                 {/* Card: Refunds */}
@@ -153,12 +162,13 @@ const UserPayment = () => {
                         <span className="text-sm font-semibold text-[#9DA0A6] ml-auto">+5.2% MoM</span>
                     </div>
                     <span className="text-sm font-medium text-[#EA4335] mb-4">Refunds</span>
-                    <p className="text-4xl font-extrabold text-[#EA4335] leading-none">$320.00</p>
+                    <p className="text-4xl font-extrabold text-[#EA4335] leading-none">
+                        ${transactions.filter(t => t.status.toLowerCase() === 'refunded').reduce((sum, t) => sum + Math.abs(t.amount), 0).toFixed(2)}
+                    </p>
                 </div>
 
             </div>
 
-            {/* Transaction History Table */}
             {/* Transaction History Table */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200">
                 <div className="p-5 border-b border-gray-200">
@@ -182,7 +192,7 @@ const UserPayment = () => {
                         </div>
 
                         {/* Table Body */}
-                        {mockTransactions.map((transaction) => (
+                        {transactions.map((transaction) => (
                             <div key={transaction.id} className="grid grid-cols-6 text-sm text-gray-900 items-center px-5 py-3 border-b border-gray-100 hover:bg-gray-50 transition duration-100">
                                 <div className='col-span-1 flex items-center space-x-2'>
                                     <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
@@ -203,29 +213,13 @@ const UserPayment = () => {
 
                                 <div className='col-span-1'>
                                     {transaction.receipt && (
-                                        <button className="text-blue-600 hover:text-blue-800 p-1">
+                                        <button className="text-blue-600 hover:text-blue-800 p-1" onClick={() => generatePDF(transaction)}>
                                             <FaDownload className="w-4 h-4" />
                                         </button>
                                     )}
                                 </div>
                             </div>
                         ))}
-                    </div>
-                </div>
-
-                {/* Pagination */}
-                <div className="flex justify-between items-center px-5 py-4 text-sm">
-                    <p className="text-gray-500">Page 1 of 30</p>
-                    <div className='flex items-center space-x-4'>
-                        {renderPagination()}
-                        <div className='hidden sm:flex items-center space-x-2'>
-                            <span className='text-gray-700'>Go to page</span>
-                            <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 py-1.5 px-3">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </div>
