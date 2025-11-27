@@ -50,6 +50,7 @@ import BuyerPayment from './pages/Seller/Dashboard/BuyerPayment';
 import BuyerDocument from './pages/Seller/Dashboard/BuyerDocument';
 import BuyerSupport from './pages/Seller/Dashboard/BuyerSupport';
 import BuyerMessaging from './pages/Seller/Dashboard/BuyerMessaging';
+import CookieConsent from './components/CookieConsent';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 const UserLayout = lazy(() => import('./components/user/Layout'));
@@ -77,6 +78,7 @@ function App() {
   return (
     <>
       <Toaster />
+      <CookieConsent />
       <BrowserRouter>
         <SuspenseWithDelay fallback={<div className="flex justify-center items-center w-screen h-screen"><img src={LoaderGif} alt="HopOn Dashboard- Loader" className="h-[6rem]" /></div>} minDisplayTime={2000}>
 

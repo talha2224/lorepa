@@ -168,21 +168,52 @@ const CalculatorPage = () => {
     }, []);
 
     const trailerOptions = [
-        { id: '', nameKey: 'selectTrailer', dailyRate: 0, isDisabled: true },
-        { id: 'enclosed-5x8x72', nameKey: 'enclosed5x8x72', dailyRate: 60 },
-        { id: 'enclosed-5x10x72', nameKey: 'enclosed5x10x72', dailyRate: 65 },
-        { id: 'enclosed-5x10x72-ramp', nameKey: 'enclosed5x10x72ramp', dailyRate: 70 },
-        { id: 'enclosed-6x12x72-ramp', nameKey: 'enclosed6x12x72ramp', dailyRate: 80 },
-        { id: 'enclosed-6x12-dual-axle', nameKey: 'enclosed6x12dualAxle', dailyRate: 90 },
-        { id: 'enclosed-7x14x78', nameKey: 'enclosed7x14x78', dailyRate: 95 },
-        { id: 'enclosed-7x14x84-ramp', nameKey: 'enclosed7x14x84ramp', dailyRate: 100 },
-        { id: 'enclosed-7x16x78-ramp', nameKey: 'enclosed7x16x78ramp', dailyRate: 105 },
-        { id: 'enclosed-7x16x84-ramp', nameKey: 'enclosed7x16x84ramp', dailyRate: 110 },
-        { id: 'enclosed-8x20x78-ramp', nameKey: 'enclosed8x20x78ramp', dailyRate: 115 },
-        { id: 'enclosed-8x20x88-ramp', nameKey: 'enclosed8x20x88ramp', dailyRate: 125 },
-        { id: 'enclosed-8x24x78-ramp', nameKey: 'enclosed8x24x78ramp', dailyRate: 130 },
-        { id: 'enclosed-8x24x84-ramp', nameKey: 'enclosed8x24x84ramp', dailyRate: 140 },
+        { id: "", name: "Select Trailer", dailyRate: 0, isDisabled: true },
+
+        { id: "fermee-5x8x60", name: "Fermée 5' x 8' x 60\"", dailyRate: 40 },
+        { id: "fermee-5x8x72-rampe", name: "Fermée 5' x 8' x 72\" rampe", dailyRate: 45 },
+        { id: "fermee-5x10x72", name: "Fermée 5' x 10' x 72\"", dailyRate: 50 },
+        { id: "fermee-5x10x72-rampe", name: "Fermée 5' x 10' x 72\" rampe", dailyRate: 55 },
+
+        { id: "fermee-6x12x72-rampe", name: "Fermée 6' x 12' x 72\" rampe", dailyRate: 70 },
+        { id: "fermee-6x12-dual", name: "Fermée 6' x 12' essieu double", dailyRate: 80 },
+
+        { id: "fermee-7x14x78", name: "Fermée 7' x 14' x 78\"", dailyRate: 85 },
+        { id: "fermee-7x14x84-rampe", name: "Fermée 7' x 14' x 84\" rampe", dailyRate: 90 },
+
+        { id: "fermee-7x16x78-rampe", name: "Fermée 7' x 16' x 78\" rampe", dailyRate: 95 },
+        { id: "fermee-7x16x84-rampe", name: "Fermée 7' x 16' x 84\" rampe", dailyRate: 100 },
+
+        { id: "fermee-8x20x78-rampe", name: "Fermée 8' x 20' x 78\" rampe", dailyRate: 110 },
+        { id: "fermee-8x20x88-rampe", name: "Fermée 8' x 20' x 88\" rampe", dailyRate: 115 },
+
+        { id: "fermee-8x24x78-rampe", name: "Fermée 8' x 24' x 78\" rampe", dailyRate: 125 },
+        { id: "fermee-8x24x84-rampe", name: "Fermée 8' x 24' x 84\" rampe", dailyRate: 130 },
+
+        { id: "ouverte-4x8", name: "Ouverte 4' x 8'", dailyRate: 40 },
+        { id: "ouverte-5x8", name: "Ouverte 5' x 8'", dailyRate: 50 },
+        { id: "ouverte-5x10-rampe", name: "Ouverte 5' x 10' rampe", dailyRate: 55 },
+        { id: "ouverte-5x10-tandem", name: "Ouverte 5' x 10' tandem", dailyRate: 60 },
+        { id: "ouverte-5x10-plato", name: "Ouverte 5' x 10' plato-lift", dailyRate: 70 },
+
+        { id: "ouverte-6x12", name: "Ouverte 6' x 12'", dailyRate: 75 },
+        { id: "ouverte-6x12-rampe-tandem", name: "Ouverte 6' x 12' rampe tandem", dailyRate: 80 },
+
+        { id: "plateforme-6x20", name: "Plateforme 6' x 20'", dailyRate: 115 },
+        { id: "plateforme-7x14", name: "Plateforme 7' x 14'", dailyRate: 80 },
+        { id: "plateforme-8x16", name: "Plateforme 8' x 16'", dailyRate: 90 },
+        { id: "plateforme-8x18", name: "Plateforme 8' x 18'", dailyRate: 100 },
+        { id: "plateforme-8x20", name: "Plateforme 8' x 20'", dailyRate: 125 },
+        { id: "plateforme-8x24", name: "Plateforme 8'6 x 24'", dailyRate: 140 },
+
+        { id: "dompeur-5x10", name: "Dompeur 5' x 10'", dailyRate: 100 },
+        { id: "dompeur-6x12", name: "Dompeur 6' x 12'", dailyRate: 110 },
+        { id: "dompeur-7x14", name: "Dompeur 7' x 14'", dailyRate: 150 },
+
+        { id: "gooseneck-24", name: "Gooseneck 8'6 x 24' basculante", dailyRate: 215 },
+        { id: "gooseneck-30-ramp", name: "Gooseneck 8'6 x 30' avec rampe", dailyRate: 230 },
     ];
+
 
     const ACCESSORY_STRAPS_COST = 10;
     const ACCESSORY_DOLLY_COST = 15;
@@ -200,11 +231,25 @@ const CalculatorPage = () => {
         let currentAccessoriesCost = 0;
         if (strapsSelected) currentAccessoriesCost += ACCESSORY_STRAPS_COST;
         if (dollySelected) currentAccessoriesCost += ACCESSORY_DOLLY_COST;
+
         setAccessoriesCost(currentAccessoriesCost);
 
-        const calculatedIncome = (trailerBaseValue * daysRented) + currentAccessoriesCost;
-        setRentalIncome(calculatedIncome);
+        let discount = 1;
+
+        if (daysRented >= 7) {
+            discount = 0.85;
+        } else if (daysRented >= 5) {
+            discount = 0.90;
+        } else if (daysRented >= 3) {
+            discount = 0.95;
+        }
+
+        const base = trailerBaseValue * daysRented;
+        const finalValue = base * discount + currentAccessoriesCost;
+
+        setRentalIncome(finalValue);
     }, [trailerBaseValue, daysRented, strapsSelected, dollySelected]);
+
 
     const handleSelectOption = (optionId) => {
         setSelectedTrailer(optionId);

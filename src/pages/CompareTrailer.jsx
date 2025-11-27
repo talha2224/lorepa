@@ -1,37 +1,51 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import TuroVsLorepaImg from "../assets/hero.png";
+import TuroVsLorepaImg from "../assets/hero.png"; // Keeping the original image asset name, assuming it's the main article banner
 import { motion } from 'framer-motion';
 
 const translations = {
     en: {
-        title: "Turo vs. Lorepa Comparison",
-        postedBy: "By Lorepa Staff | Posted on Oct 25, 2024",
+        title: "Advantages of Lorepa vs Turo",
+        postedBy: "By the Lorepa Team | Published October 25, 2024",
         introParagraph: "Given its past triumphs, the short-term rental market needs little to no introduction. From Airbnb and VRBO for residential units to Turo for vehicles, the landscape has been well-covered and those looking for additional income or diversifying investments have followed up on a profitable side hustle.",
-        turoTitle: "Turo",
-        turoParagraph1: "Turo operates as a car-sharing platform, similar to Airbnb but for cars, offering a wide range of over 850 models...",
-        turoParagraph2: "Turo provides comprehensive insurance coverage for hosts and renters...",
-        lorepaTitle: "Lorepa",
-        lorepaParagraph1: "In contrast, Lorepa focuses on trailer rentals...",
-        lorepaParagraph2: "The key difference is Lorepa's easy-to-use interface...",
-        lorepaParagraph3: "As Lorepa grows its community...",
-        lorepaParagraph4: "Whether considering whether to invest in a parcel...",
-        investmentTitle: "Investment and Storage",
-        investmentParagraph1: "Renting out a vehicle for a short time is less than it takes for sale and on the market...",
-        investmentParagraph2: "Investment for a user is less than that of purchasing an entire asset...",
-        investmentListItem1: "Renting only has a small one time payment for 1250-2000$.",
-        investmentListItem2: "Can then easily use for business, and you can buy it in the end...",
-        maintenanceTitle: "Maintenance and usage",
-        maintenanceParagraph1: "Trailers typically require less maintenance compared to vehicles...",
-        marketNicheTitle: "Market Niche",
-        marketNicheParagraph1: "While Turo caters to a broad car-sharing market, Lorepa focuses on a specific niche...",
-        flexibilityTitle: "Flexibility and Predictability",
-        flexibilityParagraph1: "Renting a car is a more everyday, general purpose rental than renting a specialty item...",
-        uniqueIncomeTitle: "Unique Income Opportunity",
-        uniqueIncomeParagraph1: "While both platforms offer income opportunities...",
-        uniqueIncomeParagraph2: "The key difference is Lorepa's easy-to-use interface...",
-        uniqueIncomeParagraph3: "Lorepa provides owners with a straightforward way to monetize their trailers...",
+
+        // New Content Sections based on 'Advantages of Lorepa vs Turo'
+        section1Title: "1. A less saturated, high-demand niche",
+        section1Paragraph1: "While Turo positions itself in the already highly competitive car-sharing market, Lorepa focuses on a niche that remains largely untapped — trailer rentals between individuals.",
+        section1Paragraph2: "The need is significant: moving materials, personal relocations, recreational vehicles, farming, construction, and more — yet there are few simple, local solutions.",
+        section1Callout: "👉 The result: less competition and greater income opportunities for each registered owner.",
+
+        section2Title: "2. A much more affordable initial investment",
+        section2Paragraph1: "Purchasing or maintaining a vehicle for Turo rentals comes with major costs — insurance, maintenance, depreciation, cleaning, etc.",
+        section2Paragraph2: "In contrast, a trailer costs only between $1,250 and $2,000 and requires very little maintenance. It’s an accessible asset, quickly profitable, and ideal for generating extra income with minimal financial risk.",
+
+        section3Title: "3. Simple and secure management through the Lorepa app",
+        section3Paragraph1: "The Lorepa interface was designed to be intuitive, fast, and user-friendly — whether you’re tech-savvy or not. In just a few clicks, you can:",
+        section3ListItem1: "List your trailer with photos and a clear description 📸",
+        section3ListItem2: "Approve bookings safely ✅",
+        section3ListItem3: "Manage your income directly from your dashboard 💰",
+        section3Paragraph2: "Lorepa performs a systematic verification of each renter (identity, experience, and insurance) and requires a security deposit before each rental — ensuring peace of mind for owners.",
+
+        section4Title: "4. Tailored insurance and full protection",
+        section4Paragraph1: "While Turo’s insurance focuses on complex car policies, Lorepa partners with specialized insurers to protect every transaction.",
+        section4Paragraph2: "Each rental includes: Basic insurance coverage, Systematic renter verification, And the option to add supplemental insurance.",
+        section4Callout: "👉 The result: less risk and more peace of mind for both owners and renters.",
+
+        section5Title: "5. A more predictable income model",
+        section5Paragraph1: "On Turo, revenue depends on the season, mileage, vehicle type, and location.",
+        section5Paragraph2: "At Lorepa, demand remains steady — driven by consistent transport and logistics needs. Each rental can bring in $50 to $120 per day, without the hidden costs tied to wear or fuel.",
+
+        section6Title: "6. A growing local community",
+        section6Paragraph1: "As a 100% Quebec-based platform, Lorepa focuses on proximity and trust between users.",
+        section6Paragraph2: "Owners and renters communicate directly in a spirit of collaboration and local support. Every transaction strengthens a circular economy based on sharing and the use of existing assets.",
+
+        section7Title: "7. A platform built for simplicity",
+        section7Paragraph1: "Lorepa’s main strength lies in its simplicity — less paperwork, less management, more flexibility. Payments are automatically sent via Interac transfer, before/after photos are integrated into the app, and commissions are transparent (15%, with launch promotions as low as 10%).",
+        section7Callout: "🚀 Lorepa offers a smarter, safer, and more accessible way to earn. Less cost, less stress, and more control — Lorepa is car-sharing reimagined for trailers.",
+
+
+        // ROI Table Headers (Kept as requested)
         turoROITableTitle: "Turo return on investment",
         lorepaROITableTitle: "Lorepa return on investment",
         newCarHeader: "New Car",
@@ -56,32 +70,46 @@ const translations = {
         ]
     },
     es: {
-        title: "Comparación Turo vs. Lorepa",
-        postedBy: "Por el personal de Lorepa | Publicado el 25 de octubre de 2024",
+        title: "Ventajas de Lorepa frente a Turo",
+        postedBy: "Por el equipo Lorepa | Publicado el 25 de octubre de 2024",
         introParagraph: "Dado sus triunfos pasados, el mercado de alquiler a corto plazo necesita poca o ninguna presentación. Desde Airbnb y VRBO para unidades residenciales hasta Turo para vehículos, el panorama ha estado bien cubierto y aquellos que buscan ingresos adicionales o diversificar inversiones han seguido un negocio secundario rentable.",
-        turoTitle: "Turo",
-        turoParagraph1: "Turo opera como una plataforma para compartir coches, similar a Airbnb pero para coches, ofreciendo una amplia gama de más de 850 modelos...",
-        turoParagraph2: "Turo ofrece una cobertura de seguro completa para anfitriones e inquilinos...",
-        lorepaTitle: "Lorepa",
-        lorepaParagraph1: "Por el contrario, Lorepa se centra en el alquiler de remolques...",
-        lorepaParagraph2: "La diferencia clave es la interfaz fácil de usar de Lorepa...",
-        lorepaParagraph3: "A medida que Lorepa crece su comunidad...",
-        lorepaParagraph4: "Ya sea que se considere invertir en un paquete...",
-        investmentTitle: "Inversión y Almacenamiento",
-        investmentParagraph1: "Alquilar un vehículo por un corto tiempo es menos de lo que se necesita para la venta y en el mercado...",
-        investmentParagraph2: "La inversión para un usuario es menor que la de comprar un activo completo...",
-        investmentListItem1: "El alquiler solo tiene un pequeño pago único de 1250-2000$.",
-        investmentListItem2: "Luego se puede usar fácilmente para negocios, y se puede comprar al final...",
-        maintenanceTitle: "Mantenimiento y uso",
-        maintenanceParagraph1: "Los remolques suelen requerir menos mantenimiento en comparación con los vehículos...",
-        marketNicheTitle: "Nicho de Mercado",
-        marketNicheParagraph1: "Mientras que Turo atiende a un amplio mercado de coches compartidos, Lorepa se centra en un nicho específico...",
-        flexibilityTitle: "Flexibilidad y Previsibilidad",
-        flexibilityParagraph1: "Alquilar un coche es un alquiler de propósito general más cotidiano que alquilar un artículo especializado...",
-        uniqueIncomeTitle: "Oportunidad de Ingresos Única",
-        uniqueIncomeParagraph1: "Si bien ambas plataformas ofrecen oportunidades de ingresos...",
-        uniqueIncomeParagraph2: "La diferencia clave es la interfaz fácil de usar de Lorepa...",
-        uniqueIncomeParagraph3: "Lorepa ofrece a los propietarios una forma sencilla de monetizar sus remolques...",
+
+        // New Content Sections based on 'Advantages of Lorepa vs Turo'
+        section1Title: "1. Un nicho menos saturado y de alta demanda",
+        section1Paragraph1: "Mientras que Turo se posiciona en el ya altamente competitivo mercado de coches compartidos, Lorepa se centra en un nicho que sigue en gran medida sin explotar: el alquiler de remolques entre particulares.",
+        section1Paragraph2: "La necesidad es significativa: mover materiales, reubicaciones personales, vehículos recreativos, agricultura, construcción y más, sin embargo, hay pocas soluciones sencillas y locales.",
+        section1Callout: "👉 El resultado: menos competencia y mayores oportunidades de ingresos para cada propietario registrado.",
+
+        section2Title: "2. Una inversión inicial mucho más asequible",
+        section2Paragraph1: "Comprar o mantener un vehículo para alquileres de Turo conlleva costos importantes: seguro, mantenimiento, depreciación, limpieza, etc.",
+        section2Paragraph2: "Por el contrario, un remolque cuesta solo entre $1,250 y $2,000 y requiere muy poco mantenimiento. Es un activo accesible, rápidamente rentable e ideal para generar ingresos adicionales con un riesgo financiero mínimo.",
+
+        section3Title: "3. Gestión simple y segura a través de la aplicación Lorepa",
+        section3Paragraph1: "La interfaz de Lorepa fue diseñada para ser intuitiva, rápida y fácil de usar, sea o no experto en tecnología. En solo unos pocos clics, puede:",
+        section3ListItem1: "Listar su remolque con fotos y una descripción clara 📸",
+        section3ListItem2: "Aprobar reservas de forma segura ✅",
+        section3ListItem3: "Administrar sus ingresos directamente desde su panel de control 💰",
+        section3Paragraph2: "Lorepa realiza una verificación sistemática de cada inquilino (identidad, experiencia y seguro) y requiere un depósito de seguridad antes de cada alquiler, lo que garantiza la tranquilidad de los propietarios.",
+
+        section4Title: "4. Seguro a medida y protección total",
+        section4Paragraph1: "Mientras que el seguro de Turo se centra en pólizas de coche complejas, Lorepa se asocia con aseguradoras especializadas para proteger cada transacción.",
+        section4Paragraph2: "Cada alquiler incluye: Cobertura de seguro básica, Verificación sistemática del inquilino, Y la opción de agregar seguro suplementario.",
+        section4Callout: "👉 El resultado: menos riesgo y más tranquilidad para propietarios e inquilinos.",
+
+        section5Title: "5. Un modelo de ingresos más predecible",
+        section5Paragraph1: "En Turo, los ingresos dependen de la temporada, el kilometraje, el tipo de vehículo y la ubicación.",
+        section5Paragraph2: "En Lorepa, la demanda se mantiene constante, impulsada por necesidades constantes de transporte y logística. Cada alquiler puede generar de $50 a $120 por día, sin los costos ocultos ligados al desgaste o al combustible.",
+
+        section6Title: "6. Una comunidad local en crecimiento",
+        section6Paragraph1: "Como plataforma 100% con sede en Quebec, Lorepa se centra en la proximidad y la confianza entre los usuarios.",
+        section6Paragraph2: "Los propietarios e inquilinos se comunican directamente en un espíritu de colaboración y apoyo local. Cada transacción fortalece una economía circular basada en el intercambio y el uso de activos existentes.",
+
+        section7Title: "7. Una plataforma diseñada para la simplicidad",
+        section7Paragraph1: "La principal fortaleza de Lorepa radica en su simplicidad: menos papeleo, menos gestión, más flexibilidad. Los pagos se envían automáticamente a través de transferencia Interac, las fotos de antes/después están integradas en la aplicación y las comisiones son transparentes (15%, con promociones de lanzamiento tan bajas como el 10%).",
+        section7Callout: "🚀 Lorepa ofrece una forma más inteligente, segura y accesible de ganar. Menos costo, menos estrés y más control: Lorepa es el coche compartido reinventado para remolques.",
+
+
+        // ROI Table Headers (Kept as requested)
         turoROITableTitle: "Retorno de la inversión de Turo",
         lorepaROITableTitle: "Retorno de la inversión de Lorepa",
         newCarHeader: "Coche Nuevo",
@@ -106,32 +134,46 @@ const translations = {
         ]
     },
     cn: {
-        title: "Turo 与 Lorepa 对比",
+        title: "Lorepa 对比 Turo 的优势",
         postedBy: "Lorepa 团队 | 发布于 2024 年 10 月 25 日",
         introParagraph: "鉴于其过去的辉煌，短期租赁市场无需过多介绍。从用于住宅单元的 Airbnb 和 VRBO 到用于车辆的 Turo，市场格局已被充分覆盖，那些寻求额外收入或多样化投资的人也紧随其后，进行有利可图的副业。",
-        turoTitle: "Turo",
-        turoParagraph1: "Turo 作为一个汽车共享平台运营，类似于 Airbnb，但针对汽车，提供超过 850 种车型...",
-        turoParagraph2: "Turo 为车主和租车人提供全面的保险...",
-        lorepaTitle: "Lorepa",
-        lorepaParagraph1: "相比之下，Lorepa 专注于拖车租赁...",
-        lorepaParagraph2: "关键区别在于 Lorepa 易于使用的界面...",
-        lorepaParagraph3: "随着 Lorepa 社区的发展...",
-        lorepaParagraph4: "无论是考虑是否投资一个包裹...",
-        investmentTitle: "投资与存储",
-        investmentParagraph1: "短期租赁车辆所需的时间比销售和上市所需的时间要少...",
-        investmentParagraph2: "用户的投资少于购买整个资产的投资...",
-        investmentListItem1: "租赁只需一次性支付 1250-2000 美元的小额费用。",
-        investmentListItem2: "然后可以轻松用于商业用途，并且最终可以购买...",
-        maintenanceTitle: "维护与使用",
-        maintenanceParagraph1: "与车辆相比，拖车通常需要更少的维护...",
-        marketNicheTitle: "市场利基",
-        marketNicheParagraph1: "虽然 Turo 迎合了广泛的汽车共享市场，但 Lorepa 专注于一个特定的利基市场...",
-        flexibilityTitle: "灵活性与可预测性",
-        flexibilityParagraph1: "租车是一种更日常、更通用的租赁，而不是租赁特殊物品...",
-        uniqueIncomeTitle: "独特的收入机会",
-        uniqueIncomeParagraph1: "虽然两个平台都提供收入机会...",
-        uniqueIncomeParagraph2: "关键区别在于 Lorepa 易于使用的界面...",
-        uniqueIncomeParagraph3: "Lorepa 为车主提供了一种直接的方式来将其拖车货币化...",
+
+        // New Content Sections based on 'Advantages of Lorepa vs Turo'
+        section1Title: "1. 饱和度更低、需求旺盛的利基市场",
+        section1Paragraph1: "Turo 定位在竞争已经非常激烈的汽车共享市场，而 Lorepa 则专注于一个尚未被充分开发的利基市场——个人间的拖车租赁。",
+        section1Paragraph2: "需求巨大：搬运材料、个人搬家、休闲车辆、农业、建筑等等——然而，简单、本地化的解决方案却很少。",
+        section1Callout: "👉 结果：竞争更少，为每位注册车主带来更大的收入机会。",
+
+        section2Title: "2. 初始投资更加实惠",
+        section2Paragraph1: "购买或维护用于 Turo 租赁的车辆会带来主要的成本——保险、维护、折旧、清洁等。",
+        section2Paragraph2: "相比之下，拖车成本仅在 $1,250 至 $2,000 之间，并且维护需求极低。它是一种易于获得的资产，能快速盈利，是低风险赚取额外收入的理想选择。",
+
+        section3Title: "3. 通过 Lorepa 应用程序进行简单且安全的管理",
+        section3Paragraph1: "Lorepa 界面设计直观、快速且用户友好——无论您是否精通技术。只需点击几下，您就可以：",
+        section3ListItem1: "上传照片和清晰描述来列出您的拖车 📸",
+        section3ListItem2: "安全地批准预订 ✅",
+        section3ListItem3: "直接从仪表板管理您的收入 💰",
+        section3Paragraph2: "Lorepa 对每位租车人进行系统验证（身份、经验和保险），并在每次租赁前要求支付安全押金——确保车主高枕无忧。",
+
+        section4Title: "4. 量身定制的保险和全面保护",
+        section4Paragraph1: "Turo 的保险专注于复杂的汽车保单，而 Lorepa 则与专业保险公司合作，保护每笔交易。",
+        section4Paragraph2: "每次租赁都包括：基本保险范围、系统性的租车人验证，以及添加补充保险的选项。",
+        section4Callout: "👉 结果：风险更小，车主和租车人都更安心。",
+
+        section5Title: "5. 更可预测的收入模式",
+        section5Paragraph1: "在 Turo 上，收入取决于季节、里程、车型和位置。",
+        section5Paragraph2: "在 Lorepa，需求保持稳定——由持续的运输和物流需求驱动。每次租赁每天可带来 $50 至 $120 的收入，且没有与磨损或燃油相关的隐藏成本。",
+
+        section6Title: "6. 不断壮大的本地社区",
+        section6Paragraph1: "作为 100% 基于魁北克的平台，Lorepa 专注于用户之间的邻近性和信任。",
+        section6Paragraph2: "车主和租车人在协作和本地支持的精神下直接沟通。每笔交易都加强了基于共享和现有资产利用的循环经济。",
+
+        section7Title: "7. 专为简单而构建的平台",
+        section7Paragraph1: "Lorepa 的主要优势在于其简单性——更少的文书工作、更少的管理、更大的灵活性。付款通过 Interac 自动转账发送，取车前后照片集成到应用程序中，佣金透明（15%，启动促销期低至 10%）。",
+        section7Callout: "🚀 Lorepa 提供了一种更智能、更安全、更易于访问的赚钱方式。更低的成本、更少的压力和更多的控制——Lorepa 是为拖车重新构想的汽车共享。",
+
+
+        // ROI Table Headers (Kept as requested)
         turoROITableTitle: "Turo 投资回报率",
         lorepaROITableTitle: "Lorepa 投资回报率",
         newCarHeader: "新车",
@@ -156,32 +198,46 @@ const translations = {
         ]
     },
     fr: {
-        title: "Comparaison Turo vs. Lorepa",
-        postedBy: "Par l'équipe Lorepa | Publié le 25 oct. 2024",
+        title: "Avantages de Lorepa vs Turo",
+        postedBy: "Par l'équipe Lorepa | Publié le 25 octobre 2024",
         introParagraph: "Compte tenu de ses succès passés, le marché de la location à court terme n'a guère besoin d'être présenté. Des unités résidentielles d'Airbnb et VRBO aux véhicules de Turo, le paysage a été bien couvert et ceux qui recherchent un revenu supplémentaire ou qui diversifient leurs investissements ont suivi une activité secondaire rentable.",
-        turoTitle: "Turo",
-        turoParagraph1: "Turo fonctionne comme une plateforme de partage de voitures, similaire à Airbnb mais pour les voitures, offrant une large gamme de plus de 850 modèles...",
-        turoParagraph2: "Turo offre une couverture d'assurance complète pour les hôtes et les locataires...",
-        lorepaTitle: "Lorepa",
-        lorepaParagraph1: "En revanche, Lorepa se concentre sur la location de remorques...",
-        lorepaParagraph2: "La principale différence est l'interface facile à utiliser de Lorepa...",
-        lorepaParagraph3: "À mesure que Lorepa développe sa communauté...",
-        lorepaParagraph4: "Que l'on envisage ou non d'investir dans une parcelle...",
-        investmentTitle: "Investissement et Stockage",
-        investmentParagraph1: "Louer un véhicule pour une courte période est moins cher que de le vendre et de le mettre sur le marché...",
-        investmentParagraph2: "L'investissement pour un utilisateur est inférieur à celui de l'achat d'un actif entier...",
-        investmentListItem1: "La location n'a qu'un petit paiement unique de 1250 à 2000$.",
-        investmentListItem2: "Peut ensuite être facilement utilisé pour les affaires, et vous pouvez l'acheter à la fin...",
-        maintenanceTitle: "Entretien et utilisation",
-        maintenanceParagraph1: "Les remorques nécessitent généralement moins d'entretien que les véhicules...",
-        marketNicheTitle: "Niche de Marché",
-        marketNicheParagraph1: "Bien que Turo s'adresse à un vaste marché du partage de voitures, Lorepa se concentre sur une niche spécifique...",
-        flexibilityTitle: "Flexibilité et Prévisibilité",
-        flexibilityParagraph1: "Louer une voiture est une location plus quotidienne et à usage général que la location d'un article spécialisé...",
-        uniqueIncomeTitle: "Opportunité de Revenu Unique",
-        uniqueIncomeParagraph1: "Bien que les deux plateformes offrent des opportunités de revenus...",
-        uniqueIncomeParagraph2: "La principale différence est l'interface facile à utiliser de Lorepa...",
-        uniqueIncomeParagraph3: "Lorepa offre aux propriétaires un moyen simple de monétiser leurs remorques...",
+
+        // New Content Sections based on 'Advantages of Lorepa vs Turo'
+        section1Title: "1. Une niche moins saturée et très demandée",
+        section1Paragraph1: "Alors que Turo se positionne sur le marché déjà très compétitif de l'autopartage, Lorepa se concentre sur une niche largement inexploitée : la location de remorques entre particuliers.",
+        section1Paragraph2: "Le besoin est important : déménagement de matériaux, déménagements personnels, véhicules de loisirs, agriculture, construction, etc. – pourtant, il existe peu de solutions locales et simples.",
+        section1Callout: "👉 Le résultat : moins de concurrence et de meilleures opportunités de revenus pour chaque propriétaire inscrit.",
+
+        section2Title: "2. Un investissement initial beaucoup plus abordable",
+        section2Paragraph1: "L'achat ou l'entretien d'un véhicule pour les locations Turo entraîne des coûts majeurs : assurance, entretien, dépréciation, nettoyage, etc.",
+        section2Paragraph2: "En revanche, une remorque ne coûte qu'entre 1 250 $ et 2 000 $ et nécessite très peu d'entretien. C'est un actif accessible, rapidement rentable et idéal pour générer un revenu supplémentaire avec un risque financier minimal.",
+
+        section3Title: "3. Gestion simple et sécurisée via l'application Lorepa",
+        section3Paragraph1: "L'interface Lorepa a été conçue pour être intuitive, rapide et conviviale — que vous soyez technophile ou non. En quelques clics, vous pouvez :",
+        section3ListItem1: "Lister votre remorque avec des photos et une description claire 📸",
+        section3ListItem2: "Approuver les réservations en toute sécurité ✅",
+        section3ListItem3: "Gérer vos revenus directement depuis votre tableau de bord 💰",
+        section3Paragraph2: "Lorepa effectue une vérification systématique de chaque locataire (identité, expérience et assurance) et exige un dépôt de garantie avant chaque location — assurant la tranquillité d'esprit des propriétaires.",
+
+        section4Title: "4. Assurance sur mesure et protection complète",
+        section4Paragraph1: "Alors que l'assurance de Turo se concentre sur des polices automobiles complexes, Lorepa s'associe à des assureurs spécialisés pour protéger chaque transaction.",
+        section4Paragraph2: "Chaque location comprend : Une couverture d'assurance de base, Une vérification systématique du locataire, Et la possibilité d'ajouter une assurance supplémentaire.",
+        section4Callout: "👉 Le résultat : moins de risques et plus de tranquillité d'esprit pour les propriétaires et les locataires.",
+
+        section5Title: "5. Un modèle de revenu plus prévisible",
+        section5Paragraph1: "Sur Turo, les revenus dépendent de la saison, du kilométrage, du type de véhicule et de l'emplacement.",
+        section5Paragraph2: "Chez Lorepa, la demande reste constante — tirée par des besoins de transport et de logistique réguliers. Chaque location peut rapporter de 50 $ à 120 $ par jour, sans les coûts cachés liés à l'usure ou au carburant.",
+
+        section6Title: "6. Une communauté locale en pleine croissance",
+        section6Paragraph1: "En tant que plateforme 100 % québécoise, Lorepa se concentre sur la proximité et la confiance entre les utilisateurs.",
+        section6Paragraph2: "Les propriétaires et les locataires communiquent directement dans un esprit de collaboration et de soutien local. Chaque transaction renforce une économie circulaire basée sur le partage et l'utilisation d'actifs existants.",
+
+        section7Title: "7. Une plateforme conçue pour la simplicité",
+        section7Paragraph1: "La principale force de Lorepa réside dans sa simplicité : moins de paperasse, moins de gestion, plus de flexibilité. Les paiements sont envoyés automatiquement par virement Interac, les photos avant/après sont intégrées à l'application et les commissions sont transparentes (15 %, avec des promotions de lancement aussi basses que 10 %).",
+        section7Callout: "🚀 Lorepa offre un moyen plus intelligent, plus sûr et plus accessible de gagner de l'argent. Moins de coûts, moins de stress et plus de contrôle — Lorepa est l'autopartage réinventé pour les remorques.",
+
+
+        // ROI Table Headers (Kept as requested)
         turoROITableTitle: "Retour sur investissement Turo",
         lorepaROITableTitle: "Retour sur investissement Lorepa",
         newCarHeader: "Nouvelle voiture",
@@ -243,6 +299,7 @@ const CompareTrailer = () => {
 
     }, []);
 
+    // Updated contentSections array based on the NEW CONTENT
     const contentSections = [
         {
             title: '',
@@ -251,56 +308,61 @@ const CompareTrailer = () => {
             ]
         },
         {
-            title: translationsData.turoTitle,
+            title: translationsData.section1Title,
             paragraphs: [
-                translationsData.turoParagraph1,
-                translationsData.turoParagraph2
+                translationsData.section1Paragraph1,
+                translationsData.section1Paragraph2,
+                translationsData.section1Callout
             ]
         },
         {
-            title: translationsData.lorepaTitle,
+            title: translationsData.section2Title,
             paragraphs: [
-                translationsData.lorepaParagraph1,
-                translationsData.lorepaParagraph2,
-                translationsData.lorepaParagraph3,
-                translationsData.lorepaParagraph4
+                translationsData.section2Paragraph1,
+                translationsData.section2Paragraph2
             ]
         },
         {
-            title: translationsData.investmentTitle,
+            title: translationsData.section3Title,
             paragraphs: [
-                translationsData.investmentParagraph1,
-                translationsData.investmentParagraph2
+                translationsData.section3Paragraph1,
             ],
             list: [
-                translationsData.investmentListItem1,
-                translationsData.investmentListItem2
+                translationsData.section3ListItem1,
+                translationsData.section3ListItem2,
+                translationsData.section3ListItem3,
+            ],
+            listAfterParagraphs: [
+                translationsData.section3Paragraph2
             ]
         },
         {
-            title: translationsData.maintenanceTitle,
+            title: translationsData.section4Title,
             paragraphs: [
-                translationsData.maintenanceParagraph1
+                translationsData.section4Paragraph1,
+                translationsData.section4Paragraph2,
+                translationsData.section4Callout
             ]
         },
         {
-            title: translationsData.marketNicheTitle,
+            title: translationsData.section5Title,
             paragraphs: [
-                translationsData.marketNicheParagraph1
+                translationsData.section5Paragraph1,
+                translationsData.section5Paragraph2
             ]
         },
         {
-            title: translationsData.flexibilityTitle,
+            title: translationsData.section6Title,
             paragraphs: [
-                translationsData.flexibilityParagraph1
+                translationsData.section6Paragraph1,
+                translationsData.section6Paragraph2
             ]
         },
         {
-            title: translationsData.uniqueIncomeTitle,
+            title: translationsData.section7Title,
             paragraphs: [
-                translationsData.uniqueIncomeParagraph1,
-                translationsData.uniqueIncomeParagraph2,
-                translationsData.uniqueIncomeParagraph3
+                translationsData.section7Paragraph1,
+                translationsData.section7Callout
             ]
         }
     ];
@@ -355,10 +417,13 @@ const CompareTrailer = () => {
                                     {section.list.map((item, i) => <li key={i}>{item}</li>)}
                                 </ul>
                             )}
+                            {section.listAfterParagraphs && section.listAfterParagraphs.map((para, i) => (
+                                <p key={`list-after-${i}`} className="mb-4 text-black">{para}</p>
+                            ))}
                         </motion.div>
                     ))}
 
-                    {/* ROI Tables with Animation */}
+                    {/* ROI Tables with Animation (Kept as requested) */}
                     {roiTables.map((section, index) => (
                         <motion.div
                             key={index}
