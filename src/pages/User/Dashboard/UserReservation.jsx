@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
 import config from '../../../config'
 import axios from 'axios'
+import BookingDetailsDrawer from '../../../components/user/BookingDetailsDrawer';
+import { useNavigate } from 'react-router-dom';
 
 const getStatusClasses = (status) => {
     switch (status) {
@@ -18,9 +20,16 @@ const getStatusClasses = (status) => {
     }
 };
 
+const STATUS_STYLES = {
+    pending: 'text-yellow-700 bg-yellow-100',
+    accepted: 'text-blue-700 bg-blue-100',
+    completed: 'text-gray-700 bg-gray-200',
+    cancelled: 'text-red-700 bg-red-100',
+};
+
 const TABS = ['All', 'Upcoming', 'Past', 'Cancel'];
 
-const ReservationItem = ({ reservation }) => {
+const ReservationItem = ({ reservation, onSelectReservation,createChat }) => {
     return (
         <div className="py-4 border-b border-gray-200 last:border-b-0">
 
@@ -47,10 +56,10 @@ const ReservationItem = ({ reservation }) => {
                         </span>
 
                         <div className="block sm:flex items-center justify-center gap-x-5">
-                            {/* <p className="sm:mt:0 t:3 text-sm font-medium transition duration-150">
+                            <button onClick={() => onSelectReservation(reservation)} className="text-blue-600 hover:text-blue-800 text-sm font-medium transition duration-150 cursor-pointer">
                                 View details
-                            </p> */}
-                            <button className="sm:mt:0 t:3 bg-blue-50 border border-blue-300 text-blue-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-150 shadow-sm">
+                            </button>
+                            <button onClick={() => createChat(reservation?.owner_id?._id)} className="sm:mt:0 t:3 bg-blue-50 border border-blue-300 text-blue-600 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-150 shadow-sm">
                                 Contact Owner
                             </button>
                         </div>
@@ -66,7 +75,8 @@ const ReservationItem = ({ reservation }) => {
 const UserReservation = () => {
     const [activeTab, setActiveTab] = useState('All');
     const [bookings, setBookings] = useState([]);
-
+    const [selectedReservation, setSelectedReservation] = useState(null);
+    const nav = useNavigate()
     const filteredReservations = bookings.filter((booking) => {
         const today = new Date();
 
@@ -83,6 +93,32 @@ const UserReservation = () => {
                 return true;
         }
     });
+
+    const createChat = async (ownerId) => {
+        try {
+            const currentUserId = localStorage.getItem("userId");
+            const otherUserId = ownerId;
+
+            if (!currentUserId || !otherUserId) return;
+
+            const response = await axios.post(`${config.baseUrl}/chat/create`, {
+                participants: [currentUserId, otherUserId]
+            });
+
+            const chat = response.data.data;
+            console.log("Chat created or existing chat returned:", chat);
+
+            nav(`/user/dashboard/messaging`);
+        } catch (error) {
+            console.error("Error creating chat:", error);
+        }
+    };
+
+    const StatusBadge = ({ status }) => (
+        <span className={`text-xs font-medium px-2 py-1 rounded-md w-fit ${STATUS_STYLES[status] || 'text-gray-700 bg-gray-100'}`}>
+            {status}
+        </span>
+    );
 
 
     const fetchBookings = async () => {
@@ -133,7 +169,10 @@ const UserReservation = () => {
                 <div className="p-5">
                     {filteredReservations.length > 0 ? (
                         filteredReservations.map((reservation) => (
-                            <ReservationItem key={reservation.id} reservation={reservation} />
+                            <ReservationItem key={reservation.id} reservation={reservation}
+                                onSelectReservation={setSelectedReservation}
+                                createChat={createChat}
+                            />
                         ))
                     ) : (
                         <div className="text-center py-8 text-gray-500">
@@ -143,6 +182,12 @@ const UserReservation = () => {
                 </div>
 
             </div>
+
+            <BookingDetailsDrawer
+                reservation={selectedReservation}
+                onClose={() => setSelectedReservation(null)}
+                StatusBadge={StatusBadge}
+            />
         </div>
     )
 }

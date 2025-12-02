@@ -51,6 +51,9 @@ import BuyerDocument from './pages/Seller/Dashboard/BuyerDocument';
 import BuyerSupport from './pages/Seller/Dashboard/BuyerSupport';
 import BuyerMessaging from './pages/Seller/Dashboard/BuyerMessaging';
 import CookieConsent from './components/CookieConsent';
+import UserProfilePage from './pages/User/Dashboard/UserProfilePage';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const AdminLayout = lazy(() => import('./components/admin/Layout'));
 const UserLayout = lazy(() => import('./components/user/Layout'));
@@ -83,7 +86,6 @@ function App() {
         <SuspenseWithDelay fallback={<div className="flex justify-center items-center w-screen h-screen"><img src={LoaderGif} alt="HopOn Dashboard- Loader" className="h-[6rem]" /></div>} minDisplayTime={2000}>
 
           <Routes>
-
             <Route path='/user/login' element={<UserLogin />} />
             <Route path='/user/register' element={<UserRegister />} />
             <Route path='/user/forget' element={<UserForget />} />
@@ -96,7 +98,7 @@ function App() {
               <Route path="notification" element={<UserNotification />} />
               <Route path="support" element={<UserSupport />} />
               <Route path="messaging" element={<BuyerMessaging />} />
-
+              <Route path="profile" element={<UserProfilePage />} />
             </Route>
 
             <Route path='/seller/login' element={<BuyerLogin />} />
@@ -111,6 +113,7 @@ function App() {
               <Route path="support" element={<BuyerSupport />} />
               <Route path="messaging" element={<BuyerMessaging />} />
               <Route path="notification" element={<UserNotification />} />
+              <Route path="profile" element={<UserProfilePage />} />
             </Route>
 
             <Route path='/admin/'>
@@ -149,6 +152,9 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/verify' element={<VerifyPage />} />
+
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-cancel" element={<PaymentCancel/>} />
 
 
 

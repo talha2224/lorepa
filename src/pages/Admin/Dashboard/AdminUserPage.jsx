@@ -50,6 +50,16 @@ const AdminUserPage = () => {
     }
   };
 
+  const handleKYC = async (id, status) => {
+    try {
+      await axios.put(`${config.baseUrl}/account/kyc/${id}`, { kycVerified: status });
+      toast.success(`KYC ${status ? "Approved" : "Declined"}`);
+      fetchUsers();
+    } catch (err) {
+      toast.error("Failed to update KYC");
+    }
+  };
+
   const filteredUsers = users.filter(user => user.role === activeTab);
 
   const indexOfLastUser = currentPage * itemsPerPage;
@@ -85,6 +95,7 @@ const AdminUserPage = () => {
               <th className='px-6 py-3 text-left text-xs text-gray-500'>Email</th>
               <th className='px-6 py-3 text-left text-xs text-gray-500'>Phone</th>
               <th className='px-6 py-3 text-left text-xs text-gray-500'>Status</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500'>KYC Status</th>
               <th className='px-6 py-3 text-left text-xs text-gray-500'>Actions</th>
             </tr>
           </thead>
@@ -101,6 +112,35 @@ const AdminUserPage = () => {
                   ) : (
                     <span className='text-green-600'>Active</span>
                   )}
+                </td>
+                <td className='px-6 py-4 text-sm'>
+                  <div className="flex flex-col gap-2">
+                    <span className={`${user.kycVerified === true ? "text-green-600" :
+                      user.kycVerified === false ? "text-red-600" :
+                        "text-gray-600"}`}>
+                      {user.kycVerified === true
+                        ? "Approved"
+                        : user.kycVerified === false
+                          ? "Declined"
+                          : "Pending"}
+                    </span>
+
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleKYC(user._id, true)}
+                        className="px-2 py-1 text-xs bg-green-600 text-white rounded"
+                      >
+                        Approve
+                      </button>
+
+                      <button
+                        onClick={() => handleKYC(user._id, false)}
+                        className="px-2 py-1 text-xs bg-red-600 text-white rounded"
+                      >
+                        Decline
+                      </button>
+                    </div>
+                  </div>
                 </td>
                 <td className='px-6 py-4 text-sm'>
                   <div className='flex gap-2'>
@@ -138,9 +178,8 @@ const AdminUserPage = () => {
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded-md text-sm ${
-                currentPage === page ? 'bg-blue-600 text-white' : 'bg-white border text-gray-800'
-              }`}
+              className={`px-3 py-1 rounded-md text-sm ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-white border text-gray-800'
+                }`}
             >
               {page}
             </button>

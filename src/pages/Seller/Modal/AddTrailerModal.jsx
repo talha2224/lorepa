@@ -150,14 +150,10 @@ const AddTrailerModal = ({ isOpen, onClose, trailerData }) => {
                                     <p className="text-xs text-gray-500 text-right">{description.length}/{maxDescChars}</p>
                                 </div>
                                 {location.city && location.country && <p className="text-sm text-gray-600 mt-2">Location: {location.city}, {location.country}</p>}
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Price per day ($)</label>
                                         <input type="number" value={dailyRate} onChange={(e) => setDailyRate(e.target.value)} className="w-full border border-gray-300 rounded-md py-2 px-3 outline-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Deposit ($)</label>
-                                        <input type="number" value={depositRate} onChange={(e) => setDepositRate(e.target.value)} className="w-full border border-gray-300 rounded-md py-2 px-3 outline-none" />
                                     </div>
                                 </div>
                             </div>

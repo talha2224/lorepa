@@ -68,6 +68,12 @@ export const userNav = [
         name: "Support",
         icon: <RxGear />
     },
+    {
+        id: 7,
+        link: "profile",
+        name: "Profile & Settings",
+        icon: <RxGear />
+    },
 ];
 export const buyerNav = [
     {
@@ -110,6 +116,12 @@ export const buyerNav = [
         id: 6,
         link: "support",
         name: "Support",
+        icon: <RxGear />
+    },
+    {
+        id: 7,
+        link: "profile",
+        name: "Profile & Settings",
         icon: <RxGear />
     },
 ];

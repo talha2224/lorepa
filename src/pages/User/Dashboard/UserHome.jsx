@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const getStatusClasses = (status) => {
   switch (status) {
-    case 'Active':
+    case 'paid':
       return 'text-blue-700 bg-blue-100';
     case 'Completed':
       return 'text-green-700 bg-green-100';
@@ -96,7 +96,7 @@ const UserHome = () => {
           )}
 
           {latestBooking && (
-            <span className={`text-xs font-semibold px-3 py-1 rounded-full w-fit mb-4 ${getStatusClasses(latestBooking.status)}`}>
+            <span className={`text-xs font-semibold px-3 py-1 rounded-full w-fit capitalize mb-4 ${getStatusClasses(latestBooking.status)}`}>
               {latestBooking.status}
             </span>
           )}
@@ -173,7 +173,7 @@ const UserHome = () => {
                   <p className="text-xs text-gray-400 mb-2">{reservation._id?.slice(0, 9)}</p>
 
                   <div className="flex justify-between items-center mt-2">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getStatusClasses(reservation.status)}`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full capitalize ${getStatusClasses(reservation.status)}`}>
                       {reservation.status}
                     </span>
                   </div>

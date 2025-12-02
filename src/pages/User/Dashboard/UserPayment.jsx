@@ -10,7 +10,7 @@ pdfMake.vfs = pdfFonts.vfs;
 // Helper function for transaction status styling
 const getStatusClasses = (status) => {
     switch (status) {
-        case 'Paid':
+        case 'paid':
             return 'text-green-700 bg-green-100';
         case 'Refunded':
             return 'text-red-700 bg-red-100';
@@ -206,7 +206,7 @@ const UserPayment = () => {
                                 </span>
 
                                 <div className='col-span-1'>
-                                    <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusClasses(transaction.status)}`}>
+                                    <span className={`text-xs capitalize font-semibold px-3 py-1 rounded-full ${getStatusClasses(transaction.status)}`}>
                                         {transaction.status}
                                     </span>
                                 </div>

@@ -78,32 +78,7 @@ const UploadNewDocumentModal = ({ isOpen, onClose, trailers, documentTypes }) =>
                 </div>
 
                 <div className="p-6 space-y-5">
-                    <div className="flex space-x-4">
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                name="uploadRole"
-                                value="Guest"
-                                checked={uploadType === 'Guest'}
-                                onChange={() => setUploadType('Guest')}
-                                className="text-[#2563EB] focus:ring-[#2563EB] h-4 w-4"
-                            />
-                            <span className="text-sm font-medium">Guest</span>
-                        </label>
-
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                name="uploadRole"
-                                value="Host"
-                                checked={uploadType === 'Host'}
-                                onChange={() => setUploadType('Host')}
-                                className="text-[#2563EB] focus:ring-[#2563EB] h-4 w-4"
-                            />
-                            <span className="text-sm font-medium">Host</span>
-                        </label>
-                    </div>
-
+                    
                     <div>
                         <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 mb-1">
                             Document Type

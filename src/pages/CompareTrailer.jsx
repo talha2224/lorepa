@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import TuroVsLorepaImg from "../assets/hero.png"; // Keeping the original image asset name, assuming it's the main article banner
+import TuroVsLorepaImg from "../assets/hero.png";
 import { motion } from 'framer-motion';
 
 const translations = {

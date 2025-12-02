@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FaDollarSign, FaCalendarAlt, FaDownload, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { FaDollarSign, FaCalendarAlt, FaDownload, FaCheckCircle, FaTimesCircle, FaUndo } from 'react-icons/fa'
 import { IoFunnelOutline, IoShareOutline } from 'react-icons/io5'
 import { FiClock } from 'react-icons/fi'
 import axios from 'axios'
@@ -8,9 +8,11 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
 pdfMake.vfs = pdfFonts.vfs;
+const SHARED_COLOR = 'bg-green-100 text-green-700';
 const STATUS_MAP = {
-    paid: { color: 'bg-green-100 text-green-700', icon: FaCheckCircle },
-    pending: { color: 'bg-yellow-100 text-yellow-700', icon: FiClock },
+    paid: { color: SHARED_COLOR, icon: FaCheckCircle },
+    pending: { color: SHARED_COLOR, icon: FiClock },
+    refunded: { color: SHARED_COLOR, icon: FaUndo },
     failed: { color: 'bg-red-100 text-red-700', icon: FaTimesCircle },
     default: { color: 'bg-gray-100 text-gray-700', icon: FaCheckCircle },
 }
@@ -114,6 +116,16 @@ const EarningsDashboard = () => {
             singleTransaction ? `transaction_${singleTransaction.date}.pdf` : "transaction_report.pdf"
         );
     };
+    const getStatusClasses = (status) => {
+        switch (status) {
+            case 'paid':
+                return 'text-green-700 bg-green-100';
+            case 'refunded':
+                return 'text-red-700 bg-red-100';
+            default:
+                return 'text-gray-700 bg-gray-100';
+        }
+    };
 
     return (
         <div>
@@ -187,7 +199,9 @@ const EarningsDashboard = () => {
                                         <td className="px-6 py-4 text-sm font-medium text-gray-900">{t.transactor}</td>
                                         <td className="px-6 py-4 text-sm font-semibold">${t.amount.toFixed(2)}</td>
                                         <td className="px-6 py-4">
-                                            <StatusChip status={t.status} />
+                                            <span className={`text-xs capitalize font-semibold px-3 py-1 rounded-full ${getStatusClasses(t.status)}`}>
+                                                {t.status}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm font-medium">
                                             {t.receipt ? (

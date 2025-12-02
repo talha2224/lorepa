@@ -66,7 +66,7 @@ const BookingDetailsDrawer = ({ reservation, onClose, StatusBadge }) => {
                                     />
                                     <div className="flex justify-between items-center">
                                         <p className="text-lg font-bold text-gray-900">{reservation?.trailerId?.title}</p>
-                                        <StatusBadge status={status} />
+                                        <StatusBadge status={reservation.status} />
                                     </div>
                                 </div>
 

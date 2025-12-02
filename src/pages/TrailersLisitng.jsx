@@ -93,24 +93,34 @@ const TrailersListing = () => {
   };
 
   const handleBookingSubmit = async ({ trailerId, startDate, endDate, price }) => {
-    const user_id = localStorage.getItem('userId');
-    if (!user_id) {
-      toast.error(translations.userNotFound);
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      toast.error("User not found");
       return;
     }
 
-    const payload = { user_id, trailerId, startDate, endDate, price };
-    let loadingToast = toast.loading(translations.submittingBooking);
+    let loadingToast = toast.loading("Redirecting to payment...");
 
     try {
-      await axios.post(`${config.baseUrl}/booking/create`, payload);
-      toast.success(translations.bookingSubmittedSuccess, { id: loadingToast });
-      handleCloseBookingModal();
+      const { data } = await axios.post(`${config.baseUrl}/stripe/create-checkout-session`, {
+        trailerId,
+        userId,
+        startDate,
+        endDate,
+        price,
+      });
+
+      toast.dismiss(loadingToast);
+
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
+
     } catch (error) {
-      console.error("Booking error:", error);
-      toast.error(error.response?.data?.msg || translations.submissionFailed, { id: loadingToast });
+      toast.error("Payment failed", { id: loadingToast });
     }
   };
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
