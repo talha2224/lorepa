@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
         let res = await axios.post(`${config.baseUrl}/booking/create`, payload);
         if(res){
             toast.success("Booking confirmed!");
-            navigate("/user/dashboard/booking");
+            navigate("/user/dashboard/reservation");
         }
       } catch (err) {
         toast.error("Booking confirmation failed");
