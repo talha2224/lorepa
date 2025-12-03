@@ -252,8 +252,8 @@ const UserProfilePage = () => {
     return (
         <div className='space-y-6'>
             <h1 className='text-2xl font-bold text-gray-900'>Profile & Settings</h1>
-            <div className='flex bg-white rounded-xl shadow-lg'>
-                <div className='w-80 p-6 space-y-8'>
+            <div className='md:flex block bg-white rounded-xl shadow-lg'>
+                <div className='md:w-80 w-[100%] p-6 space-y-8'>
                     <div className='space-y-2 bg-white shadow-2xl rounded-xl p-4'>
                         {Object.entries(TABS).map(([key, { label, icon: Icon }]) => (
                             <button key={key} onClick={() => setActiveTab(key)} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition duration-150 ${activeTab === key ? 'bg-blue-600 text-white shadow-md' : 'text-gray-700 hover:bg-gray-100'}`}>
