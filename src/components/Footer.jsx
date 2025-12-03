@@ -193,11 +193,11 @@ const Footer = () => {
                     <div className="flex items-center gap-x-4 bg-slate-50">
                         <div className="w-[10rem] flex bg-black rounded-md text-white px-3 py-2">
                             <IoLogoAppleAppstore className="mr-2" size={24} />
-                            <p className="text-xs text-nowrap truncate">Download on the <br /> {translations.downloadAppStore}</p>
+                            <p className="text-xs text-nowrap truncate">{translations.downloadAppStore}</p>
                         </div>
                         <div className="w-[10rem] flex bg-black rounded-md text-white px-3 py-2">
                             <FaGooglePlay className="mr-2" size={24} />
-                            <p className="text-xs text-nowrap truncate">Download on <br /> {translations.downloadGooglePlay}</p>
+                            <p className="text-xs text-nowrap truncate">{translations.downloadGooglePlay}</p>
                         </div>
                     </div>
                     <div className="flex items-center mt-6 text-gray-400 cursor-pointer">
