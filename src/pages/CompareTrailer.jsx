@@ -424,7 +424,7 @@ const CompareTrailer = () => {
                     ))}
 
                     {/* ROI Tables with Animation (Kept as requested) */}
-                    {roiTables.map((section, index) => (
+                    {/* {roiTables.map((section, index) => (
                         <motion.div
                             key={index}
                             initial="hidden"
@@ -458,7 +458,7 @@ const CompareTrailer = () => {
                                 </table>
                             </div>
                         </motion.div>
-                    ))}
+                    ))} */}
                 </motion.div>
             </main>
 

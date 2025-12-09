@@ -68,7 +68,7 @@ const VerifyPage = () => {
 
             <div className='flex justify-center items-center w-screen h-screen'>
                 <div className='flex-1 hidden md:flex flex-col h-[100%] bg-[#F3FDFF]'>
-                    <div className="flex-shrink-0 flex items-center gap-x-2 p-5">
+                    <div className="flex-shrink-0 flex items-center gap-x-2 p-5 cursor-pointer">
                         <img src={Logo} alt="" className='h-10' />
                         <span className="text-xl">LOREPA ANH</span>
                     </div>

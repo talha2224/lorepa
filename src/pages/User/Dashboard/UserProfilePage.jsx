@@ -19,7 +19,7 @@ const InputField = ({ label, value, placeholder, type = 'text', onChange, readOn
     </div>
 );
 
-const PersonalInfoForm = ({ userData, setUserData,onSaveSuccess }) => {
+const PersonalInfoForm = ({ userData, setUserData, onSaveSuccess }) => {
     const [loading, setLoading] = useState(false);
     const profileInputRef = useRef(null);
 
@@ -137,12 +137,12 @@ const DocumentUploadBlock = ({ side, file, onFileSelect }) => {
     } else if (typeof file === "string" && file.length > 0) {
         preview = file.startsWith("http")
             ? file
-            : `${config.baseUrl}/${file}`; // ensure full URL
+            : `${config.baseUrl}/${file}`;
     }
 
     return (
         <div
-            className='flex-1 border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center space-y-3 hover:border-blue-500 transition cursor-pointer'
+            className='flex-1 md:mb-0 mb-2 border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center space-y-3 hover:border-blue-500 transition cursor-pointer'
             onClick={() => inputRef.current.click()}
         >
             {/* Show image preview if exists */}
@@ -182,6 +182,9 @@ const DocumentUpload = ({ userData, setUserData }) => {
             const formData = new FormData();
             if (userData.licenseFrontImage instanceof File) formData.append("licenseFrontImage", userData.licenseFrontImage);
             if (userData.licenseBackImage instanceof File) formData.append("licenseBackImage", userData.licenseBackImage);
+            if (userData.carInsurancePolicyImage instanceof File) formData.append("carInsurancePolicyImage", userData.carInsurancePolicyImage);
+            if (userData.trailerInsurancePolicyImage instanceof File) formData.append("trailerInsurancePolicyImage", userData.trailerInsurancePolicyImage);
+            if (userData.trailerRegistrationImage instanceof File) formData.append("trailerRegistrationImage", userData.trailerRegistrationImage);
 
             const res = await axios.put(`${config.baseUrl}/account/update/${localStorage.getItem("userId")}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -197,10 +200,28 @@ const DocumentUpload = ({ userData, setUserData }) => {
     return (
         <div className='p-8'>
             <h3 className='text-xl font-bold text-gray-900 mb-6'>Driver's License Upload (Front & Back)</h3>
-            <div className='flex space-x-6 mb-8'>
+            <div className='md:flex-row flex-col flex md:space-x-6 mb-2 flex-wrap'>
                 <DocumentUploadBlock side="Front" file={userData.licenseFrontImage || userData.licenseFrontImageUrl} onFileSelect={e => setUserData({ ...userData, licenseFrontImage: e.target.files[0], licenseFrontImageUrl: URL.createObjectURL(e.target.files[0]) })} />
                 <DocumentUploadBlock side="Back" file={userData.licenseBackImage || userData.licenseBackImageUrl} onFileSelect={e => setUserData({ ...userData, licenseBackImage: e.target.files[0], licenseBackImageUrl: URL.createObjectURL(e.target.files[0]) })} />
             </div>
+            {
+                localStorage.getItem("role") === "owner" ?
+                    <div>
+                        <h3 className='text-xl font-bold text-gray-900 mb-2'>Trailer Document</h3>
+
+                        <div className='flex md:flex-row flex-col md:space-x-6 mb-8 flex-wrap'>
+                            <DocumentUploadBlock side="Trailer Insurance Policy Image" file={userData.trailerInsurancePolicyImage || userData.trailerInsurancePolicyImageURL} onFileSelect={e => setUserData({ ...userData, trailerInsurancePolicyImage: e.target.files[0], trailerInsurancePolicyImageURL: URL.createObjectURL(e.target.files[0]) })} />
+                            <DocumentUploadBlock side="Trailer Registration Image" file={userData.trailerRegistrationImage || userData.trailerRegistrationImageURL} onFileSelect={e => setUserData({ ...userData, trailerRegistrationImage: e.target.files[0], trailerRegistrationImageURL: URL.createObjectURL(e.target.files[0]) })} />
+                        </div>
+                    </div>
+                    :
+                    <div>
+                        <h3 className='text-xl font-bold text-gray-900 mb-2'>Insurance</h3>
+                        <div className='flex md:flex-row flex-col space-x-6 mb-8'>
+                            <DocumentUploadBlock side="Car Insurance Policy Image" file={userData.carInsurancePolicyImage || userData.carInsurancePolicyImageURL} onFileSelect={e => setUserData({ ...userData, carInsurancePolicyImage: e.target.files[0], carInsurancePolicyImageURL: URL.createObjectURL(e.target.files[0]) })} />
+                        </div>
+                    </div>
+            }
             <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end">
                 <button type="button" disabled={loading} onClick={handleUpload} className="w-full sm:w-auto px-8 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-150 shadow-md">
                     {loading ? "Uploading..." : "Upload"}
@@ -270,7 +291,7 @@ const UserProfilePage = () => {
                     </div>
                 </div>
                 <div className='flex-1 p-6 bg-white shadow-2xl rounded-xl my-4'>
-                    <ActiveComponent userData={userData} setUserData={setUserData}  onSaveSuccess={fetchUserProfile}/>
+                    <ActiveComponent userData={userData} setUserData={setUserData} onSaveSuccess={fetchUserProfile} />
                 </div>
             </div>
         </div>

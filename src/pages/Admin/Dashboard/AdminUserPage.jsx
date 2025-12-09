@@ -84,14 +84,17 @@ const AdminUserPage = () => {
         <table className='min-w-full divide-y divide-gray-200'>
           <thead className='bg-gray-50'>
             <tr>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>S/N</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>Name</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>Email</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>Phone</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>License</th> {/* ADDED */}
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>Status</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>KYC</th>
-              <th className='px-6 py-3 text-left text-xs text-gray-500'>Actions</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>S/N</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Name</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Email</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Phone</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>License</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Trailer Registration</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Trailer Insurance Policy</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Car Insurance Policy</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Status</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>KYC</th>
+              <th className='px-6 py-3 text-left text-xs text-gray-500 text-nowrap'>Actions</th>
             </tr>
           </thead>
 
@@ -107,20 +110,66 @@ const AdminUserPage = () => {
                 <td className="px-6 py-4">
                   <div className="flex gap-3">
                     {/* Front */}
-                    <img
-                      src={user.licenseFrontImage}
-                      alt="Front"
-                      className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
-                      onClick={() => openImageModal(user.licenseFrontImage)}
-                    />
+                    {
+                      user.licenseFrontImage &&
+                      <img
+                        src={user.licenseFrontImage}
+                        alt="Front"
+                        className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
+                        onClick={() => openImageModal(user.licenseFrontImage)}
+                      />
+                    }
                     {/* Back */}
-                    <img
-                      src={user.licenseBackImage}
-                      alt="Back"
-                      className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
-                      onClick={() => openImageModal(user.licenseBackImage)}
-                    />
+                    {
+                      user.licenseBackImage && (
+                        <img
+                          src={user.licenseBackImage}
+                          alt="Back"
+                          className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
+                          onClick={() => openImageModal(user.licenseBackImage)}
+                        />
+                      )
+                    }
                   </div>
+                </td>
+
+                <td className="px-6 py-4">
+                  {
+                    user.trailerRegistrationImage ?
+                    <img
+                      src={user.trailerRegistrationImage}
+                      alt="trailerRegistrationImage"
+                      className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
+                      onClick={() => openImageModal(user.trailerRegistrationImage)}
+                    />
+                    :
+                    "-"
+                  }
+                </td>
+                <td className="px-6 py-4">
+                  {
+                    user.trailerInsurancePolicyImage ?
+                    <img
+                      src={user.trailerInsurancePolicyImage}
+                      alt="trailerInsurancePolicyImage"
+                      className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
+                      onClick={() => openImageModal(user.trailerInsurancePolicyImage)}
+                    />:
+                    "-"
+                  }
+                </td>
+                <td className="px-6 py-4">
+                  {
+                    user.carInsurancePolicyImage ?
+                    <img
+                      src={user.carInsurancePolicyImage}
+                      alt="carInsurancePolicyImage"
+                      className="w-14 h-10 object-cover rounded-md border cursor-pointer hover:scale-105 transition"
+                      onClick={() => openImageModal(user.carInsurancePolicyImage)}
+                    />
+                    :
+                    "-"
+                  }
                 </td>
 
                 {/* Account Status */}

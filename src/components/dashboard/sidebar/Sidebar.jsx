@@ -34,7 +34,7 @@ const Sidebar = () => {
       {/* Desktop Sidebar */}
       <div className={`lg:block hidden w-[15rem] h-[100vh] bg-[#ffff] relative border-r border-r-[#D8D8D880]`}>
 
-        <div className="flex-shrink-0 flex items-center gap-x-2 p-5">
+        <div onClick={()=>nav("/")} className="flex-shrink-0 flex items-center gap-x-2 p-5 cursor-pointer">
           <img src={Logo} alt="" className='h-10' />
           <span className="text-xl">LOREPA ANH</span>
         </div>
@@ -61,7 +61,7 @@ const Sidebar = () => {
         isNavOpen && (
           <div className={`lg:hidden block w-[14rem] z-50 h-[100vh] bg-[#0F0F0F] fixed top-0 left-0 transition-all duration-300 ease-in-out ${isNavOpen ? 'transform translate-x-0' : 'transform -translate-x-full'}`} ref={sidebarRef}>
 
-            <div className="flex-shrink-0 flex items-center gap-x-2 p-5">
+            <div onClick={()=>nav("/")} className="flex-shrink-0 flex items-center gap-x-2 p-5 cursor-pointer">
               <img src={Logo} alt="" className='h-10' />
               <span className="text-xl">LOREPA ANH</span>
             </div>

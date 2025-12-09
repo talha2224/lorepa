@@ -37,7 +37,7 @@ const createTruckMarker = (price) => {
     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="20">
       <rect x="0" y="0" width="70" height="20" rx="10" ry="10" fill="#2563eb" />
       <text x="35" y="14" font-size="10" text-anchor="middle" fill="white" font-family="Arial">
-        🚛 $${price}
+        $${price}
       </text>
     </svg>
   `;

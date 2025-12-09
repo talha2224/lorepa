@@ -34,7 +34,7 @@ const Sidebar = () => {
       {/* Desktop Sidebar */}
       <div className={`lg:block hidden w-[15rem] h-[100vh] bg-[#2563EB] relative border-r border-r-[#E4E7EC]`}>
 
-        <div className="p-5 border-b border-[#E9EFFD99]">
+        <div onClick={()=>nav("/")} className="p-5 border-b border-[#E9EFFD99] cursor-pointer">
           <img src={Logo} alt="" className='h-10' />
         </div>
 
@@ -58,7 +58,7 @@ const Sidebar = () => {
         isNavOpen && (
           <div className={`lg:hidden block w-[14rem] z-50 h-[100vh] border-r border-r-[#E4E7EC] bg-[#2563EB] fixed top-0 left-0 transition-all duration-300 ease-in-out ${isNavOpen ? 'transform translate-x-0' : 'transform -translate-x-full'}`} ref={sidebarRef}>
 
-            <div className="p-5 border-b border-[#E9EFFD99]">
+            <div  onClick={()=>nav("/")} className="p-5 border-b border-[#E9EFFD99] cursor-pointer">
               <img src={Logo} alt="" className='h-10' />
             </div>
 
