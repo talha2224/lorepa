@@ -428,10 +428,8 @@ const LandingPage = () => {
                         </div>
 
                         {/* Search Button */}
-                        <div className="md:w-[3rem] md:flex-none flex-1 md:mt-0 mt-2">
-                            <Link to={buildSearchUrl()} className="w-[3rem] h-[3rem] bg-[#2563EB] rounded-full flex justify-center items-center text-white">
-                                <FaSearch />
-                            </Link>
+                        <div className="w-full mt-2">
+                            <button onClick={()=>nav(buildSearchUrl())} className="w-full h-[3rem] bg-[#2563EB] rounded-md text-white">Search</button>
                         </div>
                     </motion.div>
                 </motion.div>
