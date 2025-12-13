@@ -384,7 +384,7 @@ const LandingPage = () => {
                 </motion.div>
             </div>
 
-            <div style={{ backgroundImage: `url(${Mobile})` }} className="relative w-screen bg-contain bg-no-repeat md:hidden block">
+            <div style={{ backgroundImage: `url(${Mobile})` }} className="relative w-screen bg-cover bg-no-repeat md:hidden block">
                 <motion.div variants={zoomBounce} initial="hidden" animate="visible" className="w-full flex justify-center items-center flex-col">
                     <AnimatedText text={translationsData?.trailerRental} variant={fadeInUp} className="text-white text-xl md:text-6xl mt-[3rem]" />
                     <AnimatedText text={translationsData?.rentAnywhere} variant={fadeIn} className="text-white text-sm mt-2 font-medium" />
