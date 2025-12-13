@@ -6,7 +6,7 @@ import Img from "../assets/landing/img.png";
 import Host1 from "../assets/landing/rent_trailer_img.png";
 import Host2 from "../assets/landing/become_host_img.png";
 import Web from "../assets/landing/web.png";
-import Mobile from "../assets/landing/mobile.png";
+import Mobile from "../assets/landing/mobile.jpg";
 
 import {
     FaAngleDown,
