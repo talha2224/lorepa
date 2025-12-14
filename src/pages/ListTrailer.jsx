@@ -343,7 +343,7 @@ const ListTrailer = () => {
             description: lang.basicInfoDescription,
             fields: [
                 { id: 'title', label: lang.listingTitle, type: 'text', placeholder: lang.titlePlaceholder },
-                { id: 'category', label: lang.category, type: 'select', options: [lang.selectCategory, lang.travelTrailer, lang.fifthWheel, lang.toyHauler] },
+                { id: 'category', label: lang.category, type: 'select', options: [lang.selectCategory, "Enclosed trailer", "Utility trailer", "Flatbed trailer", "Car Hauler trailer"] },
                 { id: 'make', label: lang.trailerMake, type: 'text', placeholder: lang.makePlaceholder },
                 { id: 'model', label: lang.trailerModel, type: 'text', placeholder: lang.modelPlaceholder },
                 { id: 'description', label: lang.description, type: 'textarea', placeholder: lang.descriptionPlaceholder },
