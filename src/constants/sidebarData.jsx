@@ -143,7 +143,7 @@ export const adminNav = [
     {
         id: 3,
         link: "booking",
-        name: "Bookings",
+        name: "Booking",
         icon: <IoCalendarOutline />
     },
     {
@@ -156,6 +156,12 @@ export const adminNav = [
         id: 4,
         link: "settings",
         name: "Platform Setting",
+        icon: <IoSettingsOutline />
+    },
+    {
+        id: 4,
+        link: "support",
+        name: "Support",
         icon: <IoSettingsOutline />
     }
 ]

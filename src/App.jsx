@@ -9,6 +9,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import VerifyPage from './pages/Auth/VerifyPage';
 import AdminHomePage from './pages/Admin/Dashboard/AdminHomePage';
 import AdminUserPage from './pages/Admin/Dashboard/AdminUserPage';
+import AdminSupportPage from './pages/Admin/Dashboard/AdminSupportPage';
 import AdminLogin from './pages/Admin/Auth/AdminLogin';
 import AdminRegister from './pages/Admin/Auth/AdminRegister';
 import AdminForget from './pages/Admin/Auth/AdminForget';
@@ -128,6 +129,7 @@ function App() {
               <Route path="listing/:id" element={<AdminListingDetailPage />} />
               <Route path="booking" element={<AdminBookingPage />} />
               <Route path="user" element={<AdminUserPage />} />
+              <Route path="support" element={<AdminSupportPage />} />
               <Route path="user/:id" element={<AdminUserDetailPage />} />
               <Route path="settings" element={<AdminSettingsPage />} />
             </Route>

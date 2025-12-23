@@ -157,6 +157,11 @@ const TrailersListing = () => {
     }
   };
 
+  const DEFAULT_CENTER = {
+    lat: 45.5017,
+    lng: -73.5673,
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar2 />
@@ -237,7 +242,14 @@ const TrailersListing = () => {
             {isLoaded && (
               <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={{ lat: trailers[0]?.latitude || 37.7749, lng: trailers[0]?.longitude || -122.4194 }}
+                center={
+                  trailers.length > 0
+                    ? {
+                      lat: parseFloat(trailers[0].latitude),
+                      lng: parseFloat(trailers[0].longitude),
+                    }
+                    : DEFAULT_CENTER
+                }
                 zoom={10}
               >
                 {trailers.map((trailer) => (

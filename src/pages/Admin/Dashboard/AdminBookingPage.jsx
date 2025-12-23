@@ -58,6 +58,7 @@ const AdminBookingPage = () => {
                             <th className='px-6 py-3 text-left text-xs text-gray-500 uppercase tracking-wider'>Start / End Date</th>
                             <th className='px-6 py-3 text-left text-xs text-gray-500 uppercase tracking-wider'>Amount</th>
                             <th className='px-6 py-3 text-left text-xs text-gray-500 uppercase tracking-wider'>Status</th>
+                            <th className='px-6 py-3 text-left text-xs text-gray-500 uppercase tracking-wider'>Payment Status</th>
                             <th className='px-6 py-3 text-left text-xs text-gray-500 uppercase tracking-wider'>Actions</th>
                         </tr>
                     </thead>
@@ -92,7 +93,8 @@ const AdminBookingPage = () => {
                                         <option value='Completed'>Completed</option>
                                     </select>
                                 </td>
-                                <td className='px-6 py-4 whitespace-nowrap text-right text-sm '>
+                                <td className='px-6'><button className={`${booking.price == booking.total_paid?"bg-green-200 text-green-700" :"bg-red-200 text-red-700"} text-sm px-4 p-1 rounded-full`}>{booking.price == booking.total_paid ? "Paid" : " UnPaid"}</button></td>
+                                <td className='py-4 whitespace-nowrap  px-6 text-sm '>
                                     <button className='text-gray-500 hover:text-gray-700'>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
