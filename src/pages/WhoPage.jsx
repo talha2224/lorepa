@@ -111,14 +111,14 @@ const whoPageTranslations = {
 const WhoPage = () => {
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return whoPageTranslations[storedLang] || whoPageTranslations.en;
+        return whoPageTranslations[storedLang] || whoPageTranslations.fr;
     });
 
     useEffect(() => {
         window.scrollTo(0, 0);
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(whoPageTranslations[storedLang] || whoPageTranslations.en);
+            setTranslations(whoPageTranslations[storedLang] || whoPageTranslations.fr);
         };
         window.addEventListener('storage', handleStorageChange);
         handleStorageChange();

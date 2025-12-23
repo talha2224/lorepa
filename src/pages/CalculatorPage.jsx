@@ -208,7 +208,7 @@ const CalculatorPage = () => {
 
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return calculatorPageTranslations[storedLang] || calculatorPageTranslations.en;
+        return calculatorPageTranslations[storedLang] || calculatorPageTranslations.fr;
     });
 
     // State and ref for custom select dropdown
@@ -218,7 +218,7 @@ const CalculatorPage = () => {
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(calculatorPageTranslations[storedLang] || calculatorPageTranslations.en);
+            setTranslations(calculatorPageTranslations[storedLang] || calculatorPageTranslations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

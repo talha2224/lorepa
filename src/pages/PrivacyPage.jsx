@@ -424,7 +424,7 @@ const privacyPolicyTranslations = {
 const PrivacyPage = () => {
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.en; // Default to English
+    return privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.fr; // Default to English
   });
 
   useEffect(() => {
@@ -432,7 +432,7 @@ const PrivacyPage = () => {
 
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      setTranslations(privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.en);
+      setTranslations(privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.fr);
     };
 
     window.addEventListener('storage', handleStorageChange);

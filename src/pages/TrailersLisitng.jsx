@@ -62,7 +62,7 @@ const TrailersListing = () => {
 
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return trailersListingTranslations[storedLang] || trailersListingTranslations.en;
+    return trailersListingTranslations[storedLang] || trailersListingTranslations.fr;
   });
 
   const { isLoaded } = useJsApiLoader({
@@ -72,7 +72,7 @@ const TrailersListing = () => {
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      setTranslations(trailersListingTranslations[storedLang] || trailersListingTranslations.en);
+      setTranslations(trailersListingTranslations[storedLang] || trailersListingTranslations.fr);
     };
     window.addEventListener('storage', handleStorageChange);
     handleStorageChange();

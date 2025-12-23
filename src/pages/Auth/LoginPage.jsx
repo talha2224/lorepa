@@ -108,13 +108,13 @@ const LoginPage = () => {
   const nav = useNavigate();
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return loginTranslations[storedLang] || loginTranslations.en;
+    return loginTranslations[storedLang] || loginTranslations.fr;
   });
 
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      setTranslations(loginTranslations[storedLang] || loginTranslations.en);
+      setTranslations(loginTranslations[storedLang] || loginTranslations.fr);
     };
     window.addEventListener('storage', handleStorageChange);
     handleStorageChange();

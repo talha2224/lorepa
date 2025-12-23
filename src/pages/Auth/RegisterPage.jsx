@@ -125,13 +125,13 @@ const RegisterPage = () => {
 
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return registerTranslations[storedLang] || registerTranslations.en;
+    return registerTranslations[storedLang] || registerTranslations.fr;
   });
 
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      setTranslations(registerTranslations[storedLang] || registerTranslations.en);
+      setTranslations(registerTranslations[storedLang] || registerTranslations.fr);
     };
     window.addEventListener('storage', handleStorageChange);
     const savedEmail = localStorage.getItem("socialEmail");

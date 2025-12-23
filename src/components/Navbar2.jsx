@@ -40,7 +40,7 @@ const Navbar2 = () => {
     const isLogin = localStorage.getItem("userId");
 
     const [language, setLanguage] = useState(localStorage.getItem('lang') || 'en');
-    const [translations, setTranslations] = useState(navBar2Translations[language] || navBar2Translations.en);
+    const [translations, setTranslations] = useState(navBar2Translations[language] || navBar2Translations.fr);
     const [showLanguages, setShowLanguages] = useState(false);
     const [showNav, setshowNav] = useState(false);
 
@@ -48,7 +48,7 @@ const Navbar2 = () => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang') || 'en';
             setLanguage(storedLang);
-            setTranslations(navBar2Translations[storedLang] || navBar2Translations.en);
+            setTranslations(navBar2Translations[storedLang] || navBar2Translations.fr);
         };
         window.addEventListener('storage', handleStorageChange);
         handleStorageChange();

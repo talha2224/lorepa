@@ -309,7 +309,7 @@ const privacyPolicyTranslations = {
 const CookiesPage = () => {
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.en;
+        return privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.fr;
     });
 
     useEffect(() => {
@@ -317,7 +317,7 @@ const CookiesPage = () => {
 
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.en);
+            setTranslations(privacyPolicyTranslations[storedLang] || privacyPolicyTranslations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

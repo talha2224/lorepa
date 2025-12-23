@@ -311,7 +311,7 @@ const BecomeHostPage = () => {
     const [formData, setFormData] = useState({});
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return becomeHostTranslations[storedLang] || becomeHostTranslations.en;
+        return becomeHostTranslations[storedLang] || becomeHostTranslations.fr;
     });
 
     const fileInputRefs = {
@@ -330,7 +330,7 @@ const BecomeHostPage = () => {
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(becomeHostTranslations[storedLang] || becomeHostTranslations.en);
+            setTranslations(becomeHostTranslations[storedLang] || becomeHostTranslations.fr);
         };
         window.addEventListener('storage', handleStorageChange);
         handleStorageChange();

@@ -280,14 +280,14 @@ const sectionDelay = (i = 0) => ({
 const CompareTrailer = () => {
     const [translationsData, setTranslationsData] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return translations[storedLang] || translations.en;
+        return translations[storedLang] || translations.fr;
     });
 
     useEffect(() => {
         window.scrollTo(0, 0);
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslationsData(translations[storedLang] || translations.en);
+            setTranslationsData(translations[storedLang] || translations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

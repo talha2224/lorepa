@@ -75,14 +75,14 @@ const ContactPage = () => {
     // Initialize translations based on localStorage, default to 'en'
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return contactPageTranslations[storedLang] || contactPageTranslations.en;
+        return contactPageTranslations[storedLang] || contactPageTranslations.fr;
     });
 
     useEffect(() => {
         // Listener for changes in localStorage 'lang' key
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(contactPageTranslations[storedLang] || contactPageTranslations.en);
+            setTranslations(contactPageTranslations[storedLang] || contactPageTranslations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

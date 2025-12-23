@@ -85,7 +85,7 @@ const BookingSuccessModal = ({ isOpen, onClose }) => {
 const BookingPage = () => {
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return bookingTranslations[storedLang] || bookingTranslations.en;
+        return bookingTranslations[storedLang] || bookingTranslations.fr;
     });
 
     const [trailers, setTrailers] = useState([]);
@@ -99,7 +99,7 @@ const BookingPage = () => {
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(bookingTranslations[storedLang] || bookingTranslations.en);
+            setTranslations(bookingTranslations[storedLang] || bookingTranslations.fr);
         };
         window.addEventListener('storage', handleStorageChange);
         handleStorageChange();

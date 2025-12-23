@@ -70,13 +70,13 @@ const Navbar = () => {
 
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return navBarTransaltions[storedLang] || navBarTransaltions.en;
+    return navBarTransaltions[storedLang] || navBarTransaltions.fr;
   });
 
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      setTranslations(navBarTransaltions[storedLang] || navBarTransaltions.en);
+      setTranslations(navBarTransaltions[storedLang] || navBarTransaltions.fr);
     };
 
     window.addEventListener('storage', handleStorageChange);

@@ -715,8 +715,8 @@ const FaqPage = () => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
             setCurrentLang(storedLang || 'en');
-            setTranslations(faqPageTranslations[storedLang] || faqPageTranslations.en);
-            setCurrentFaqContent(faqContent[storedLang] || faqContent.en);
+            setTranslations(faqPageTranslations[storedLang] || faqPageTranslations.fr);
+            setCurrentFaqContent(faqContent[storedLang] || faqContent.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

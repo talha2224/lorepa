@@ -156,7 +156,7 @@ const SingleTrailer = () => {
 
   const [translations, setTranslations] = useState(() => {
     const storedLang = localStorage.getItem('lang');
-    return singleTrailerTranslations[storedLang] || singleTrailerTranslations.en;
+    return singleTrailerTranslations[storedLang] || singleTrailerTranslations.fr;
   });
 
   const getFaqData = (lang) => {
@@ -202,7 +202,7 @@ const SingleTrailer = () => {
   useEffect(() => {
     const handleStorageChange = () => {
       const storedLang = localStorage.getItem('lang');
-      const currentTranslations = singleTrailerTranslations[storedLang] || singleTrailerTranslations.en;
+      const currentTranslations = singleTrailerTranslations[storedLang] || singleTrailerTranslations.fr;
       setTranslations(currentTranslations);
       const faqs = getFaqData(currentTranslations);
       setFaqGuest(faqs.guest);
@@ -407,8 +407,8 @@ const SingleTrailer = () => {
                 <ReviewCard
                   name={randomReview.name}
                   rating={randomReview.rating}
-                  timeAgo={randomReview.timeAgo?.[currentLang] || randomReview.timeAgo.en}
-                  reviewText={randomReview.reviewText?.[currentLang] || randomReview.reviewText.en}
+                  timeAgo={randomReview.timeAgo?.[currentLang] || randomReview.timeAgo.fr}
+                  reviewText={randomReview.reviewText?.[currentLang] || randomReview.reviewText.fr}
                   avatar={randomReview.avatar}
                 />
               </div>

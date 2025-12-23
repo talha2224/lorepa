@@ -1700,14 +1700,14 @@ const TermsPage = () => {
     // State for translations, defaulting to English or stored lang
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return termsTranslations[storedLang] || termsTranslations.en;
+        return termsTranslations[storedLang] || termsTranslations.fr;
     });
 
     // Effect to update translations when localStorage changes
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(termsTranslations[storedLang] || termsTranslations.en);
+            setTranslations(termsTranslations[storedLang] || termsTranslations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

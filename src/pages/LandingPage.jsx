@@ -219,7 +219,7 @@ const LandingPage = () => {
     const [faqContent, setFaqContent] = useState({ renters: [], owners: [], global: [] });
     const [translationsData, setTranslationsData] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return translations[storedLang] || translations.en;
+        return translations[storedLang] || translations.fr;
     });
     const wrapperRef = useRef(null);
     const [location, setLocation] = useState('');
@@ -234,7 +234,7 @@ const LandingPage = () => {
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslationsData(translations[storedLang] || translations.en);
+            setTranslationsData(translations[storedLang] || translations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);

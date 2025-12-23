@@ -322,13 +322,13 @@ const ListTrailer = () => {
 
     const [lang, setLang] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return translations[storedLang] || translations.en;
+        return translations[storedLang] || translations.fr;
     });
 
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setLang(translations[storedLang] || translations.en);
+            setLang(translations[storedLang] || translations.fr);
         };
         window.addEventListener('storage', handleStorageChange);
         handleStorageChange();

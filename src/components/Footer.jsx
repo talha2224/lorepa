@@ -120,13 +120,13 @@ const Footer = () => {
     const isLogin = localStorage.getItem("userId");
     const [translations, setTranslations] = useState(() => {
         const storedLang = localStorage.getItem('lang');
-        return footerTranslations[storedLang] || footerTranslations.en; // Default to English
+        return footerTranslations[storedLang] || footerTranslations.fr; // Default to English
     });
 
     useEffect(() => {
         const handleStorageChange = () => {
             const storedLang = localStorage.getItem('lang');
-            setTranslations(footerTranslations[storedLang] || footerTranslations.en);
+            setTranslations(footerTranslations[storedLang] || footerTranslations.fr);
         };
 
         window.addEventListener('storage', handleStorageChange);
